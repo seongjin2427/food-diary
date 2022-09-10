@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, MouseEvent, useCallback } from 'react';
 
 import * as S from './Modal.styled';
 
@@ -10,9 +10,13 @@ interface ModalProps {
 }
 
 const Modal = ({ children, title, modal, close }: ModalProps) => {
+  const stopPropagation = useCallback((e: MouseEvent) => {
+    e.stopPropagation();
+  }, []);
+
   return (
     <S.BlackBackground onClick={close} modal={modal}>
-      <S.Container>
+      <S.Container onClick={stopPropagation}>
         {title && <S.Title>{title}</S.Title>}
         <S.ModalBody>{children}</S.ModalBody>
       </S.Container>
