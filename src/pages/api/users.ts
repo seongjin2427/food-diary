@@ -1,21 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import User from '../../db/models/user.model';
+import User from '@/db/models/user.model';
 import { Op } from 'sequelize';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    // const user = await User.create({
-    //   name: 'zz',
-    //   email: 'zz@naver.com',
-    // });
-    // console.log(user.name, user.email);
-
     const users = await User.findAll({
-      attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'nickname', 'email', 'birthday', 'gender', 'createdAt', 'updatedAt'],
       limit: 100,
       where: {
-        name: {
-          [Op.like]: '%z',
+        email: {
+          [Op.like]: '%g%',
         },
       },
     });

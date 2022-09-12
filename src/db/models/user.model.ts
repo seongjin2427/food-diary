@@ -3,8 +3,10 @@ import sequelize from '../connection';
 
 type UserAttributes = {
   id: number;
-  name: string;
-  email?: string;
+  nickname: string;
+  email: string;
+  birthday?: string;
+  gender: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -13,8 +15,10 @@ type UserCreationAttribues = Optional<UserAttributes, 'id'>;
 
 class User extends Model<UserAttributes, UserCreationAttribues> {
   declare id: CreationOptional<number>;
-  declare name: string;
+  declare nickname: string;
   declare email: string | null;
+  declare birthday: string | null;
+  declare gender: string;
 
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -27,7 +31,7 @@ User.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    nickname: {
       type: new DataTypes.STRING(128),
       allowNull: false,
     },
@@ -35,8 +39,14 @@ User.init(
       type: new DataTypes.STRING(128),
       allowNull: true,
       validate: {
-        isEmail: true
-      }
+        isEmail: true,
+      },
+    },
+    birthday: {
+      type: new DataTypes.STRING(10),
+    },
+    gender: {
+      type: new DataTypes.STRING(10),
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -52,5 +62,7 @@ User.init(
     sequelize,
   },
 );
+
+// sequelize.sync({ force: true });
 
 export default User;
