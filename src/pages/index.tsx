@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import instance from '../api/instance';
 import useModal from '../hooks/useModal';
 import GlobalStyle from '../styles/global';
 import { kakaoInit } from '../util/kakaoInit';
@@ -35,6 +35,11 @@ const Home: NextPage = () => {
     });
   };
 
+  const test = async () => {
+    const res = await instance.get('/api/users');
+    console.log(res);
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -44,6 +49,7 @@ const Home: NextPage = () => {
       <button onClick={openModal}>테스트</button>
 
       <button onClick={kakaoLogin}>가보자곳</button>
+      <button onClick={test}>재ㅑㅓㄷ래쟈ㅓ해</button>
     </>
   );
 };
