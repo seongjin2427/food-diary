@@ -19,15 +19,20 @@ const Home: NextPage = () => {
     console.log(res);
   };
 
+  const kakaoLogout = async () => {
+    actions.logout();
+  };
+
   return (
     <>
       <GlobalStyle />
       <Modal modal={modalState} close={closeModal}>
         안녕하세요
+        <button onClick={kakaoLogin}>카카오 로그인</button>
+        <button onClick={kakaoLogout}>카카오 로그아웃</button>
       </Modal>
       <button onClick={openModal}>테스트</button>
 
-      <button onClick={kakaoLogin}>카카오 로그인</button>
       <button onClick={test}>유저 정보 확인</button>
     </>
   );

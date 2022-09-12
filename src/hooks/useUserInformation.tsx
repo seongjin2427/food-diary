@@ -1,7 +1,7 @@
+import { useRouter } from 'next/router';
+
 import { userCheck, userLogin } from '@/api/auth';
 import { kakaoInit } from '@/utils/kakaoInit';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 interface UserInformationType {
   connected_at: string;
@@ -20,12 +20,13 @@ interface UserInformationType {
 
 interface useUserInformationActions {
   login: () => void;
+  logout: () => void;
 }
 
 const useUserInformation = () => {
   const router = useRouter();
 
-  const loginFunction = async () => {
+  const login = async () => {
     // 카카오 초기화
     const kakao = kakaoInit();
 
@@ -53,19 +54,26 @@ const useUserInformation = () => {
 
             router.push('/');
           },
-          fail: (error: any) => {
+          fail: (error: Error) => {
             console.log(error);
           },
         });
       },
-      fail: (error: any) => {
+      fail: (error: Error) => {
         console.log(error);
       },
     });
   };
 
+  const logout = async () => {
+    // 카카오 초기화
+    const kakao = kakaoInit();
+    kakao.Auth.logout();
+  };
+
   const actions: useUserInformationActions = {
-    login: loginFunction,
+    login,
+    logout,
   };
 
   return [actions];
