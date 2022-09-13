@@ -1,19 +1,12 @@
 import SVGIcon from '@/components/shared/SVGIcon';
-import { useRouter } from 'next/router';
 import React from 'react';
-import { useCallback } from 'react';
 import * as S from './HomeHeader.styled';
 
 interface HomeHeaderProps {
   type: 'home' | 'next' | 'prev';
 }
 
-const HomeHeader = ({ type }: HomeHeaderProps) => {
-  const router = useRouter();
-  const back = useCallback(() => {
-    router.back();
-  }, []);
-
+function HomeHeader({ type }: HomeHeaderProps) {
   return (
     <S.Container>
       {type === 'home' && (
@@ -31,7 +24,7 @@ const HomeHeader = ({ type }: HomeHeaderProps) => {
       {type === 'next' && (
         <>
           <S.LeftButtonArea>
-            <SVGIcon icon='XMark' width='2rem' onClick={back} />
+            <SVGIcon icon='XMark' width='2rem' />
           </S.LeftButtonArea>
           <S.RightButtonArea>
             <S.ButtonSpan>다음</S.ButtonSpan>
@@ -42,12 +35,12 @@ const HomeHeader = ({ type }: HomeHeaderProps) => {
       {type === 'prev' && (
         <>
           <S.LeftButtonArea>
-            <SVGIcon icon='ChevronLeftIcon' width='2rem' onClick={back} />
+            <SVGIcon icon='ChevronLeftIcon' width='2rem' />
           </S.LeftButtonArea>
         </>
       )}
     </S.Container>
   );
-};
+}
 
 export default HomeHeader;
