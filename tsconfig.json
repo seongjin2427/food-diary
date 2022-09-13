@@ -18,6 +18,7 @@
     "incremental": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "downlevelIteration": true,
     "baseUrl": "./src",
     "paths": {
       "@/api/*": ["./api/*"],
