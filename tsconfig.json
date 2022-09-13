@@ -29,7 +29,8 @@
       "@/styles/*": ["./styles/*"],
       "@/utils/*": ["./utils/*"],
       "@/store/*": ["./store/*"],
-      "@/layouts/*": ["./layouts/*"]
+      "@/layouts/*": ["./layouts/*"],
+      "@/constants/*": ["./constants/*"]
     }
   },
   "include": [

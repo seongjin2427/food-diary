@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Header>
-        <HomeHeader />
+        <HomeHeader type="home" />
       </Header>
       <MainLayout>MainLayout</MainLayout>
     </>

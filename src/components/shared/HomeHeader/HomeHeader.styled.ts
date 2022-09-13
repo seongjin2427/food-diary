@@ -8,8 +8,9 @@ export const Container = styled.div`
   justify-content: space-between;
 `;
 
-export const HomeButtonArea = styled.div`
+export const LeftButtonArea = styled.div`
   display: flex;
+  align-items: center;
   margin-left: 0.5rem;
 
   svg {
@@ -17,10 +18,15 @@ export const HomeButtonArea = styled.div`
   }
 `;
 
-export const SearchButtonArea = styled.div`
+export const RightButtonArea = styled.div`
   display: flex;
+  align-items: center;
   margin-right: 0.5rem;
   svg {
     margin-left: 0.75rem;
   }
 `;
+
+export const ButtonSpan = styled.span`
+  font-size: 1.5rem;
+`
