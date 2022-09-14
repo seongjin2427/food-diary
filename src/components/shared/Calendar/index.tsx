@@ -36,7 +36,9 @@ function Calendar() {
       <S.DayArea>
         {currentMonth.map((val) => (
           <S.Day onClick={() => clickDay(val)} key={val.toString()} startDay={startDay}>
-            {val.toLocaleDateString('en-US', { day: '2-digit' })}
+            <S.Date today={today === val}>
+              {val.toLocaleDateString('en-US', { day: '2-digit' })}
+            </S.Date>
           </S.Day>
         ))}
       </S.DayArea>
