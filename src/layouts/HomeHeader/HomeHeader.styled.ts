@@ -20,7 +20,7 @@ export const LeftButtonArea = styled.div`
 `;
 
 interface ButtonDisabledProps {
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export const RightButtonArea = styled.div<ButtonDisabledProps>`

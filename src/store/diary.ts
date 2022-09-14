@@ -3,11 +3,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 
 interface IDiaryState {
-  places: SearchResultType[];
+  post: {
+    date: string;
+    title: string;
+    content: string;
+    places: SearchResultType[];
+  };
 }
 
 const initialState: IDiaryState = {
-  places: [],
+  post: { date: '', title: '', content: '', places: [] },
 };
 
 const diarySlice = createSlice({
@@ -15,17 +20,17 @@ const diarySlice = createSlice({
   initialState,
   reducers: {
     addPlace: (state, action: PayloadAction<SearchResultType>) => {
-      const index = state.places.findIndex((place) => place.id === action.payload.id);
+      const index = state.post.places.findIndex((place) => place.id === action.payload.id);
       if (index < 0) {
-        state.places.push(action.payload);
+        state.post.places.push(action.payload);
       }
     },
     removePlace: (state, action: PayloadAction<SearchResultType>) => {
-      const next = [...state.places];
-      state.places = next.filter((pc) => pc.id !== action.payload.id);
+      const next = [...state.post.places];
+      state.post.places = next.filter((pc) => pc.id !== action.payload.id);
     },
     clearPlace: (state) => {
-      state.places = [];
+      state.post.places = [];
     },
   },
 });

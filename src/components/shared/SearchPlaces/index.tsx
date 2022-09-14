@@ -4,16 +4,16 @@ import { useAppDispatch, useAppSelector } from '@/store/index';
 import { addPlace, removePlace } from '@/store/diary';
 import useSearchPlace, { SearchResultType } from '@/hooks/useSearchPlace';
 import SVGIcon from '@/components/shared/SVGIcon';
-import * as S from './WriteDiaryBody.styled';
+import * as S from './SearchPlaces.styled';
 
-interface WriteDiayBodyProps {
+interface SearchPlacesProps {
   slug: string[];
 }
 
-const WriteDiayBody = ({ slug }: WriteDiayBodyProps) => {
+const SearchPlaces = ({ slug }: SearchPlacesProps) => {
   const [day, month, year] = slug;
-  
-  const pickedPlaces = useAppSelector((state) => state.diary.places);
+
+  const pickedPlaces = useAppSelector(({ diary }) => diary.post.places);
   const dispatch = useAppDispatch();
 
   const [searchedPlaces, { search }] = useSearchPlace();
@@ -76,4 +76,4 @@ const WriteDiayBody = ({ slug }: WriteDiayBodyProps) => {
   );
 };
 
-export default WriteDiayBody;
+export default SearchPlaces;

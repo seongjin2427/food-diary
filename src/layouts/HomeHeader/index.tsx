@@ -1,19 +1,16 @@
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 
-import { useAppDispatch } from '@/store/index';
-import { clearPlace } from '@/store/diary';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './HomeHeader.styled';
 
 interface HomeHeaderProps {
   type: 'home' | 'next' | 'prev';
   nextUrl?: string;
-  nextDisabled: boolean;
+  nextDisabled?: boolean;
 }
 
 const HomeHeader = ({ type, nextUrl, nextDisabled }: HomeHeaderProps) => {
-  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const moveBack = useCallback(() => {
@@ -22,7 +19,6 @@ const HomeHeader = ({ type, nextUrl, nextDisabled }: HomeHeaderProps) => {
 
   const moveHomePage = useCallback(() => {
     router.push('/');
-    dispatch(clearPlace());
   }, []);
 
   const moveNextPage = useCallback(() => {
@@ -39,7 +35,7 @@ const HomeHeader = ({ type, nextUrl, nextDisabled }: HomeHeaderProps) => {
             <SVGIcon icon='HomeIcon' width='2rem' />
             <SVGIcon icon='ChevronDownIcon' width='1.25rem' />
           </S.LeftButtonArea>
-          <S.RightButtonArea disabled={!nextDisabled}>
+          <S.RightButtonArea>
             <SVGIcon icon='SearchIcon' width='2rem' />
             <SVGIcon icon='SettingsIcon' width='2rem' />
           </S.RightButtonArea>
