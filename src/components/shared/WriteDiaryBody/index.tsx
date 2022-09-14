@@ -15,14 +15,13 @@ const WriteDiayBody = ({ slug }: WriteDiayBodyProps) => {
 
   const searchPlaces = useCallback((e: FormEvent) => {
     e.preventDefault();
-    if (searchWordRef.current) {
+    if (searchWordRef.current && searchWordRef.current.value !== '') {
       search(searchWordRef.current.value);
       searchWordRef.current.value = '';
     }
   }, []);
 
   const pickPlace = useCallback((place: SearchResultType) => {
-    console.log('pickedPlaces', pickedPlaces);
     setPickedPlaces((prev) => {
       if (prev.find((pc) => pc.id === place.id) || prev.length > 10) {
         return [...prev];
@@ -55,7 +54,7 @@ const WriteDiayBody = ({ slug }: WriteDiayBodyProps) => {
       </S.PlaceTags>
       <S.WriteDiarySearchPlaceForm onSubmit={searchPlaces}>
         <S.WriteDiarySearchPlaceInput ref={searchWordRef} />
-        <SVGIcon icon='SearchIcon' width='2rem' />
+        <SVGIcon icon='SearchIcon' width='2rem' onClick={searchPlaces} />
       </S.WriteDiarySearchPlaceForm>
       <S.PlaceContainer>
         {searchedPlaces &&
@@ -65,6 +64,11 @@ const WriteDiayBody = ({ slug }: WriteDiayBodyProps) => {
               <S.PlaceAddress>{val.address_name}</S.PlaceAddress>
             </S.PlaceBox>
           ))}
+        {searchedPlaces && searchedPlaces.length <= 0 && (
+          <S.PlaceBox>
+            <S.NoPlaces>검색 결과가 없습니다.</S.NoPlaces>
+          </S.PlaceBox>
+        )}
       </S.PlaceContainer>
     </S.Container>
   );

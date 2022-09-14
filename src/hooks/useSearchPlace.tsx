@@ -49,11 +49,17 @@ const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] 
 
       places.keywordSearch(
         searchWord,
-        (data: SearchResultType[], status: 'OK', pagination: SearchResultPaginationType) => {
+        (
+          data: SearchResultType[],
+          status: 'OK' | 'ZERO_RESULT',
+          pagination: SearchResultPaginationType,
+        ) => {
           console.log(data, status, pagination);
           if (status === kakao.maps.services.Status.OK) {
             // console.log(data);
             setSearchedPlaces(data);
+          } else if (status === 'ZERO_RESULT') {
+            setSearchedPlaces([]);
           }
         },
         {

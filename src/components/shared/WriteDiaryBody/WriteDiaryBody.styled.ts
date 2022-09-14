@@ -34,6 +34,14 @@ export const Tag = styled.div`
   margin-right: 0.5rem;
 `;
 
+export const TagToday = styled.span`
+  display: inline-block;
+  color: red;
+  width: 1rem;
+  height: 1rem;
+  background: red;
+`;
+
 export const WriteDiarySearchPlaceForm = styled.form`
   display: flex;
   width: 100%;
@@ -58,7 +66,11 @@ export const WriteDiarySearchPlaceInput = styled.input`
   }
 `;
 
-export const PlaceContainer = styled.div``;
+export const PlaceContainer = styled.div`
+  * {
+    animation: ${PopUp} 0.5s ease-in-out;
+  }
+`;
 
 export const PlaceBox = styled.div`
   padding: 0.75rem;
@@ -68,13 +80,20 @@ export const PlaceBox = styled.div`
     border-bottom: 1px solid black;
   }
 `;
+
 export const PlaceName = styled.p`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
 `;
 
 export const PlaceAddress = styled.p`
-  font-size: 0.75rem;
+  font-size: 0.675rem;
   color: #767676;
+`;
+
+export const NoPlaces = styled.p`
+  font-size: 1.25rem;
+  text-align: center;
+  margin: 5rem 0;
 `;

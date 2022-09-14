@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
@@ -35,4 +36,17 @@ export const Day = styled.div<DayProps>`
   :first-of-type {
     grid-column: ${({ startDay }) => `${startDay + 1} / ${startDay + 2}`};
   }
+`;
+
+interface DateProps {
+  today: boolean;
+}
+
+export const Date = styled.span<DateProps>`
+  display: inline-block;
+  ${({ today }) =>
+    today &&
+    css`
+      font-weight: bold;
+    `}
 `;
