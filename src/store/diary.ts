@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { SearchResultType } from '@/hooks/useSearchPlace';
 
 interface IDiaryState {
@@ -6,33 +7,28 @@ interface IDiaryState {
 }
 
 const initialState: IDiaryState = {
-  places: [
-    {
-      address_name: '',
-      category_group_code: '',
-      category_group_name: '',
-      category_name: '',
-      distance: '',
-      id: '',
-      phone: '',
-      place_name: '',
-      place_url: '',
-      road_address_name: '',
-      x: '',
-      y: '',
-    },
-  ],
+  places: [],
 };
 
 const diarySlice = createSlice({
   name: 'diary',
   initialState,
   reducers: {
-    setDiary: (state, actions: PayloadAction<SearchResultType[]>) => {
-      state.places = actions.payload;
+    addPlace: (state, action: PayloadAction<SearchResultType>) => {
+      const index = state.places.findIndex((place) => place.id === action.payload.id);
+      if (index < 0) {
+        state.places.push(action.payload);
+      }
+    },
+    removePlace: (state, action: PayloadAction<SearchResultType>) => {
+      const next = [...state.places];
+      state.places = next.filter((pc) => pc.id !== action.payload.id);
+    },
+    clearPlace: (state) => {
+      state.places = [];
     },
   },
 });
 
-export const { setDiary } = diarySlice.actions;
+export const { addPlace, removePlace, clearPlace } = diarySlice.actions;
 export default diarySlice.reducer;

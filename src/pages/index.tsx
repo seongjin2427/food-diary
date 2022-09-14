@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
-import HomeHeader from '@/components/shared/HomeHeader';
+import HomeHeader from '@/layouts/HomeHeader';
 import Calendar from '@/components/shared/Calendar';
 
 const Home: NextPage = () => {

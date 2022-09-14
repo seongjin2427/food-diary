@@ -1,18 +1,35 @@
-import SVGIcon from '@/components/shared/SVGIcon';
 import { useRouter } from 'next/router';
-import React from 'react';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
+
+import { useAppDispatch } from '@/store/index';
+import { clearPlace } from '@/store/diary';
+import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './HomeHeader.styled';
 
 interface HomeHeaderProps {
   type: 'home' | 'next' | 'prev';
+  nextUrl?: string;
+  nextDisabled: boolean;
 }
 
-const HomeHeader = ({ type }: HomeHeaderProps) => {
+const HomeHeader = ({ type, nextUrl, nextDisabled }: HomeHeaderProps) => {
+  const dispatch = useAppDispatch();
   const router = useRouter();
-  const back = useCallback(() => {
+
+  const moveBack = useCallback(() => {
     router.back();
   }, []);
+
+  const moveHomePage = useCallback(() => {
+    router.push('/');
+    dispatch(clearPlace());
+  }, []);
+
+  const moveNextPage = useCallback(() => {
+    if (nextUrl && nextDisabled) {
+      router.push(nextUrl);
+    }
+  }, [nextDisabled]);
 
   return (
     <S.Container>
@@ -22,18 +39,18 @@ const HomeHeader = ({ type }: HomeHeaderProps) => {
             <SVGIcon icon='HomeIcon' width='2rem' />
             <SVGIcon icon='ChevronDownIcon' width='1.25rem' />
           </S.LeftButtonArea>
-          <S.RightButtonArea>
+          <S.RightButtonArea disabled={!nextDisabled}>
             <SVGIcon icon='SearchIcon' width='2rem' />
-            <SVGIcon icon='UserCircleIcon' width='2rem' />
+            <SVGIcon icon='SettingsIcon' width='2rem' />
           </S.RightButtonArea>
         </>
       )}
       {type === 'next' && (
         <>
           <S.LeftButtonArea>
-            <SVGIcon icon='XMark' width='2rem' onClick={back} />
+            <SVGIcon icon='XMark' width='2rem' onClick={moveHomePage} />
           </S.LeftButtonArea>
-          <S.RightButtonArea>
+          <S.RightButtonArea onClick={moveNextPage} disabled={!nextDisabled}>
             <S.ButtonSpan>다음</S.ButtonSpan>
             <SVGIcon icon='ChevronRightIcon' width='2rem' />
           </S.RightButtonArea>
@@ -42,7 +59,7 @@ const HomeHeader = ({ type }: HomeHeaderProps) => {
       {type === 'prev' && (
         <>
           <S.LeftButtonArea>
-            <SVGIcon icon='ChevronLeftIcon' width='2rem' onClick={back} />
+            <SVGIcon icon='ChevronLeftIcon' width='2rem' onClick={moveBack} />
           </S.LeftButtonArea>
         </>
       )}
