@@ -2,6 +2,8 @@ import Head from 'next/head';
 import type { AppProps } from 'next/app';
 
 import GlobalStyle from '@/styles/global';
+import { Provider } from 'react-redux';
+import { store } from '@/store/index';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -14,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_JAVASCRIPT_KEY}&libraries=services,clusterer,drawing`}
         ></script>
       </Head>
-      <Component {...pageProps} />
+      <Provider store={store}>
+        <Component {...pageProps} />
+      </Provider>
     </>
   );
 }
