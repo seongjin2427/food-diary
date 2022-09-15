@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, ChangeEvent } from 'react';
 import { Editor } from '@tiptap/react';
 
 import {
@@ -15,9 +15,20 @@ interface DashBoardProps {
 }
 const DashBoard = ({ editor }: DashBoardProps) => {
   const colorPickerRef = useRef<HTMLInputElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const onClickColorPicker = useCallback(() => {
     colorPickerRef.current?.click();
+  }, []);
+
+  const onClickAddImage = useCallback(() => {
+    imageInputRef.current?.click();
+  }, []);
+
+  const onChangeImageUpload = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      console.log(e.target.files[0]);
+    }
   }, []);
 
   return (
@@ -47,7 +58,7 @@ const DashBoard = ({ editor }: DashBoardProps) => {
           ))}
           <S.Divider />
           <S.ColorPickerDiv onClick={onClickColorPicker}>
-            <SVGIcon icon='TextIcon' width='1.75rem' />
+            <SVGIcon icon='TextIcon' width='1.75rem' height='1.75rem' />
             <S.ColorPicker
               ref={colorPickerRef}
               type='color'
@@ -89,6 +100,14 @@ const DashBoard = ({ editor }: DashBoardProps) => {
               }}
             />
           ))}
+          <SVGIcon icon='ImageAddIcon' width='1.75rem' height='1.75rem' onClick={onClickAddImage} />
+          <input
+            type='file'
+            onChange={onChangeImageUpload}
+            ref={imageInputRef}
+            accept='image/gif, image/jpeg, image/png'
+            hidden
+          />
         </S.ButtonArea>
       </S.ButtonBox>
     </S.Container>

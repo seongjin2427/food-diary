@@ -36,6 +36,8 @@ export const DiaryTitle = styled.input`
   padding: 0.75rem;
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  border: none;
+  border-bottom: 1px solid black;
 
   :focus {
     outline: none;

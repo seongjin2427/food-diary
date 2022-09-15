@@ -19,7 +19,7 @@ const WriteDiary = () => {
           <S.TagBox key={place.id}>{place.place_name}</S.TagBox>
         ))}
       </S.TagContainer>
-      <S.DiaryTitle />
+      <S.DiaryTitle placeholder='제목을 입력해주세요' />
       <Editor />
     </S.Container>
   );

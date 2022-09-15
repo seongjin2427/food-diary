@@ -35,6 +35,7 @@ const Editor = () => {
     ],
     content: 'Hello World!',
   });
+  
   return (
     <S.Container>
       <DashBoard editor={editor!}></DashBoard>
