@@ -19,6 +19,7 @@ export const TagContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 2rem;
   padding: 1rem;
   border: 1px solid black;
   border-radius: 1rem;

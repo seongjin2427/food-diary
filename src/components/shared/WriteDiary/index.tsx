@@ -1,3 +1,4 @@
+import Editor from '@/components/shared/Editor';
 import SVGIcon from '@/components/shared/SVGIcon';
 import { useAppSelector } from '@/store/index';
 import React from 'react';
@@ -10,7 +11,7 @@ const WriteDiary = () => {
   return (
     <S.Container>
       <S.TagTitle>
-        <SVGIcon icon='MapPinIcon' width='2.5rem' />
+        <SVGIcon icon='MapPinIcon' width='2.5rem' height='2.5rem' />
         저장 장소
       </S.TagTitle>
       <S.TagContainer>
@@ -18,6 +19,7 @@ const WriteDiary = () => {
           <S.TagBox key={place.id}>{place.place_name}</S.TagBox>
         ))}
       </S.TagContainer>
+      <Editor />
     </S.Container>
   );
 };
