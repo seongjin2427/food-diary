@@ -19,6 +19,7 @@ const WriteDiary = () => {
           <S.TagBox key={place.id}>{place.place_name}</S.TagBox>
         ))}
       </S.TagContainer>
+      <S.DiaryTitle />
       <Editor />
     </S.Container>
   );

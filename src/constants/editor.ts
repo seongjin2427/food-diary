@@ -56,3 +56,21 @@ export const editorAlignIcons = [
     method: 'right',
   },
 ] as const;
+
+export const editorListIcons = [
+  {
+    iconName: 'UnorderedListIcon',
+    method: 'toggleBulletList',
+    style: 'bulletList',
+  },
+  {
+    iconName: 'OrderdListIcon',
+    method: 'toggleOrderedList',
+    style: 'orderedList',
+  },
+  {
+    iconName: 'CheckedListIcon',
+    method: 'toggleTaskList',
+    style: 'taskList',
+  },
+] as const;

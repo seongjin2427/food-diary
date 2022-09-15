@@ -1545,6 +1545,16 @@
   "resolved" "https://registry.npmjs.org/@tiptap/extension-strike/-/extension-strike-2.0.0-beta.195.tgz"
   "version" "2.0.0-beta.195"
 
+"@tiptap/extension-task-item@^2.0.0-beta.195":
+  "integrity" "sha512-0WF4/fuBtGMQE50AcyqyMcMV24/qKQpyJNlnFr8AXn9VpiwkHgx/Azk1r18OFx97/oAuKD9DXUP5APbcpL3w8Q=="
+  "resolved" "https://registry.npmjs.org/@tiptap/extension-task-item/-/extension-task-item-2.0.0-beta.195.tgz"
+  "version" "2.0.0-beta.195"
+
+"@tiptap/extension-task-list@^2.0.0-beta.195":
+  "integrity" "sha512-oE2Nuc4L4K/tfqRXHI4LoyCBEyqKj5c00optVLtNlDm9m/qFfARdgBvCkG4XH87mN35twEWSLod1/89Ud1UG6A=="
+  "resolved" "https://registry.npmjs.org/@tiptap/extension-task-list/-/extension-task-list-2.0.0-beta.195.tgz"
+  "version" "2.0.0-beta.195"
+
 "@tiptap/extension-text-align@^2.0.0-beta.195":
   "integrity" "sha512-z31GtD/BR16vlp8uM6OEnTTj7i2ZS2P9n1f+PgK4OJwr0scgvT1dL0RW/3+BBtdxztD/8GQoiXxb2ZBk8Q+qFg=="
   "resolved" "https://registry.npmjs.org/@tiptap/extension-text-align/-/extension-text-align-2.0.0-beta.195.tgz"

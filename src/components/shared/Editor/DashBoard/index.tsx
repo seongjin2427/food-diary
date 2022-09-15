@@ -1,7 +1,12 @@
 import React, { useRef, useCallback } from 'react';
 import { Editor } from '@tiptap/react';
 
-import { editorAlignIcons, editorFontIcons, editorHeadingIcons } from '@/constants/editor';
+import {
+  editorAlignIcons,
+  editorFontIcons,
+  editorHeadingIcons,
+  editorListIcons,
+} from '@/constants/editor';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './DashBoard.styled';
 
@@ -63,11 +68,24 @@ const DashBoard = ({ editor }: DashBoardProps) => {
             <SVGIcon
               key={iconName}
               icon={iconName}
-              width='2rem'
-              height='2rem'
+              width='1.75rem'
+              height='1.75rem'
               onClick={() => editor.chain().focus().setTextAlign(method).run()}
               style={{
                 background: editor?.isActive({ textAlign: method }) ? 'red' : '',
+              }}
+            />
+          ))}
+          <S.Divider />
+          {editorListIcons.map(({ iconName, method, style }) => (
+            <SVGIcon
+              key={iconName}
+              icon={iconName}
+              width='1.75rem'
+              height='1.75rem'
+              onClick={() => editor.chain().focus()[method]().run()}
+              style={{
+                background: editor?.isActive(style) ? 'red' : '',
               }}
             />
           ))}

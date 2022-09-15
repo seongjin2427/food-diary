@@ -30,3 +30,14 @@ export const TagBox = styled.p`
   border-radius: 9999px;
   background: lightblue;
 `;
+
+export const DiaryTitle = styled.input`
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+
+  :focus {
+    outline: none;
+  }
+`;

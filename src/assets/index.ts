@@ -16,6 +16,7 @@ export { default as AlignCenterIcon } from './editor/align-center.svg';
 export { default as AlignRightIcon } from './editor/align-right.svg';
 export { default as UnorderedListIcon } from './editor/unordered-list.svg';
 export { default as OrderdListIcon } from './editor/ordered-list.svg';
+export { default as CheckedListIcon } from './editor/checked-list.svg';
 export { default as SeparatorIcon } from './editor/separator.svg';
 export { default as HyperLinkIcon } from './editor/hyperlink.svg';
 export { default as HeadingOneIcon } from './editor/header-1.svg';
