@@ -23,18 +23,21 @@ export const Container = styled.div`
     }
 
     h1 {
-      margin-top: 1.5rem;
+      margin-top: 1rem;
       font-size: 1.75rem;
+      font-weight: 900;
     }
 
     h2 {
       margin-top: 1.25rem;
       font-size: 1.5rem;
+      font-weight: 900;
     }
 
     h3 {
       margin-top: 1rem;
       font-size: 1.25rem;
+      font-weight: 900;
     }
 
     ul {

@@ -28,24 +28,27 @@ const DashBoard = ({ editor }: DashBoardProps) => {
 
   const onChangeImageUpload = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const url = await uploadImageFile(e.target.files[0]);
+      const imageFile = await uploadImageFile(e.target.files[0]);
       imageInputRef.current!.value = '';
-      // editor.chain().focus().insertContent(sample).run();
-      editor.chain().focus().setImage({ src: url }).run();
+      if (imageFile) {
+        editor
+          .chain()
+          .focus()
+          .insertContent(`<custom-image file=${imageFile} />`)
+          .createParagraphNear()
+          .run();
+      }
     }
   }, []);
 
   const test = () => {
-    const sample = `<div style="color: red;">sff</div>`;
     editor
       .chain()
-      .focus()
       .insertContent(
-        `<node-view>
-          <p style="background: red;">sss</p>
-          <img src=${'https://food-diary-s3-bucket.s3.ap-northeast-2.amazonaws.com/images/220918180962422_1-1.jpg'} />
-        </node-view>`,
+        `<custom-image src="${'https://food-diary-s3-bucket.s3.ap-northeast-2.amazonaws.com/images/220918180962422_1-1.jpg'}" />`,
       )
+      .createParagraphNear()
+      .focus()
       .run();
   };
 

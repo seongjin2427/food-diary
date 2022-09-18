@@ -11,14 +11,15 @@ import TaskList from '@tiptap/extension-task-list';
 import TaskItem from '@tiptap/extension-task-item';
 import Image from '@tiptap/extension-image';
 
-
 import DashBoard from '@/components/shared/Editor/DashBoard';
 import EditorBody from '@/components/shared/Editor/EditorBody';
 import * as S from './Editor.styled';
+import CustomImage from '@/components/shared/Editor/CustomImage';
 
 const Editor = () => {
   const editor = useEditor({
     extensions: [
+      CustomImage,
       StarterKit,
       Underline,
       TextStyle,
@@ -36,9 +37,11 @@ const Editor = () => {
         autolink: true,
       }),
     ],
-    content: 'Hello World!',
+    content: `
+      <p>일기를 써주세요!</p>
+    `,
   });
-  
+
   return (
     <S.Container>
       <DashBoard editor={editor!}></DashBoard>

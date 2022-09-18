@@ -13,8 +13,12 @@ const storage = multerS3({
   s3: s3 as any,
   bucket: configKey.s3BucketName,
   key(req, file, cb) {
-    const nowDate = moment(Date.now()).format('YYMMDDHHMMhmmss');
-    cb(null, `images/${nowDate}_${file.originalname}`);
+    const now = Date.now();
+    const nowDate = moment(now).format('YYMMDDHHMMhmmss');
+    const nowYear = moment(now).format('YY');
+    const nowMonth = moment(now).format('MM');
+    const nowDay = moment(now).format('DD');
+    cb(null, `images/${nowYear}/${nowMonth}/${nowDay}/${nowDate}_${file.originalname}`);
   },
   acl: 'public-read',
   contentType: AUTO_CONTENT_TYPE,
@@ -35,7 +39,7 @@ handler
 
     const uploadedImage = await ImageFile.create({ fileName: originalname, src: location });
     console.log('uploadedImage', uploadedImage);
-    res.status(200).json({ url: location });
+    res.status(200).json({ imageFile: uploadedImage });
   });
 
 export default handler;

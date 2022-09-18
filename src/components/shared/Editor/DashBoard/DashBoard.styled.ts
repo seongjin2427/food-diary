@@ -1,13 +1,21 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-  background: yellow;
-  padding: 0.25rem 0.75rem;
+  background: white;
+  padding: 0.25rem 0rem;
+  margin-top: 10px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  height: 4rem;
+  z-index: 1;
 `;
 
 export const ButtonBox = styled.div`
   width: 100%;
   height: 3rem;
+  margin-top: 0.75rem;
+  background: lightcoral;
   overflow-y: scroll;
   position: relative;
 
@@ -22,7 +30,7 @@ export const ButtonArea = styled.div`
   top: 0;
   height: 3rem;
   display: flex;
-  padding: 0.25rem 0;
+  padding: 0.5rem 0;
   flex-wrap: nowrap;
   align-items: center;
 
