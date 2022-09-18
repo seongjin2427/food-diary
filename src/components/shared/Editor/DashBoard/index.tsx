@@ -34,7 +34,7 @@ const DashBoard = ({ editor }: DashBoardProps) => {
         editor
           .chain()
           .focus()
-          .insertContent(`<custom-image file=${imageFile} />`)
+          .insertContent(`<custom-image src=${imageFile.src} id=${imageFile.id} />`)
           .createParagraphNear()
           .run();
       }
