@@ -1,5 +1,6 @@
 import React, { useRef, useCallback, ChangeEvent } from 'react';
 import { Editor } from '@tiptap/react';
+import { uploadImageFile } from '@/api/diary';
 
 import {
   editorAlignIcons,
@@ -25,11 +26,28 @@ const DashBoard = ({ editor }: DashBoardProps) => {
     imageInputRef.current?.click();
   }, []);
 
-  const onChangeImageUpload = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeImageUpload = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      console.log(e.target.files[0]);
+      const url = await uploadImageFile(e.target.files[0]);
+      imageInputRef.current!.value = '';
+      // editor.chain().focus().insertContent(sample).run();
+      editor.chain().focus().setImage({ src: url }).run();
     }
   }, []);
+
+  const test = () => {
+    const sample = `<div style="color: red;">sff</div>`;
+    editor
+      .chain()
+      .focus()
+      .insertContent(
+        `<node-view>
+          <p style="background: red;">sss</p>
+          <img src=${'https://food-diary-s3-bucket.s3.ap-northeast-2.amazonaws.com/images/220918180962422_1-1.jpg'} />
+        </node-view>`,
+      )
+      .run();
+  };
 
   return (
     <S.Container>
@@ -100,12 +118,13 @@ const DashBoard = ({ editor }: DashBoardProps) => {
               }}
             />
           ))}
+          <SVGIcon icon='AlignCenterIcon' onClick={test} width='1.75rem' height='1.75rem' />
           <SVGIcon icon='ImageAddIcon' width='1.75rem' height='1.75rem' onClick={onClickAddImage} />
           <input
             type='file'
             onChange={onChangeImageUpload}
             ref={imageInputRef}
-            accept='image/gif, image/jpeg, image/png'
+            accept='image/gif, image/jpeg, image/jpg, image/png'
             hidden
           />
         </S.ButtonArea>

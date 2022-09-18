@@ -1,13 +1,13 @@
 import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
+
 import sequelize from '../connection';
 
 type DiaryAttributes = {
   id: number;
   title: string;
   content: string;
-  address: string;
-  longitude: string;
-  latitude: string;
+  date: string;
+  places: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
@@ -18,9 +18,8 @@ class Diary extends Model<DiaryAttributes, DiaryCreationAttribues> {
   declare id: CreationOptional<number>;
   declare title: string;
   declare content: string;
-  declare address: string;
-  declare longitude: string;
-  declare latitude: string;
+  declare date: string;
+  declare places: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -40,9 +39,11 @@ Diary.init(
       type: new DataTypes.STRING(128),
       allowNull: false,
     },
-    address: new DataTypes.STRING(128),
-    longitude: new DataTypes.STRING(128),
-    latitude: new DataTypes.STRING(128),
+    date: {
+      type: new DataTypes.STRING(128),
+      allowNull: false,
+    },
+    places: new DataTypes.STRING(256),
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
@@ -53,7 +54,7 @@ Diary.init(
     },
   },
   {
-    tableName: 'users',
+    tableName: 'diary',
     sequelize,
   },
 );

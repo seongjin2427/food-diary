@@ -31,7 +31,8 @@
       "@/utils/*": ["./utils/*"],
       "@/store/*": ["./store/*"],
       "@/layouts/*": ["./layouts/*"],
-      "@/constants/*": ["./constants/*"]
+      "@/constants/*": ["./constants/*"],
+      "@/server/*": ["./server/*"]
     }
   },
   "include": [

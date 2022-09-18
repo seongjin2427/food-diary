@@ -59,5 +59,9 @@ export const Container = styled.div`
       margin-left: 1.375rem;
       list-style: decimal;
     }
+
+    img {
+      width: 100%;
+    }
   }
 `;
