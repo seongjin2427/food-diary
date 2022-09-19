@@ -32,7 +32,6 @@ const DiaryPage: NextPage = () => {
           <WriteDiary />
         </MainLayout>
       )}
-      <div id='footer' />
     </EditorProvider>
   );
 };

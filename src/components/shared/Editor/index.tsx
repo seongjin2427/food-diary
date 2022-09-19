@@ -48,9 +48,9 @@ const Editor = () => {
     <S.Container>
       <DashBoard editor={editor!}></DashBoard>
       <EditorBody editor={editor!}></EditorBody>
-      {/* <Portal>
+      <Portal>
         <EditorFooter editor={editor!} />
-      </Portal> */}
+      </Portal>
     </S.Container>
   );
 };

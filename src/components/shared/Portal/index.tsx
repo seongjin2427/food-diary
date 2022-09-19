@@ -6,7 +6,7 @@ interface PortalProps {
 }
 
 const Portal = ({ children }: PortalProps) => {
-  const el = document.getElementById('footer');
+  const el = document.getElementById('portal');
   return reactDom.createPortal(children, el!);
 };
 
