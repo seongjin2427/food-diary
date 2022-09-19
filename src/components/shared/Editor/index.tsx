@@ -15,6 +15,8 @@ import DashBoard from '@/components/shared/Editor/DashBoard';
 import EditorBody from '@/components/shared/Editor/EditorBody';
 import * as S from './Editor.styled';
 import CustomImage from '@/components/shared/Editor/CustomImage';
+import Portal from '@/components/shared/Portal';
+import EditorFooter from '@/components/shared/Editor/EditorFooter';
 
 const Editor = () => {
   const editor = useEditor({
@@ -46,6 +48,9 @@ const Editor = () => {
     <S.Container>
       <DashBoard editor={editor!}></DashBoard>
       <EditorBody editor={editor!}></EditorBody>
+      <Portal>
+        <EditorFooter editor={editor!} />
+      </Portal>
     </S.Container>
   );
 };

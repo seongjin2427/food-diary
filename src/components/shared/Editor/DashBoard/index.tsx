@@ -16,29 +16,9 @@ interface DashBoardProps {
 }
 const DashBoard = ({ editor }: DashBoardProps) => {
   const colorPickerRef = useRef<HTMLInputElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const onClickColorPicker = useCallback(() => {
     colorPickerRef.current?.click();
-  }, []);
-
-  const onClickAddImage = useCallback(() => {
-    imageInputRef.current?.click();
-  }, []);
-
-  const onChangeImageUpload = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const imageFile = await uploadImageFile(e.target.files[0]);
-      imageInputRef.current!.value = '';
-      if (imageFile) {
-        editor
-          .chain()
-          .focus()
-          .insertContent(`<custom-image src=${imageFile.src} id=${imageFile.id} />`)
-          .createParagraphNear()
-          .run();
-      }
-    }
   }, []);
 
   const test = () => {
@@ -122,14 +102,6 @@ const DashBoard = ({ editor }: DashBoardProps) => {
             />
           ))}
           <SVGIcon icon='AlignCenterIcon' onClick={test} width='1.75rem' height='1.75rem' />
-          <SVGIcon icon='ImageAddIcon' width='1.75rem' height='1.75rem' onClick={onClickAddImage} />
-          <input
-            type='file'
-            onChange={onChangeImageUpload}
-            ref={imageInputRef}
-            accept='image/gif, image/jpeg, image/jpg, image/png'
-            hidden
-          />
         </S.ButtonArea>
       </S.ButtonBox>
     </S.Container>
