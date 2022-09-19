@@ -1,12 +1,13 @@
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
+import { useAppSelector } from '@/store/index';
 import Header from '@/layouts/Header';
 import HomeHeader from '@/layouts/HomeHeader';
 import MainLayout from '@/layouts/MainLayout';
-import { useAppSelector } from '@/store/index';
-import { useRouter } from 'next/router';
 import WriteDiary from '@/components/shared/WriteDiary';
+import EditorProvider from '@/components/shared/Editor/context/editorContext';
 
 const DiaryPage: NextPage = () => {
   const router = useRouter();
@@ -21,7 +22,7 @@ const DiaryPage: NextPage = () => {
   }, []);
 
   return (
-    <>
+    <EditorProvider>
       <Header>
         <HomeHeader type='next' nextDisabled={true} />
       </Header>
@@ -32,7 +33,7 @@ const DiaryPage: NextPage = () => {
         </MainLayout>
       )}
       <div id='footer' />
-    </>
+    </EditorProvider>
   );
 };
 

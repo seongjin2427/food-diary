@@ -7,8 +7,8 @@ export const Container = styled.div`
 export const TagTitle = styled.h1`
   display: flex;
   align-items: center;
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 1.75em;
+  margin-bottom: 0.75rem;
 
   svg {
     margin-right: 0.25rem;
@@ -34,7 +34,7 @@ export const TagBox = styled.p`
 export const DiaryTitle = styled.input`
   width: 100%;
   padding: 0.75rem;
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   border: none;
   border-bottom: 1px solid black;
 

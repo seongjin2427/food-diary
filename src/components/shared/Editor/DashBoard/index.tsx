@@ -1,6 +1,5 @@
-import React, { useRef, useCallback, ChangeEvent } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { Editor } from '@tiptap/react';
-import { uploadImageFile } from '@/api/diary';
 
 import {
   editorAlignIcons,
@@ -25,7 +24,7 @@ const DashBoard = ({ editor }: DashBoardProps) => {
     editor
       .chain()
       .insertContent(
-        `<custom-image src="${'https://food-diary-s3-bucket.s3.ap-northeast-2.amazonaws.com/images/220918180962422_1-1.jpg'}" />`,
+        `<custom-image src="${'https://food-diary-s3-bucket.s3.ap-northeast-2.amazonaws.com/images/22/09/19/2209192309115610_1-1.jpg'}" />`,
       )
       .createParagraphNear()
       .focus()

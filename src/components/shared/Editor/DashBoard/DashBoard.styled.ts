@@ -30,7 +30,7 @@ export const ButtonArea = styled.div`
   top: 0;
   height: 3rem;
   display: flex;
-  padding: 0.5rem 0;
+  padding: 0.5rem;
   flex-wrap: nowrap;
   align-items: center;
 
