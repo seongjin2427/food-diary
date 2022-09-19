@@ -1,13 +1,13 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { useAppSelector } from '@/store/index';
 import Header from '@/layouts/Header';
 import HomeHeader from '@/layouts/HomeHeader';
 import MainLayout from '@/layouts/MainLayout';
 import WriteDiary from '@/components/shared/WriteDiary';
-import EditorProvider from '@/components/shared/Editor/context/editorContext';
+import { EditorContext } from '@/components/shared/Editor/context/editorContext';
 
 const DiaryPage: NextPage = () => {
   const router = useRouter();
@@ -21,10 +21,13 @@ const DiaryPage: NextPage = () => {
     }
   }, []);
 
+  const { storeDiary } = useContext(EditorContext);
+
   return (
-    <EditorProvider>
+    <>
       <Header>
-        <HomeHeader type='next' nextDisabled={true} />
+        {/* <HomeHeader type='next' nextDisabled={true} nextUrl='/write/folder' nextFn={storeDiary} /> */}
+        <HomeHeader type='next' nextDisabled={true} nextFn={storeDiary} />
       </Header>
       {places.length === 0 && <MainLayout>선택된 장소가 없습니다.</MainLayout>}
       {places.length > 0 && (
@@ -32,8 +35,8 @@ const DiaryPage: NextPage = () => {
           <WriteDiary />
         </MainLayout>
       )}
-    </EditorProvider>
+    </>
   );
 };
 
-export default DiaryPage;
+export default React.memo(DiaryPage);

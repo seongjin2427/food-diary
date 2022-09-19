@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import GlobalStyle from '@/styles/global';
 import { Provider } from 'react-redux';
 import { store } from '@/store/index';
+import EditorProvider from '@/components/shared/Editor/context/editorContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -17,7 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         ></script>
       </Head>
       <Provider store={store}>
-        <Component {...pageProps} />
+        <EditorProvider>
+          <Component {...pageProps} />
+        </EditorProvider>
       </Provider>
     </>
   );

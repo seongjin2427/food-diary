@@ -7,12 +7,14 @@ interface IDiaryState {
     date: string;
     title: string;
     content: string;
+    thumbnail: string | null;
+    images: string[];
     places: SearchResultType[];
   };
 }
 
 const initialState: IDiaryState = {
-  post: { date: '', title: '', content: '', places: [] },
+  post: { date: '', title: '', content: '', thumbnail: null, images: [], places: [] },
 };
 
 const diarySlice = createSlice({
@@ -32,8 +34,30 @@ const diarySlice = createSlice({
     clearPlace: (state) => {
       state.post.places = [];
     },
+    setDiaryContent: (
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        title: string;
+        content: string;
+        thumbnail: string | null;
+        images: string[];
+      }>,
+    ) => {
+      state.post = {
+        ...state.post,
+        title: payload.title,
+        content: payload.content,
+        thumbnail: payload.thumbnail,
+        images: payload.images,
+      };
+    },
+    setImages: (state, action: PayloadAction<string>) => {
+      state.post.images.push(action.payload);
+    },
   },
 });
 
-export const { addPlace, removePlace, clearPlace } = diarySlice.actions;
+export const { addPlace, removePlace, clearPlace, setDiaryContent } = diarySlice.actions;
 export default diarySlice.reducer;

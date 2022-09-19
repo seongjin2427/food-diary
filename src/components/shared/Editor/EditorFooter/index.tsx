@@ -1,7 +1,9 @@
-import { uploadImageFile } from '@/api/diary';
-import SVGIcon from '@/components/shared/SVGIcon';
+import React, { ChangeEvent, useCallback, useContext, useRef } from 'react';
 import { Editor } from '@tiptap/react';
-import React, { ChangeEvent, useCallback, useRef } from 'react';
+
+import { uploadImageFile } from '@/api/diary';
+import { EditorContext } from '@/components/shared/Editor/context/editorContext';
+import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './EditorFooter.styled';
 
 interface EditorFooterProps {
@@ -9,26 +11,35 @@ interface EditorFooterProps {
 }
 
 const EditorFooter = ({ editor }: EditorFooterProps) => {
+  const {
+    image: { setImages },
+  } = useContext(EditorContext);
+
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const onClickAddImage = useCallback(() => {
     imageInputRef.current?.click();
   }, []);
 
-  const onChangeImageUpload = useCallback(async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const imageFile = await uploadImageFile(e.target.files[0]);
-      imageInputRef.current!.value = '';
-      if (imageFile) {
-        editor
-          .chain()
-          .focus()
-          .insertContent(`<custom-image src=${imageFile.src} id=${imageFile.id} />`)
-          .createParagraphNear()
-          .run();
+  const onChangeImageUpload = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        const imageFile = await uploadImageFile(e.target.files[0]);
+        imageInputRef.current!.value = '';
+        if (imageFile) {
+          editor
+            ?.chain()
+            .focus()
+            .insertContent(`<custom-image src=${imageFile.src} id=${imageFile.id} />`)
+            .createParagraphNear()
+            .run();
+
+          setImages((prev) => [...prev, imageFile.id]);
+        }
       }
-    }
-  }, []);
+    },
+    [editor],
+  );
 
   return (
     <S.Container>

@@ -8,9 +8,10 @@ interface HomeHeaderProps {
   type: 'home' | 'next' | 'prev';
   nextUrl?: string;
   nextDisabled?: boolean;
+  nextFn?: () => void;
 }
 
-const HomeHeader = ({ type, nextUrl, nextDisabled }: HomeHeaderProps) => {
+const HomeHeader = ({ type, nextUrl, nextDisabled, nextFn }: HomeHeaderProps) => {
   const router = useRouter();
 
   const moveBack = useCallback(() => {
@@ -22,6 +23,7 @@ const HomeHeader = ({ type, nextUrl, nextDisabled }: HomeHeaderProps) => {
   }, []);
 
   const moveNextPage = useCallback(() => {
+    nextFn && nextFn();
     if (nextUrl && nextDisabled) {
       router.push(nextUrl);
     }

@@ -29,4 +29,4 @@ const WriteDiary = () => {
   );
 };
 
-export default WriteDiary;
+export default React.memo(WriteDiary);

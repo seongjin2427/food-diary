@@ -2,7 +2,7 @@ import instance from '@/api/instance';
 
 interface ImageFileType {
   imageFile: {
-    id: number;
+    id: string;
     fileName: string;
     src: string;
   };

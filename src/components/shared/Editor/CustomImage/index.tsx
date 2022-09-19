@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { ChangeEvent, useCallback, useContext } from 'react';
 import { mergeAttributes, Node, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
 
 import * as S from './CustomImage.styled';
+import { EditorContext } from '@/components/shared/Editor/context/editorContext';
 
 const CustomImage = (props: any) => {
-  console.log(props);
+  const {
+    thumbnail: { setThumbnail },
+  } = useContext(EditorContext);
+
+  const onChangeThumbnail = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    console.log('a')
+    setThumbnail(prev => e.target.value);
+  }, []);
+
   return (
     <NodeViewWrapper>
       <S.Container>
-        <S.CheckBox type='radio' name="image" value={props.node.attrs.id} />
+        <S.CheckBox
+          type='radio'
+          name='image'
+          value={props.node.attrs.id}
+          onChange={onChangeThumbnail}
+        />
         <S.Image src={props.node.attrs.src} />
       </S.Container>
     </NodeViewWrapper>
@@ -24,7 +38,7 @@ export default Node.create({
   addAttributes() {
     return {
       src: '',
-      id: ''
+      id: '',
     };
   },
   parseHTML() {
