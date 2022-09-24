@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, ChangeEvent } from 'react';
 
 import { EditorContext } from '@/components/shared/Editor/context/editorContext';
 import { useAppSelector } from '@/store/index';
@@ -8,14 +8,12 @@ import * as S from './WriteDiary.styled';
 
 const WriteDiary = () => {
   const currentPost = useAppSelector(({ diary }) => diary.post);
-  const { places, title } = currentPost;
-  const { titleRef } = useContext(EditorContext);
+  const { places } = currentPost;
+  const { title, setTitle } = useContext(EditorContext);
 
-  useEffect(() => {
-    if (titleRef && titleRef.current) {
-      titleRef.current.value = title;
-    }
-  }, []);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target?.value);
+  };
 
   return (
     <S.Container>
@@ -27,11 +25,7 @@ const WriteDiary = () => {
           </S.TagBox>
         ))}
       </S.TagContainer>
-      <S.DiaryTitle
-        placeholder='제목을 입력해주세요'
-        ref={titleRef}
-        value={titleRef?.current?.value}
-      />
+      <S.DiaryTitle placeholder='제목을 입력해주세요' value={title} onChange={onChange} />
       <Editor />
     </S.Container>
   );

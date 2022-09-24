@@ -1,19 +1,14 @@
 import React, { useCallback } from 'react';
+import { useRouter } from 'next/router';
 
 import useCalendar from '@/hooks/useCalendar';
 import * as S from './Calendar.styled';
-import { useRouter } from 'next/router';
 
 function Calendar() {
   const router = useRouter();
   const [today, currentMonth, startDay] = useCalendar();
 
   const clickDay = useCallback((date: Date) => {
-    console.log(
-      // date.toLocaleString('en-US', { year: 'numeric', month: 'numeric', day: 'numeric' }),
-      date.toLocaleString('en-GB', { year: 'numeric', month: 'numeric', day: 'numeric' }),
-    );
-
     router.push(
       `/write/${date.toLocaleString('en-GB', {
         year: 'numeric',

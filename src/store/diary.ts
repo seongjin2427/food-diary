@@ -54,13 +54,16 @@ const diarySlice = createSlice({
         images: action.payload.images,
       };
       state.post = next;
-      console.log('next', next);
     },
     setImages: (state, action: PayloadAction<string>) => {
       state.post.images.push(action.payload);
     },
+    clearDiary: (state) => {
+      state.post = initialState.post;
+    },
   },
 });
 
-export const { addPlace, removePlace, clearPlace, setDate, setDiaryContent } = diarySlice.actions;
+export const { addPlace, removePlace, clearPlace, setDate, setDiaryContent, clearDiary } =
+  diarySlice.actions;
 export default diarySlice.reducer;

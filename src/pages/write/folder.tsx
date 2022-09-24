@@ -1,9 +1,10 @@
-import Header from '@/layouts/Header';
-import HomeHeader from '@/layouts/HomeHeader';
-import MainLayout from '@/layouts/MainLayout';
-import { useAppSelector } from '@/store/index';
 import { NextPage } from 'next';
 import React from 'react';
+
+import { useAppSelector } from '@/store/index';
+import CommonHeader from '@/layouts/CommonHeader';
+import Header from '@/layouts/Header';
+import MainLayout from '@/layouts/MainLayout';
 
 const FolderPage: NextPage = () => {
   const aa = useAppSelector((state) => state.diary);
@@ -13,7 +14,7 @@ const FolderPage: NextPage = () => {
   return (
     <>
       <Header>
-        <HomeHeader type='both' nextDisabled={true} />
+        <CommonHeader type='both' nextDisabled={true} />
       </Header>
       <MainLayout>
         folder 페이지 입니다

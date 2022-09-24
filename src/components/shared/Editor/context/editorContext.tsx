@@ -15,9 +15,10 @@ import React, {
 } from 'react';
 
 interface EditorContextType {
-  titleRef: RefObject<HTMLInputElement> | null;
   editorRef: RefObject<PureEditorContent> | null;
   storeDiary: () => void;
+  title: string;
+  setTitle: Dispatch<SetStateAction<string>>;
   thumbnail: string | null;
   setThumbnail: Dispatch<SetStateAction<string | null>>;
   images: string[];
@@ -25,9 +26,10 @@ interface EditorContextType {
 }
 
 export const EditorContext = createContext<EditorContextType>({
-  titleRef: null,
   editorRef: null,
   storeDiary: () => {},
+  title: '',
+  setTitle: () => {},
   thumbnail: null,
   setThumbnail: () => {},
   images: [],
@@ -40,14 +42,13 @@ interface EditorProviderProps {
 
 const EditorProvider = ({ children }: EditorProviderProps) => {
   const dispatch = useAppDispatch();
-  const titleRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<PureEditorContent>(null);
   const [thumbnail, setThumbnail] = useState<string | null>('');
   const [images, setImages] = useState<string[]>([]);
+  const [title, setTitle] = useState<string>('');
 
   const storeDiary = () => {
     const editorContent = editorRef.current!.props.editor!.getHTML();
-    const title = titleRef.current!.value;
 
     if (title) {
       const content = {
@@ -56,22 +57,22 @@ const EditorProvider = ({ children }: EditorProviderProps) => {
         images,
         thumbnail,
       };
-      console.log('content', content);
       dispatch(setDiaryContent(content));
     }
   };
 
   const provided = useMemo(
     () => ({
-      titleRef,
       editorRef,
       storeDiary,
+      title,
+      setTitle,
       thumbnail,
       setThumbnail,
       images,
       setImages,
     }),
-    [titleRef, editorRef, storeDiary, thumbnail, setThumbnail, images, setImages],
+    [editorRef, storeDiary, thumbnail, setThumbnail, images, setImages],
   );
 
   return <EditorContext.Provider value={provided}>{children}</EditorContext.Provider>;

@@ -3,9 +3,9 @@ import { GetServerSideProps, NextPage } from 'next';
 
 import MainLayout from '@/layouts/MainLayout';
 import Header from '@/layouts/Header';
-import HomeHeader from '@/layouts/HomeHeader';
 import WriteDiaryBody from '@/components/shared/SearchPlaces';
 import { useAppSelector } from '@/store/index';
+import CommonHeader from '@/layouts/CommonHeader';
 
 interface WriteDiaryProps {
   slug: string[];
@@ -26,10 +26,11 @@ const WriteDiary: NextPage<WriteDiaryProps> = ({ slug }) => {
   return (
     <>
       <Header>
-        <HomeHeader 
-          type='next' 
-          nextUrl='/write/diary' 
-          nextDisabled={selectedPlaces.length !== 0} />
+        <CommonHeader
+          type='next'
+          nextUrl='/write/diary'
+          nextDisabled={selectedPlaces.length !== 0}
+        />
       </Header>
       <MainLayout>
         <WriteDiaryBody slug={slug} />
