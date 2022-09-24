@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef, RefObject } from 'react';
 
 interface GeolocationType {
   coords: GeolocationCoordinates;
@@ -38,8 +38,9 @@ interface SearchPlaceActions {
   search: (s: string) => void;
 }
 
-const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] => {
-  const [searchedPlaces, setSearchedPlaces] = useState<SearchResultType[]>();
+const useSearchPlace = (): [SearchResultType[] | undefined, RefObject<string[]>,  SearchPlaceActions] => {
+  const [searchedPlaces, setSearchedPlaces] = useState<SearchResultType[]>([]);
+  const searchHistoryRef = useRef<string[]>([]);
 
   const search = useCallback(async (searchWord: string) => {
     navigator.geolocation.getCurrentPosition(({ coords }: GeolocationType) => {
@@ -55,10 +56,35 @@ const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] 
           pagination: SearchResultPaginationType,
         ) => {
           console.log(data, status, pagination);
+
           if (status === kakao.maps.services.Status.OK) {
-            setSearchedPlaces(data.filter((place) => place.category_group_code === 'FD6'));
+            searchHistoryRef.current.push(searchWord);
+            const prevSearchWord = searchHistoryRef.current[0];
+            if (prevSearchWord === searchWord) {
+              setSearchedPlaces((prev) => [...prev, ...data]);
+            } else {
+              setSearchedPlaces(data);
+            }
           } else if (status === 'ZERO_RESULT') {
             setSearchedPlaces([]);
+          }
+
+          // 검색 기록 2칸 유지
+          if (searchHistoryRef.current.length > 1) {
+            searchHistoryRef.current.shift();
+          }
+
+          // 다음 버튼 눌렀을 때, 다음 목록 불러오기
+          const nextBtn = document.getElementById('place_next_button') as HTMLButtonElement;
+          if (!pagination.hasNextPage) {
+            nextBtn.style.display = 'none';
+          } else {
+            nextBtn.style.display = 'block';
+            nextBtn.onclick = () => {
+              if (pagination.hasNextPage) {
+                pagination.nextPage();
+              }
+            };
           }
         },
         {
@@ -74,7 +100,7 @@ const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] 
     search,
   };
 
-  return [searchedPlaces, actions];
+  return [searchedPlaces, searchHistoryRef, actions];
 };
 
 export default useSearchPlace;

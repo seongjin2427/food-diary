@@ -94,3 +94,13 @@ export const NoPlaces = styled.p`
   text-align: center;
   margin: 5rem 0;
 `;
+
+export const MorePlacesButton = styled.button`
+  display: none;
+  width: 100%;
+  padding: 0.25rem;
+  font-size: 1.125rem;
+  color: #767676;
+  background: none;
+  border: none;
+`;

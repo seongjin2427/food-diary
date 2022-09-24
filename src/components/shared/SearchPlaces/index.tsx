@@ -12,17 +12,21 @@ interface SearchPlacesProps {
 
 const SearchPlaces = ({ slug }: SearchPlacesProps) => {
   const [day, month, year] = slug;
-
-  const pickedPlaces = useAppSelector(({ diary }) => diary.post.places);
   const dispatch = useAppDispatch();
+  const pickedPlaces = useAppSelector(({ diary }) => diary.post.places);
 
-  const [searchedPlaces, { search }] = useSearchPlace();
+  const [searchedPlaces, searchHistoryRef, { search }] = useSearchPlace();
   const searchWordRef = useRef<HTMLInputElement>(null);
 
   const searchPlaces = useCallback((e: FormEvent) => {
     e.preventDefault();
-    if (searchWordRef.current && searchWordRef.current.value !== '') {
-      search(searchWordRef.current.value);
+    if (searchWordRef.current && searchWordRef.current.value !== '' && searchHistoryRef.current) {
+      const searchWord = searchWordRef.current.value;
+      const prevSearchWord = searchHistoryRef.current[0];
+
+      if (prevSearchWord !== searchWord) {
+        search(searchWord);
+      }
       searchWordRef.current.value = '';
     }
   }, []);
@@ -73,6 +77,7 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
           </S.PlaceBox>
         )}
       </S.PlaceContainer>
+      <S.MorePlacesButton id='place_next_button'>더 보기</S.MorePlacesButton>
     </S.Container>
   );
 };
