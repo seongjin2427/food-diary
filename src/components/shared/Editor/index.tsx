@@ -11,6 +11,7 @@ import TaskList from '@tiptap/extension-task-list';
 import TaskItem from '@tiptap/extension-task-item';
 import Image from '@tiptap/extension-image';
 
+import { useAppSelector } from '@/store/index';
 import DashBoard from '@/components/shared/Editor/DashBoard';
 import EditorBody from '@/components/shared/Editor/EditorBody';
 import CustomImage from '@/components/shared/Editor/CustomImage';
@@ -19,6 +20,8 @@ import EditorFooter from '@/components/shared/Editor/EditorFooter';
 import * as S from './Editor.styled';
 
 const Editor = () => {
+  const currentPost = useAppSelector(({ diary }) => diary.post);
+  const { content } = currentPost;
   const editor = useEditor({
     extensions: [
       CustomImage,
@@ -39,7 +42,9 @@ const Editor = () => {
         autolink: true,
       }),
     ],
-    content: `
+    content:
+      content ||
+      `
       <p>일기를 써주세요!</p>
     `,
   });

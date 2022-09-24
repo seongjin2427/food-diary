@@ -54,6 +54,7 @@ const diarySlice = createSlice({
         images: action.payload.images,
       };
       state.post = next;
+      console.log('next', next);
     },
     setImages: (state, action: PayloadAction<string>) => {
       state.post.images.push(action.payload);

@@ -54,7 +54,7 @@ const DashBoard = ({ editor }: DashBoardProps) => {
               width='1.75rem'
               height='1.75rem'
               onInput={(e) => editor.chain().focus().setColor(e.currentTarget.value).run()}
-              value={editor?.getAttributes('textStyle').color}
+              value={editor?.getAttributes('textStyle').color || '#000000'}
             />
           </S.ColorPickerDiv>
           <SVGIcon

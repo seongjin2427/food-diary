@@ -26,7 +26,7 @@ const DiaryPage: NextPage = () => {
   return (
     <>
       <Header>
-        <HomeHeader type='next' nextDisabled={true} nextUrl='/write/folder' nextFn={storeDiary} />
+        <HomeHeader type='both' nextDisabled={true} nextUrl='/write/folder' nextFn={storeDiary} />
         {/* <HomeHeader type='next' nextDisabled={true} nextFn={storeDiary} /> */}
       </Header>
       {places.length === 0 && <MainLayout>선택된 장소가 없습니다.</MainLayout>}

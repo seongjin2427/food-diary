@@ -7,13 +7,13 @@ import React from 'react';
 
 const FolderPage: NextPage = () => {
   const aa = useAppSelector((state) => state.diary);
-  console.log(aa);
+  console.log('folder', aa);
   // const { content, date, images, places, thumbnail, title } = aa.post;
 
   return (
     <>
       <Header>
-        <HomeHeader type='next' nextDisabled={true} />
+        <HomeHeader type='both' nextDisabled={true} />
       </Header>
       <MainLayout>
         folder 페이지 입니다

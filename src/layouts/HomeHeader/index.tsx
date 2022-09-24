@@ -5,7 +5,7 @@ import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './HomeHeader.styled';
 
 interface HomeHeaderProps {
-  type: 'home' | 'next' | 'prev';
+  type: 'home' | 'next' | 'prev' | 'both';
   nextUrl?: string;
   nextDisabled?: boolean;
   nextFn?: () => void;
@@ -40,6 +40,17 @@ const HomeHeader = ({ type, nextUrl, nextDisabled, nextFn }: HomeHeaderProps) =>
           <S.RightButtonArea>
             <SVGIcon icon='SearchIcon' width='2rem' />
             <SVGIcon icon='SettingsIcon' width='2rem' />
+          </S.RightButtonArea>
+        </>
+      )}
+      {type === 'both' && (
+        <>
+          <S.LeftButtonArea>
+            <SVGIcon icon='ChevronLeftIcon' width='2rem' onClick={moveBack} />
+          </S.LeftButtonArea>
+          <S.RightButtonArea onClick={moveNextPage} disabled={!nextDisabled}>
+            <S.ButtonSpan>다음</S.ButtonSpan>
+            <SVGIcon icon='ChevronRightIcon' width='2rem' />
           </S.RightButtonArea>
         </>
       )}

@@ -28,18 +28,15 @@ export const PlaceTag = styled.div`
   background: lightblue;
   border-radius: 9999px;
   animation: ${PopUp} 0.5s ease-in-out;
+
+  svg {
+    margin-left: -0.25rem;
+    margin-top: 0.125rem;
+  }
 `;
 
 export const Tag = styled.div`
-  margin-right: 0.5rem;
-`;
-
-export const TagToday = styled.span`
-  display: inline-block;
-  color: red;
-  width: 1rem;
-  height: 1rem;
-  background: red;
+  margin-left: 0.125rem;
 `;
 
 export const WriteDiarySearchPlaceForm = styled.form`

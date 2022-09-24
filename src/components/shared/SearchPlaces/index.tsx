@@ -1,7 +1,7 @@
 import React, { FormEvent, useCallback, useRef } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
-import { addPlace, removePlace } from '@/store/diary';
+import { addPlace, removePlace, setDate } from '@/store/diary';
 import useSearchPlace, { SearchResultType } from '@/hooks/useSearchPlace';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './SearchPlaces.styled';
@@ -29,6 +29,7 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
 
   const pickPlace = useCallback((place: SearchResultType) => {
     dispatch(addPlace(place));
+    dispatch(setDate(`${year}-${month}-${day}`));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
@@ -47,8 +48,8 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
         {pickedPlaces.length > 0 &&
           pickedPlaces.map((place) => (
             <S.PlaceTag key={place.id}>
-              <S.Tag>{place.place_name}</S.Tag>
               <SVGIcon icon='XMark' width='1rem' onClick={() => deletePlace(place)} />
+              <S.Tag>{place.place_name}</S.Tag>
             </S.PlaceTag>
           ))}
       </S.PlaceTags>

@@ -7,7 +7,7 @@ import React, {
   createContext,
   Dispatch,
   ReactNode,
-  Ref,
+  RefObject,
   SetStateAction,
   useMemo,
   useRef,
@@ -15,8 +15,8 @@ import React, {
 } from 'react';
 
 interface EditorContextType {
-  titleRef: Ref<HTMLInputElement>;
-  editorRef: Ref<PureEditorContent> | null;
+  titleRef: RefObject<HTMLInputElement> | null;
+  editorRef: RefObject<PureEditorContent> | null;
   storeDiary: () => void;
   thumbnail: string | null;
   setThumbnail: Dispatch<SetStateAction<string | null>>;
