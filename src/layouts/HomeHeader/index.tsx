@@ -27,7 +27,7 @@ const HomeHeader = ({ type, nextUrl, nextDisabled, nextFn }: HomeHeaderProps) =>
     if (nextUrl && nextDisabled) {
       router.push(nextUrl);
     }
-  }, [nextDisabled]);
+  }, [nextDisabled, nextFn]);
 
   return (
     <S.Container>

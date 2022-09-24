@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
+import { ReactNode } from 'react';
 import reactDom from 'react-dom';
 
 interface PortalProps {

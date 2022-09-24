@@ -42,7 +42,7 @@ const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] 
   const [searchedPlaces, setSearchedPlaces] = useState<SearchResultType[]>();
 
   const search = useCallback(async (searchWord: string) => {
-    await navigator.geolocation.getCurrentPosition(({ coords }: GeolocationType) => {
+    navigator.geolocation.getCurrentPosition(({ coords }: GeolocationType) => {
       // console.log(coords);
       const kakao = window.kakao;
       const places = new kakao.maps.services.Places();
@@ -56,13 +56,13 @@ const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] 
         ) => {
           console.log(data, status, pagination);
           if (status === kakao.maps.services.Status.OK) {
-            // console.log(data);
-            setSearchedPlaces(data);
+            setSearchedPlaces(data.filter((place) => place.category_group_code === 'FD6'));
           } else if (status === 'ZERO_RESULT') {
             setSearchedPlaces([]);
           }
         },
         {
+          category_group_code: 'FD6',
           radius: 20000,
           location: new kakao.maps.LatLng(coords.latitude, coords.longitude),
         },

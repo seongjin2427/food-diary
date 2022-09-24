@@ -1,18 +1,15 @@
-import React, { ChangeEvent, useCallback, useContext } from 'react';
+import React, { ChangeEvent, useContext } from 'react';
 import { mergeAttributes, Node, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
-
-import * as S from './CustomImage.styled';
 import { EditorContext } from '@/components/shared/Editor/context/editorContext';
 
-const CustomImage = (props: any) => {
-  const {
-    thumbnail: { setThumbnail },
-  } = useContext(EditorContext);
+import * as S from './CustomImage.styled';
 
-  const onChangeThumbnail = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    console.log('a')
-    setThumbnail(prev => e.target.value);
-  }, []);
+const CustomImage = (props: any) => {
+  const { setThumbnail } = useContext(EditorContext);
+
+  const onChangeThumbnail = (e: ChangeEvent<HTMLInputElement>) => {
+    setThumbnail(e.target.value);
+  };
 
   return (
     <NodeViewWrapper>

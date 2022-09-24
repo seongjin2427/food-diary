@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 import React, { ChangeEvent, useCallback, useContext, useRef } from 'react';
 import { Editor } from '@tiptap/react';
 
@@ -11,9 +12,7 @@ interface EditorFooterProps {
 }
 
 const EditorFooter = ({ editor }: EditorFooterProps) => {
-  const {
-    image: { setImages },
-  } = useContext(EditorContext);
+  const { setImages } = useContext(EditorContext);
 
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -34,11 +33,13 @@ const EditorFooter = ({ editor }: EditorFooterProps) => {
             .createParagraphNear()
             .run();
 
-          setImages((prev) => [...prev, imageFile.id]);
+          setImages((prev) => {
+            return [...prev, imageFile.id + ''];
+          });
         }
       }
     },
-    [editor],
+    [editor, setImages],
   );
 
   return (

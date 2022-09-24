@@ -20,17 +20,6 @@ const DashBoard = ({ editor }: DashBoardProps) => {
     colorPickerRef.current?.click();
   }, []);
 
-  const test = () => {
-    editor
-      .chain()
-      .insertContent(
-        `<custom-image src="${'https://food-diary-s3-bucket.s3.ap-northeast-2.amazonaws.com/images/22/09/19/2209192309115610_1-1.jpg'}" />`,
-      )
-      .createParagraphNear()
-      .focus()
-      .run();
-  };
-
   return (
     <S.Container>
       <S.ButtonBox>
@@ -100,7 +89,6 @@ const DashBoard = ({ editor }: DashBoardProps) => {
               }}
             />
           ))}
-          <SVGIcon icon='AlignCenterIcon' onClick={test} width='1.75rem' height='1.75rem' />
         </S.ButtonArea>
       </S.ButtonBox>
     </S.Container>

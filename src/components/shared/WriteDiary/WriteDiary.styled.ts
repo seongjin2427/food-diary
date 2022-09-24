@@ -17,19 +17,20 @@ export const TagTitle = styled.h1`
 
 export const TagContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.5rem;
   margin-bottom: 2rem;
-  padding: 1rem;
-  border: 1px solid black;
-  border-radius: 1rem;
+  padding: 0.25rem;
 `;
 
-export const TagBox = styled.p`
+export const TagBox = styled.div`
+  display: flex;
   padding: 0.5rem 1rem;
   border-radius: 9999px;
   background: lightblue;
 `;
+
+export const Tag = styled.p``;
 
 export const DiaryTitle = styled.input`
   width: 100%;

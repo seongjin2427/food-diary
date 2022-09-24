@@ -1,5 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
-
 import { setDiaryContent } from '@/store/diary';
 import { useAppDispatch } from '@/store/index';
 import { PureEditorContent } from '@tiptap/react';
@@ -9,8 +9,7 @@ import React, {
   ReactNode,
   Ref,
   SetStateAction,
-  useCallback,
-  useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -19,30 +18,20 @@ interface EditorContextType {
   titleRef: Ref<HTMLInputElement>;
   editorRef: Ref<PureEditorContent> | null;
   storeDiary: () => void;
-  thumbnail: {
-    thumbnail: string | null;
-    setThumbnail: Dispatch<SetStateAction<string | null>>;
-  };
-  image: {
-    images: string[];
-    setImages: Dispatch<SetStateAction<string[]>>;
-  };
-  completeBool: boolean;
+  thumbnail: string | null;
+  setThumbnail: Dispatch<SetStateAction<string | null>>;
+  images: string[];
+  setImages: Dispatch<SetStateAction<string[]>>;
 }
 
 export const EditorContext = createContext<EditorContextType>({
   titleRef: null,
   editorRef: null,
   storeDiary: () => {},
-  thumbnail: {
-    thumbnail: null,
-    setThumbnail: () => {},
-  },
-  image: {
-    images: [],
-    setImages: () => {},
-  },
-  completeBool: false,
+  thumbnail: null,
+  setThumbnail: () => {},
+  images: [],
+  setImages: () => {},
 });
 
 interface EditorProviderProps {
@@ -55,11 +44,11 @@ const EditorProvider = ({ children }: EditorProviderProps) => {
   const editorRef = useRef<PureEditorContent>(null);
   const [thumbnail, setThumbnail] = useState<string | null>('');
   const [images, setImages] = useState<string[]>([]);
-  const [completeBool, setCompleteBool] = useState<boolean>(false);
 
-  const storeDiary = useCallback(() => {
+  const storeDiary = () => {
     const editorContent = editorRef.current!.props.editor!.getHTML();
     const title = titleRef.current!.value;
+
     if (title) {
       const content = {
         title,
@@ -70,28 +59,22 @@ const EditorProvider = ({ children }: EditorProviderProps) => {
       console.log('content', content);
       dispatch(setDiaryContent(content));
     }
-  }, [titleRef, editorRef, images, thumbnail]);
+  };
 
-  return (
-    <EditorContext.Provider
-      value={{
-        titleRef,
-        editorRef,
-        storeDiary,
-        thumbnail: {
-          thumbnail,
-          setThumbnail,
-        },
-        image: {
-          images,
-          setImages,
-        },
-        completeBool,
-      }}
-    >
-      {children}
-    </EditorContext.Provider>
+  const provided = useMemo(
+    () => ({
+      titleRef,
+      editorRef,
+      storeDiary,
+      thumbnail,
+      setThumbnail,
+      images,
+      setImages,
+    }),
+    [titleRef, editorRef, storeDiary, thumbnail, setThumbnail, images, setImages],
   );
+
+  return <EditorContext.Provider value={provided}>{children}</EditorContext.Provider>;
 };
 
 export default React.memo(EditorProvider);

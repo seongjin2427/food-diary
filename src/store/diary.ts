@@ -34,24 +34,26 @@ const diarySlice = createSlice({
     clearPlace: (state) => {
       state.post.places = [];
     },
+    setDate: (state, action: PayloadAction<string>) => {
+      state.post.date = action.payload;
+    },
     setDiaryContent: (
       state,
-      {
-        payload,
-      }: PayloadAction<{
+      action: PayloadAction<{
         title: string;
         content: string;
         thumbnail: string | null;
         images: string[];
       }>,
     ) => {
-      state.post = {
+      const next = {
         ...state.post,
-        title: payload.title,
-        content: payload.content,
-        thumbnail: payload.thumbnail,
-        images: payload.images,
+        title: action.payload.title,
+        content: action.payload.content,
+        thumbnail: action.payload.thumbnail,
+        images: action.payload.images,
       };
+      state.post = next;
     },
     setImages: (state, action: PayloadAction<string>) => {
       state.post.images.push(action.payload);
@@ -59,5 +61,5 @@ const diarySlice = createSlice({
   },
 });
 
-export const { addPlace, removePlace, clearPlace, setDiaryContent } = diarySlice.actions;
+export const { addPlace, removePlace, clearPlace, setDate, setDiaryContent } = diarySlice.actions;
 export default diarySlice.reducer;

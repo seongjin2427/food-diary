@@ -9,18 +9,16 @@ import * as S from './WriteDiary.styled';
 const WriteDiary = () => {
   const currentPost = useAppSelector(({ diary }) => diary.post);
   const { places } = currentPost;
-  const { titleRef, storeDiary } = useContext(EditorContext);
+  const { titleRef } = useContext(EditorContext);
 
   return (
     <S.Container>
-      <button onClick={storeDiary}>테스트</button>
-      <S.TagTitle>
-        <SVGIcon icon='MapPinIcon' width='2rem' height='2rem' />
-        장소
-      </S.TagTitle>
       <S.TagContainer>
         {places.map((place) => (
-          <S.TagBox key={place.id}>{place.place_name}</S.TagBox>
+          <S.TagBox key={place.id}>
+            <SVGIcon icon='MapPinIcon' width='1rem' height='1rem' />
+            <S.Tag>{place.place_name}</S.Tag>
+          </S.TagBox>
         ))}
       </S.TagContainer>
       <S.DiaryTitle placeholder='제목을 입력해주세요' ref={titleRef} />
