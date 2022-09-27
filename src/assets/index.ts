@@ -26,3 +26,10 @@ export { default as QuotesIcon } from './editor/quotes.svg';
 export { default as StrikeIcon } from './editor/strike.svg';
 export { default as TextIcon } from './editor/text.svg';
 export { default as ImageAddIcon } from './editor/image-add.svg';
+
+export { default as RestaurantIcon } from './icons/restaurant.svg';
+export { default as CupIcon } from './icons/cup.svg';
+export { default as PushPinIcon } from './icons/push-pin.svg';
+export { default as CheckIcon } from './icons/check.svg';
+export { default as CirclePlusIcon } from './icons/circle-plus.svg';
+export { default as CircleMinusIcon } from './icons/circle-minus.svg';

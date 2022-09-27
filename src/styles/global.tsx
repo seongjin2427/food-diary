@@ -10,7 +10,7 @@ const GlobalStyle = () => {
         *, *::before, *::after {
           box-sizing: border-box;
         }
-
+        
         body {
           font-family: 'noto sans';
         }

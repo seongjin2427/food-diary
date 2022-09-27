@@ -1,14 +1,16 @@
 import Head from 'next/head';
 import type { AppProps } from 'next/app';
+import { ThemeProvider } from '@emotion/react';
 
 import GlobalStyle from '@/styles/global';
+import theme from '@/styles/theme';
 import { Provider } from 'react-redux';
 import { store } from '@/store/index';
 import EditorProvider from '@/components/shared/Editor/context/editorContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Head>
         <script src='https://developers.kakao.com/sdk/js/kakao.js'></script>
@@ -22,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </EditorProvider>
       </Provider>
-    </>
+    </ThemeProvider>
   );
 }
 
