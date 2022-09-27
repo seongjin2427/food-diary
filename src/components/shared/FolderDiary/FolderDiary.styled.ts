@@ -11,6 +11,7 @@ export const Title = styled.h1`
 `;
 
 export const FolderContainer = styled.div`
+  padding: 0.75rem;
   padding-bottom: 2rem;
 `;
 

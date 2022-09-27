@@ -44,7 +44,7 @@ const AdditionalInfoInput = ({
         {length - 1 === idx && (
           <SVGIcon icon='CirclePlusIcon' width='1.25rem' height='1.5rem' onClick={addInfo} />
         )}
-        {length > 1 && idx !== length - 1 && idx !== 0 && (
+        {length > 1 && idx !== length - 1 && (
           <SVGIcon
             icon='CircleMinusIcon'
             width='1.25rem'

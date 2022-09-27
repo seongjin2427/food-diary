@@ -33,6 +33,7 @@ const FolderSelect = () => {
       icon: 'CupIcon',
     },
   ]);
+  
   const [selectedFolder, setSelectedFolder] = useState<FolderType>();
   const [selectOpen, setSelectOpen] = useState<boolean>(false);
   const [inputMode, setinputMode] = useState<boolean>(false);

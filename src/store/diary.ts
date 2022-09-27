@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { SearchResultType } from '@/hooks/useSearchPlace';
+import { IconKeySet } from '@/components/shared/SVGIcon';
+import { IconColorKeyType } from '@/styles/theme';
 
 interface IDiaryState {
   post: {
@@ -11,10 +13,27 @@ interface IDiaryState {
     images: string[];
     places: SearchResultType[];
   };
+  folder: {
+    id?: string;
+    title: string;
+    color: IconColorKeyType;
+    icon: IconKeySet;
+  }[];
+  additionalInfo: {
+    menu: string;
+    price: number;
+  }[];
 }
 
 const initialState: IDiaryState = {
   post: { date: '', title: '', content: '', thumbnail: null, images: [], places: [] },
+  folder: [],
+  additionalInfo: [
+    {
+      menu: '',
+      price: 0,
+    },
+  ],
 };
 
 const diarySlice = createSlice({
@@ -61,9 +80,40 @@ const diarySlice = createSlice({
     clearDiary: (state) => {
       state.post = initialState.post;
     },
+    addFolder: (
+      state,
+      action: PayloadAction<{
+        title: string;
+        color: IconColorKeyType;
+        icon: IconKeySet;
+      }>,
+    ) => {
+      const { title, color, icon } = action.payload;
+      state.folder.push({ title, color, icon });
+    },
+    addAdditionalInfo: (state) => {
+      state.additionalInfo.push({ menu: '', price: 0 });
+    },
+    setAdditionalInfo: (
+      state,
+      action: PayloadAction<{ idx: number; name: string; value: string }>,
+    ) => {
+      const { idx, name, value } = action.payload;
+      const nextInfo = { ...state.folder[idx], [name]: value };
+      state.folder[idx] = nextInfo;
+    },
   },
 });
 
-export const { addPlace, removePlace, clearPlace, setDate, setDiaryContent, clearDiary } =
-  diarySlice.actions;
+export const {
+  addPlace,
+  removePlace,
+  clearPlace,
+  setDate,
+  setDiaryContent,
+  clearDiary,
+  addFolder,
+  addAdditionalInfo,
+  setAdditionalInfo,
+} = diarySlice.actions;
 export default diarySlice.reducer;
