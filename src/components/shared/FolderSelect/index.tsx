@@ -1,7 +1,7 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, ChangeEvent } from 'react';
 import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
 
-import { FOLDER_COLOR_SET, FOLDER_ICON_SET } from '@/constants/folder';
+import MakeFolder from '@/components/shared/MakeFolder';
 import { IconColorKeyType } from '@/styles/theme';
 import * as S from './FolderSelect.styled';
 
@@ -36,27 +36,25 @@ const FolderSelect = () => {
   const [selectedFolder, setSelectedFolder] = useState<FolderType>();
   const [selectOpen, setSelectOpen] = useState<boolean>(false);
   const [inputMode, setinputMode] = useState<boolean>(false);
-
-  const newFolderRef = useRef<HTMLInputElement>(null);
+  const [newFolderTitle, setNewFolderTitle] = useState<string>('');
 
   const onClickOpenSelect = useCallback(() => {
     setSelectOpen((prev) => !prev);
-    if (selectOpen) {
-      setinputMode(false);
-    }
+    setinputMode(false);
   }, []);
 
   const onClickSelectFolder = useCallback((folder: FolderType) => {
     setSelectedFolder(folder);
     onReset();
-    if (newFolderRef.current) newFolderRef.current.value = '';
+    setNewFolderTitle('');
   }, []);
 
   const onClickConvertInputMode = useCallback(() => {
     setinputMode(true);
-    if (inputMode) {
-      newFolderRef.current?.focus();
-    }
+  }, []);
+
+  const closeSelect = useCallback(() => {
+    onReset();
   }, []);
 
   const onReset = useCallback(() => {
@@ -64,65 +62,66 @@ const FolderSelect = () => {
     setSelectOpen(false);
   }, []);
 
+  const onChangeNewTitle = useCallback(({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    setNewFolderTitle(value);
+  }, []);
+
+  const onClickNewFolderInfo = useCallback(
+    (icon: IconKeySet, color: IconColorKeyType) => {
+      setFolders((prev) => [...prev, { id: '4', icon, color, title: newFolderTitle }]);
+      setinputMode(false);
+      setNewFolderTitle('');
+    },
+    [newFolderTitle],
+  );
+
   return (
     <S.Container>
-      <S.SelectTitle onClick={onClickOpenSelect}>
-        {selectedFolder ? (
-          <>
-            <S.SelectListIcon selectColor={selectedFolder.color}>
-              <SVGIcon icon={selectedFolder?.icon} width='1rem' height='1rem' />
-            </S.SelectListIcon>
-            <S.SelectListTitle>{selectedFolder.title}</S.SelectListTitle>
-          </>
-        ) : (
-          <S.SelectListTitle>폴더를 선택하세요</S.SelectListTitle>
-        )}
-        <SVGIcon icon='ChevronDownIcon' width='1rem' height='1rem' />
-      </S.SelectTitle>
-      <S.SelectListUl isOpen={selectOpen}>
-        {folders.map(({ id, color, icon, title }) => (
-          <S.SelectListLi
-            key={title}
-            value={title}
-            onClick={() => onClickSelectFolder({ id, color, icon, title })}
-          >
-            <S.SelectListIcon selectColor={color}>
-              <SVGIcon icon={icon} width='1rem' height='1rem' />
-            </S.SelectListIcon>
-            <S.SelectListTitle>{title}</S.SelectListTitle>
-            {selectedFolder?.id === id && <SVGIcon icon='CheckIcon' width='1rem' height='1rem' />}
-          </S.SelectListLi>
-        ))}
-        {inputMode ? (
-          <>
-            <S.NewFolderLi>
+      <S.Backdrop onClick={closeSelect} isOpen={selectOpen} />
+      <S.SelectContainer>
+        <S.SelectTitle onClick={onClickOpenSelect}>
+          {selectedFolder ? (
+            <>
+              <S.SelectListIcon selectColor={selectedFolder.color}>
+                <SVGIcon icon={selectedFolder?.icon} width='1rem' height='1rem' />
+              </S.SelectListIcon>
+              <S.SelectListTitle>{selectedFolder.title}</S.SelectListTitle>
+            </>
+          ) : (
+            <S.SelectListTitle>폴더를 선택하세요</S.SelectListTitle>
+          )}
+          <SVGIcon icon='ChevronDownIcon' width='1rem' height='1rem' />
+        </S.SelectTitle>
+        <S.SelectListUl isOpen={selectOpen}>
+          {folders.map(({ id, color, icon, title }) => (
+            <S.SelectListLi
+              key={title}
+              value={title}
+              onClick={() => onClickSelectFolder({ id, color, icon, title })}
+            >
+              <S.SelectListIcon selectColor={color}>
+                <SVGIcon icon={icon} width='1rem' height='1rem' />
+              </S.SelectListIcon>
+              <S.SelectListTitle>{title}</S.SelectListTitle>
+              {selectedFolder?.id === id && <SVGIcon icon='CheckIcon' width='1rem' height='1rem' />}
+            </S.SelectListLi>
+          ))}
+          {inputMode ? (
+            <MakeFolder
+              onChangeNewTitle={onChangeNewTitle}
+              onClickNewFolderInfo={onClickNewFolderInfo}
+              newFolderTitle={newFolderTitle}
+            />
+          ) : (
+            <S.SelectListLi isPlus onClick={onClickConvertInputMode}>
               <S.SelectListIcon>
                 <SVGIcon icon='CirclePlusIcon' width='1.125rem' height='1.125rem' />
               </S.SelectListIcon>
-              <S.NewFolderInput ref={newFolderRef} />
-            </S.NewFolderLi>
-            <S.NewFolderLi>
-              {FOLDER_ICON_SET.map((icon) => (
-                <S.FolderIcon key={icon}>
-                  <SVGIcon icon={icon} width='1.5rem' height='1.5rem' />
-                </S.FolderIcon>
-              ))}
-            </S.NewFolderLi>
-            <S.NewFolderLi>
-              {FOLDER_COLOR_SET.map((color) => (
-                <S.FolderColor key={color} selectColor={color} />
-              ))}
-            </S.NewFolderLi>
-          </>
-        ) : (
-          <S.SelectListLi isPlus onClick={onClickConvertInputMode}>
-            <S.SelectListIcon>
-              <SVGIcon icon='CirclePlusIcon' width='1.125rem' height='1.125rem' />
-            </S.SelectListIcon>
-            <S.SelectListTitle>새 폴더</S.SelectListTitle>
-          </S.SelectListLi>
-        )}
-      </S.SelectListUl>
+              <S.SelectListTitle>새 폴더</S.SelectListTitle>
+            </S.SelectListLi>
+          )}
+        </S.SelectListUl>
+      </S.SelectContainer>
     </S.Container>
   );
 };

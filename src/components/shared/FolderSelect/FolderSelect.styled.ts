@@ -3,9 +3,34 @@ import { css } from '@emotion/react';
 
 import { IconColorKeyType } from '@/styles/theme';
 
-export const Container = styled.div`
+interface IsOpenProps {
+  isOpen: boolean;
+}
+
+export const Container = styled.div``;
+
+export const Backdrop = styled.div<IsOpenProps>`
+  display: none;
+  position: absolute;
+  background: rgba(0, 0, 0, 0);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+
+  ${({ isOpen }) =>
+    isOpen &&
+    css`
+      display: block;
+    `}
+`;
+
+export const SelectContainer = styled.div`
   width: 12rem;
   position: relative;
+  background: white;
+  z-index: 10;
 `;
 
 export const SelectTitle = styled.button`
@@ -19,11 +44,11 @@ export const SelectTitle = styled.button`
   font-size: 1rem;
 `;
 
-interface SelectListUlProps {
-  isOpen: boolean;
+interface SelectListTitleProps {
+  isPlus?: boolean;
 }
 
-export const SelectListUl = styled.ul<SelectListUlProps>`
+export const SelectListUl = styled.ul<IsOpenProps>`
   display: none;
   width: 12rem;
   position: absolute;
@@ -38,10 +63,6 @@ export const SelectListUl = styled.ul<SelectListUlProps>`
       display: block;
     `}
 `;
-
-interface SelectListTitleProps {
-  isPlus?: boolean;
-}
 
 export const SelectListLi = styled.li<SelectListTitleProps>`
   display: flex;
@@ -106,7 +127,9 @@ export const NewFolderLi = styled.li`
   border-top: 0.5px solid #fff;
 `;
 
-export const FolderIcon = styled.div``;
+export const FolderIcon = styled.div`
+  padding: 0.25rem;
+`;
 
 export const FolderColor = styled.div<ColorProps>`
   width: 1.5rem;
