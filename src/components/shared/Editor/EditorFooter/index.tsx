@@ -12,7 +12,7 @@ interface EditorFooterProps {
 }
 
 const EditorFooter = ({ editor }: EditorFooterProps) => {
-  const { setImages } = useContext(EditorContext);
+  const { images, setImages } = useContext(EditorContext);
 
   const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -26,20 +26,19 @@ const EditorFooter = ({ editor }: EditorFooterProps) => {
         const imageFile = await uploadImageFile(e.target.files[0]);
         imageInputRef.current!.value = '';
         if (imageFile) {
+          const { id, src, fileName } = imageFile;
           editor
             ?.chain()
             .focus()
-            .insertContent(`<custom-image src=${imageFile.src} id=${imageFile.id} />`)
+            .insertContent(`<custom-image id=${id} src=${src} />`)
             .createParagraphNear()
             .run();
 
-          setImages((prev) => {
-            return [...prev, imageFile.id + ''];
-          });
+          setImages((prev) => [...prev, { id, src }]);
         }
       }
     },
-    [editor, setImages],
+    [editor, images],
   );
 
   return (

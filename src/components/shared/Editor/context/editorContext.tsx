@@ -14,6 +14,11 @@ import React, {
   useState,
 } from 'react';
 
+interface ImageType {
+  id: string;
+  src: string;
+}
+
 interface EditorContextType {
   editorRef: RefObject<PureEditorContent> | null;
   storeDiary: () => void;
@@ -21,8 +26,8 @@ interface EditorContextType {
   setTitle: Dispatch<SetStateAction<string>>;
   thumbnail: string | null;
   setThumbnail: Dispatch<SetStateAction<string | null>>;
-  images: string[];
-  setImages: Dispatch<SetStateAction<string[]>>;
+  images: ImageType[];
+  setImages: Dispatch<SetStateAction<ImageType[]>>;
 }
 
 export const EditorContext = createContext<EditorContextType>({
@@ -44,7 +49,7 @@ const EditorProvider = ({ children }: EditorProviderProps) => {
   const dispatch = useAppDispatch();
   const editorRef = useRef<PureEditorContent>(null);
   const [thumbnail, setThumbnail] = useState<string | null>('');
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<ImageType[]>([]);
   const [title, setTitle] = useState<string>('');
 
   const storeDiary = () => {

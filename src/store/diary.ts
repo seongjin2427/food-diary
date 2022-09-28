@@ -4,13 +4,18 @@ import { SearchResultType } from '@/hooks/useSearchPlace';
 import { IconKeySet } from '@/components/shared/SVGIcon';
 import { IconColorKeyType } from '@/styles/theme';
 
+interface ImageFileType {
+  id: string;
+  src: string;
+}
+
 interface IDiaryState {
   post: {
     date: string;
     title: string;
     content: string;
     thumbnail: string | null;
-    images: string[];
+    images: ImageFileType[];
     places: SearchResultType[];
   };
   folder: {
@@ -62,7 +67,7 @@ const diarySlice = createSlice({
         title: string;
         content: string;
         thumbnail: string | null;
-        images: string[];
+        images: ImageFileType[];
       }>,
     ) => {
       const next = {
@@ -74,7 +79,7 @@ const diarySlice = createSlice({
       };
       state.post = next;
     },
-    setImages: (state, action: PayloadAction<string>) => {
+    setImage: (state, action: PayloadAction<ImageFileType>) => {
       state.post.images.push(action.payload);
     },
     clearDiary: (state) => {
@@ -111,6 +116,7 @@ export const {
   clearPlace,
   setDate,
   setDiaryContent,
+  setImage,
   clearDiary,
   addFolder,
   addAdditionalInfo,

@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useContext } from 'react';
 import { mergeAttributes, Node, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
-import { EditorContext } from '@/components/shared/Editor/context/editorContext';
 
+import { EditorContext } from '@/components/shared/Editor/context/editorContext';
 import * as S from './CustomImage.styled';
 
 const CustomImage = (props: any) => {

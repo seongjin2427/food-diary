@@ -13,7 +13,7 @@ const DiaryPage: NextPage = () => {
   const router = useRouter();
   const currentPost = useAppSelector(({ diary }) => diary.post);
   const { places } = currentPost;
-  const { storeDiary, title } = useContext(EditorContext);
+  const { storeDiary, title, images } = useContext(EditorContext);
 
   useEffect(() => {
     if (places.length === 0) {
@@ -27,7 +27,7 @@ const DiaryPage: NextPage = () => {
       <Header>
         <CommonHeader
           type='both'
-          nextDisabled={!!title}
+          nextDisabled={!!title && images.length !== 0}
           nextUrl='/write/folder'
           nextFn={storeDiary}
         />

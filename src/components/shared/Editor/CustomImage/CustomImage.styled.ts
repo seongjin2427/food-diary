@@ -7,11 +7,12 @@ export const Container = styled.div`
 
 export const CheckBox = styled.input`
   appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
   position: absolute;
   top: 1rem;
   left: 1rem;
-  width: 1.25rem;
-  height: 1.25rem;
+  background: white;
   margin-right: 0.75rem;
   border: 1px solid black;
 

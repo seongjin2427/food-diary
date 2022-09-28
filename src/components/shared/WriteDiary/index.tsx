@@ -17,6 +17,10 @@ const WriteDiary = () => {
 
   return (
     <S.Container>
+      <S.TagTitle>
+        <SVGIcon icon='RoadMapIcon' width='1.5rem' height='1.5rem' />
+        추가된 위치
+      </S.TagTitle>
       <S.TagContainer>
         {places.map((place) => (
           <S.TagBox key={place.id}>
