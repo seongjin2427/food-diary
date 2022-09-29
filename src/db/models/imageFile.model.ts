@@ -5,6 +5,7 @@ type ImageFileAttributes = {
   id: number;
   fileName: string;
   src: string;
+  fileSrc: string;
 };
 
 type ImageFileCreationAttributes = Optional<ImageFileAttributes, 'id'>;
@@ -13,6 +14,7 @@ class ImageFile extends Model<ImageFileAttributes, ImageFileCreationAttributes> 
   declare id: CreationOptional<number>;
   declare fileName: string;
   declare src: string;
+  declare fileSrc: string;
 }
 
 ImageFile.init(
@@ -26,6 +28,9 @@ ImageFile.init(
       type: new DataTypes.STRING(),
     },
     src: {
+      type: new DataTypes.STRING(),
+    },
+    fileSrc: {
       type: new DataTypes.STRING(),
     },
   },

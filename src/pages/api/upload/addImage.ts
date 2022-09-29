@@ -35,9 +35,13 @@ handler
   .use(uploadFile)
   .post(async (req: NextApiRequest & { [key: string]: any }, res: NextApiResponse) => {
     console.log(req.file);
-    const { originalname, location } = req.file;
+    const { originalname, location, key } = req.file;
 
-    const uploadedImage = await ImageFile.create({ fileName: originalname, src: location });
+    const uploadedImage = await ImageFile.create({
+      fileName: originalname,
+      src: location,
+      fileSrc: key,
+    });
     console.log('uploadedImage', uploadedImage);
     res.status(200).json({ imageFile: uploadedImage });
   });

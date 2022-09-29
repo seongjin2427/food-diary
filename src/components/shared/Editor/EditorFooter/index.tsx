@@ -1,9 +1,10 @@
 /* eslint-disable  @typescript-eslint/no-non-null-assertion */
-import React, { ChangeEvent, useCallback, useContext, useRef } from 'react';
+import React, { ChangeEvent, useCallback, useRef } from 'react';
 import { Editor } from '@tiptap/react';
 
 import { uploadImageFile } from '@/api/diary';
-import { EditorContext } from '@/components/shared/Editor/context/editorContext';
+import { useAppDispatch } from '@/store/index';
+import { addImage } from '@/store/diary/diarySlice';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './EditorFooter.styled';
 
@@ -12,8 +13,7 @@ interface EditorFooterProps {
 }
 
 const EditorFooter = ({ editor }: EditorFooterProps) => {
-  const { images, setImages } = useContext(EditorContext);
-
+  const dispatch = useAppDispatch();
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const onClickAddImage = useCallback(() => {
@@ -34,11 +34,11 @@ const EditorFooter = ({ editor }: EditorFooterProps) => {
             .createParagraphNear()
             .run();
 
-          setImages((prev) => [...prev, { id, src }]);
+          dispatch(addImage({ id, src }));
         }
       }
     },
-    [editor, images],
+    [editor],
   );
 
   return (

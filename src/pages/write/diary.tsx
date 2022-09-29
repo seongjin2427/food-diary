@@ -1,19 +1,20 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import { useAppSelector } from '@/store/index';
 import { EditorContext } from '@/components/shared/Editor/context/editorContext';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
-import WriteDiary from '@/components/shared/WriteDiary';
 import CommonHeader from '@/layouts/CommonHeader';
+import WriteDiary from '@/components/shared/WriteDiary';
 
 const DiaryPage: NextPage = () => {
   const router = useRouter();
-  const currentPost = useAppSelector(({ diary }) => diary.post);
-  const { places } = currentPost;
-  const { storeDiary, title, images } = useContext(EditorContext);
+  const { places, title, images } = useAppSelector(({ diary }) => diary);
+  const { storeDiary } = useContext(EditorContext);
+
+  const [nextPageToggle, setNextPageToggle] = useState<boolean>(false);
 
   useEffect(() => {
     if (places.length === 0) {
@@ -22,12 +23,20 @@ const DiaryPage: NextPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!!title && images.length > 0) {
+      setNextPageToggle(true);
+    } else {
+      setNextPageToggle(false);
+    }
+  }, [title, images]);
+
   return (
     <>
       <Header>
         <CommonHeader
           type='both'
-          nextDisabled={!!title && images.length !== 0}
+          nextDisabled={nextPageToggle}
           nextUrl='/write/folder'
           nextFn={storeDiary}
         />

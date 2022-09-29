@@ -7,7 +7,7 @@ import AdditinalInfo from '@/components/shared/AdditionalInfo';
 import * as S from './FolderDiary.styled';
 
 const FolderDiary = () => {
-  const { places } = useAppSelector(({ diary }) => diary.post);
+  const { places } = useAppSelector(({ diary }) => diary);
 
   return (
     <S.Container>

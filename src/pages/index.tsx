@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { useEffect } from 'react';
 
 import { useAppDispatch } from '@/store/index';
-import { clearDiary } from '@/store/diary';
+import { clearDiary } from '@/store/diary/diarySlice';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
 import HomeHeader from '@/layouts/HomeHeader';
