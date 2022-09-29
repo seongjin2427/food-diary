@@ -2,6 +2,7 @@ import React, { FormEvent, useCallback, useRef } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { addPlace, removePlace, setDiaryByName } from '@/store/diary/diarySlice';
+import { removePlaceInFolder } from '@/store/diary/folderSlice';
 import useSearchPlace, { SearchResultType } from '@/hooks/useSearchPlace';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './SearchPlaces.styled';
@@ -40,6 +41,7 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
 
   const deletePlace = useCallback((place: SearchResultType) => {
     dispatch(removePlace(place));
+    dispatch(removePlaceInFolder(place.id));
   }, []);
 
   return (

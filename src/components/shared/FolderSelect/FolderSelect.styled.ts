@@ -7,7 +7,10 @@ interface IsOpenProps {
   isOpen: boolean;
 }
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100%;
+  margin-left: 0.5rem;
+`;
 
 export const Backdrop = styled.div<IsOpenProps>`
   display: none;
@@ -27,21 +30,25 @@ export const Backdrop = styled.div<IsOpenProps>`
 `;
 
 export const SelectContainer = styled.div`
-  width: 12rem;
+  width: 2.25rem;
   position: relative;
   background: white;
-  z-index: 10;
+  /* z-index: 10; */
 `;
 
-export const SelectTitle = styled.button`
+export const SelectTitle = styled.button<IsOpenProps>`
   width: 100%;
   display: flex;
   align-items: center;
-  background: none;
-  padding: 0.5rem 1rem;
+  justify-content: center;
+  background: white;
+  padding: 0.5rem;
   border: 1px solid black;
   border-radius: 0.25rem;
-  font-size: 1rem;
+
+  ${({isOpen}) => isOpen && css`
+    background: #ffbbaa;
+  `}
 `;
 
 interface SelectListTitleProps {
@@ -52,10 +59,12 @@ export const SelectListUl = styled.ul<IsOpenProps>`
   display: none;
   width: 12rem;
   position: absolute;
-  background: lightblue;
-  top: 2.75rem;
+  background: lightsalmon;
+  top: 2.25rem;
+  right: 0;
   border-radius: 0.25rem;
   overflow: hidden;
+  z-index: 10;
 
   ${({ isOpen }) =>
     isOpen &&
@@ -67,7 +76,7 @@ export const SelectListUl = styled.ul<IsOpenProps>`
 export const SelectListLi = styled.li<SelectListTitleProps>`
   display: flex;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 0.75rem 0.75rem 0.5rem;
 
   :not(:first-of-type) {
     border-top: 0.5px solid #fff;
@@ -102,7 +111,7 @@ export const SelectListIcon = styled.div<ColorProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 0.375rem;
+  margin: 0 0.375rem;
 
   svg {
     fill: ${({ theme, selectColor = 'black' }) => selectColor && theme.iconColor[selectColor]};

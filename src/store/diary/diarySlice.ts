@@ -11,9 +11,10 @@ interface IDiaryState {
   date: string;
   title: string;
   content: string;
-  thumbnail: string | null;
-  images: ImageFileType[];
+  thumbnail: string;
   places: SearchResultType[];
+  images: ImageFileType[];
+  tempImages: ImageFileType[];
   [key: string]: string | null | SearchResultType[] | ImageFileType[];
 }
 
@@ -21,9 +22,10 @@ const initialState: IDiaryState = {
   date: '',
   title: '',
   content: '',
-  thumbnail: null,
-  images: [],
+  thumbnail: '',
   places: [],
+  images: [],
+  tempImages: [],
 };
 
 const diarySlice = createSlice({
@@ -39,8 +41,11 @@ const diarySlice = createSlice({
     removePlace: (state, action: PayloadAction<SearchResultType>) => {
       state.places = state.places.filter((pc) => pc.id !== action.payload.id);
     },
-    clearPlace: (state) => {
-      state.places = [];
+    addTempPlace: (state, action: PayloadAction<SearchResultType>) => {
+      const index = state.places.findIndex((place) => place.id === action.payload.id);
+      if (index < 0) {
+        state.places.push(action.payload);
+      }
     },
     addImage: (state, action: PayloadAction<ImageFileType>) => {
       const index = state.images.findIndex(({ id: imgId }) => imgId === action.payload.id);
@@ -51,6 +56,15 @@ const diarySlice = createSlice({
     },
     removeImage: (state, action: PayloadAction<string>) => {
       state.images = state.images.filter((img) => img.id !== action.payload);
+    },
+    addTempImage: (state, action: PayloadAction<ImageFileType>) => {
+      const index = state.tempImages.findIndex(({ id: imgId }) => imgId === action.payload.id);
+      if (index < 0) {
+        state.tempImages.push(action.payload);
+      }
+    },
+    removeTempImage: (state, action: PayloadAction<string>) => {
+      state.tempImages = state.tempImages.filter((img) => img.id !== action.payload);
     },
     setDiaryByName: (
       state,
@@ -68,9 +82,11 @@ const diarySlice = createSlice({
 export const {
   addPlace,
   removePlace,
-  clearPlace,
+  addTempPlace,
   addImage,
   removeImage,
+  addTempImage,
+  removeTempImage,
   setDiaryByName,
   clearDiary,
 } = diarySlice.actions;

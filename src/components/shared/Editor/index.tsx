@@ -12,7 +12,7 @@ import TaskItem from '@tiptap/extension-task-item';
 import Image from '@tiptap/extension-image';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
-import { addImage, removeImage } from '@/store/diary/diarySlice';
+import { addImage, addTempImage, removeImage, removeTempImage } from '@/store/diary/diarySlice';
 import DashBoard from '@/components/shared/Editor/DashBoard';
 import EditorBody from '@/components/shared/Editor/EditorBody';
 import CustomImage from '@/components/shared/Editor/CustomImage';
@@ -20,21 +20,17 @@ import Portal from '@/components/shared/Portal';
 import EditorFooter from '@/components/shared/Editor/EditorFooter';
 import * as S from './Editor.styled';
 
-interface ImageFileType {
-  id: string;
-  src: string;
-}
-
 const Editor = () => {
   const dispatch = useAppDispatch();
-  const { content, images } = useAppSelector(({ diary }) => diary);
-
+  const { content, images, tempImages } = useAppSelector(({ diary }) => diary);
   const [editorContent, setEditorContent] = useState<string>('');
-  const [readyToRemoveImages, setReadyToRemoveImages] = useState<ImageFileType[]>([]);
 
   useEffect(() => {
     if (!editorContent) return;
 
+    console.log('a');
+    console.log(images);
+    console.log(tempImages);
     if (images.length > 0) {
       images.forEach(({ id, src }) => {
         const watchImg = editorContent.includes(src);
@@ -42,27 +38,27 @@ const Editor = () => {
           const removedImg = images.find(({ id: nid }) => nid === id);
 
           if (removedImg) {
-            setReadyToRemoveImages((prev) => [...prev, removedImg]);
+            dispatch(addTempImage(removedImg));
             dispatch(removeImage(id));
           }
         }
       });
     }
-    if (readyToRemoveImages.length > 0) {
-      readyToRemoveImages.forEach(({ id, src }) => {
+    if (tempImages.length > 0) {
+      tempImages.forEach(({ id, src }) => {
         const watchImg = editorContent.includes(src);
 
         if (watchImg) {
-          const toRestoreImg = readyToRemoveImages.find(({ id: nid }) => nid === id);
+          const toRestoreImg = tempImages.find(({ id: nid }) => nid === id);
 
           if (toRestoreImg) {
             dispatch(addImage(toRestoreImg));
-            setReadyToRemoveImages((prev) => prev.filter(({ id: nid }) => nid !== id));
+            dispatch(removeTempImage(id));
           }
         }
       });
     }
-  }, [editorContent, readyToRemoveImages, images]);
+  }, [editorContent, tempImages, images]);
 
   const editor = useEditor({
     extensions: [

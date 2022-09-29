@@ -17,14 +17,22 @@ export const FolderContainer = styled.div`
 
 export const FolderSelectArea = styled.div`
   display: flex;
+  align-items: center;
   justify-content: flex-end;
-  margin-bottom: 2rem;
 `;
 
-export const TagContainer = styled.div`
+export const FolderTagArea = styled.div`
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+`;
+
+export const FolderArea = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const TagBox = styled.div`
@@ -36,7 +44,12 @@ export const TagBox = styled.div`
   border-radius: 9999px;
 `;
 
-export const Tag = styled.div``;
+export const Tag = styled.div`
+  max-width: 15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 
 export const AdditionalInfoContainer = styled.div`
   width: 100%;

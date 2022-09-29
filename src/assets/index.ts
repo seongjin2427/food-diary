@@ -28,6 +28,7 @@ export { default as StrikeIcon } from './editor/strike.svg';
 export { default as TextIcon } from './editor/text.svg';
 export { default as ImageAddIcon } from './editor/image-add.svg';
 
+export { default as FolderIcon } from './icons/folder.svg';
 export { default as RestaurantIcon } from './icons/restaurant.svg';
 export { default as CupIcon } from './icons/cup.svg';
 export { default as PushPinIcon } from './icons/push-pin.svg';

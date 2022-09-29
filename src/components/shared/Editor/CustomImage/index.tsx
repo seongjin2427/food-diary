@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { useCallback, ChangeEvent } from 'react';
 import { mergeAttributes, Node, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
@@ -13,6 +13,10 @@ const CustomImage = (props: any) => {
     dispatch(setDiaryByName({ name: 'thumbnail', value }));
   };
 
+  const checkExistThumbnail = useCallback(() => {
+    if (+thumbnail === +props.node.attrs.id) return true;
+  }, [thumbnail]);
+
   return (
     <NodeViewWrapper>
       <S.Container>
@@ -21,7 +25,8 @@ const CustomImage = (props: any) => {
           name='image'
           value={props.node.attrs.id}
           onChange={onChangeThumbnail}
-          checked={thumbnail ? +thumbnail === props.node.attrs.id : undefined}
+          // checked={undefined}
+          defaultChecked={+thumbnail === +props.node.attrs.id}
         />
         <S.Image src={props.node.attrs.src} />
       </S.Container>
