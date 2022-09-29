@@ -1,40 +1,36 @@
-import { useState, useCallback, ChangeEvent } from 'react';
+import { useCallback, ChangeEvent } from 'react';
 
+import {
+  addAdditionalInfo,
+  removeAdditionalInfo,
+  setAdditionalInfo,
+  setMemo,
+} from '@/store/diary/additionalInfoSlice';
+import { useAppDispatch, useAppSelector } from '@/store/index';
 import AdditionalInfoInput from '@/components/shared/AdditionalInfoInput';
 import * as S from './AdditionalInfo.styled';
 
-interface AdditionalInfoType {
-  menu: string;
-  price: number;
-}
-
 const AdditinalInfo = () => {
-  const [additionalMemo, setAdditionalMemo] = useState<string>('');
-  const [additionalMenu, setAdditionalMenu] = useState<AdditionalInfoType[]>([
-    { menu: '', price: 0 },
-  ]);
+  const dispatch = useAppDispatch();
+  const { menus, memo } = useAppSelector(({ addInitionalInfo }) => addInitionalInfo);
 
   const onChange = useCallback(
     ({ target: { name, value } }: ChangeEvent<HTMLInputElement>, idx: number) => {
-      setAdditionalMenu((prev) => {
-        const arr = [...prev];
-        arr[idx] = { ...arr[idx], [name]: value };
-        return arr;
-      });
+      dispatch(setAdditionalInfo({ idx, name, value }));
     },
-    [additionalMenu],
+    [],
   );
 
   const addInfo = useCallback(() => {
-    setAdditionalMenu((prev) => [...prev, { menu: '', price: 0 }]);
+    dispatch(addAdditionalInfo());
   }, []);
 
   const removeInfo = useCallback((idx: number) => {
-    setAdditionalMenu((prev) => [...prev].filter((_, infoIdx) => infoIdx !== idx));
+    dispatch(removeAdditionalInfo(idx));
   }, []);
 
   const onChangeMemo = useCallback(({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) => {
-    setAdditionalMemo(value);
+    dispatch(setMemo(value));
   }, []);
 
   return (
@@ -47,14 +43,14 @@ const AdditinalInfo = () => {
         <S.InfoArea>
           <S.InfoSubject>메뉴</S.InfoSubject>
           <S.InfoInputsContainer>
-            {additionalMenu.map(({ menu, price }, idx) => (
+            {menus.map(({ menu, price }, idx) => (
               <AdditionalInfoInput
                 key={idx}
                 info={{ menu, price, idx }}
                 onChange={onChange}
                 addInfo={addInfo}
                 removeInfo={removeInfo}
-                length={additionalMenu.length}
+                length={menus.length}
               />
             ))}
           </S.InfoInputsContainer>
@@ -62,7 +58,7 @@ const AdditinalInfo = () => {
         <S.InfoArea>
           <S.InfoSubject>메모</S.InfoSubject>
           <S.InfoMemoArea>
-            <S.InfoTextarea onChange={onChangeMemo} value={additionalMemo} />
+            <S.InfoTextarea onChange={onChangeMemo} value={memo} />
           </S.InfoMemoArea>
         </S.InfoArea>
       </S.InfoContainer>

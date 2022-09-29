@@ -11,7 +11,7 @@ export const store = configureStore({
     global: GlobalReducer,
     diary: DiaryReducer,
     folder: FolderReducer,
-    additionalInfo: AdditinoalInfoReducer,
+    addInitionalInfo: AdditinoalInfoReducer,
   },
 });
 
