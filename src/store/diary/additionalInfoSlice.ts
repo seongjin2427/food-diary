@@ -31,10 +31,19 @@ const additionalInfoSlice = createSlice({
     setMemo: (state, action: PayloadAction<string>) => {
       state.memo = action.payload;
     },
+    clearAdditionalInfo: (state) => {
+      state.memo = '';
+      state.menus = [{ menu: '', price: 0 }];
+    },
   },
 });
 
-export const { addAdditionalInfo, setAdditionalInfo, removeAdditionalInfo, setMemo } =
-  additionalInfoSlice.actions;
+export const {
+  addAdditionalInfo,
+  setAdditionalInfo,
+  removeAdditionalInfo,
+  setMemo,
+  clearAdditionalInfo,
+} = additionalInfoSlice.actions;
 
 export default additionalInfoSlice.reducer;

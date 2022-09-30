@@ -47,6 +47,7 @@ const folderSlice = createSlice({
   },
 });
 
-export const { addFolder, addPlaceInFolder, removePlaceInFolder } = folderSlice.actions;
+export const { addFolder, addPlaceInFolder, removePlaceInFolder } =
+  folderSlice.actions;
 
 export default folderSlice.reducer;

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import { useAppDispatch } from '@/store/index';
 import { clearDiary } from '@/store/diary/diarySlice';
+import { clearAdditionalInfo } from '@/store/diary/additionalInfoSlice';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
 import HomeHeader from '@/layouts/HomeHeader';
@@ -12,8 +13,11 @@ const Home: NextPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(clearDiary());
-  }, []);
+    return () => {
+      dispatch(clearDiary());
+      dispatch(clearAdditionalInfo());
+    };
+  });
 
   return (
     <>

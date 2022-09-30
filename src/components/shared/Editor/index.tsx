@@ -28,9 +28,6 @@ const Editor = () => {
   useEffect(() => {
     if (!editorContent) return;
 
-    console.log('a');
-    console.log(images);
-    console.log(tempImages);
     if (images.length > 0) {
       images.forEach(({ id, src }) => {
         const watchImg = editorContent.includes(src);

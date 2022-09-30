@@ -74,7 +74,13 @@ const diarySlice = createSlice({
       state[name] = value;
     },
     clearDiary: (state) => {
-      state = initialState;
+      state.date = '';
+      state.title = '';
+      state.content = '';
+      state.thumbnail = '';
+      state.places = [];
+      state.images = [];
+      state.tempImages = [];
     },
   },
 });
