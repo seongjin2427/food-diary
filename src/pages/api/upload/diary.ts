@@ -1,7 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { saveDiary, saveFolder } from '@/db/utils/diary';
+import nc from 'next-connect';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+import { saveDiary, saveFolder } from '@/db/utils/diary';
+import authToken from '@/server/middlewares/use-token';
+
+const handler = nc();
+
+handler.use(authToken).post(async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { diary, folder, additionalInfo } = req.body;
     console.log(diary);
@@ -13,6 +18,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.json({ message: 'Success!' });
   }
-};
+});
 
 export default handler;

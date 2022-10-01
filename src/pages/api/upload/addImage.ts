@@ -6,6 +6,7 @@ import moment from 'moment';
 
 import s3, { configKey } from '@/server/utils/aws-s3';
 import ImageFile from '@/db/models/imageFile.model';
+import authToken from '@/server/middlewares/use-token';
 
 const handler = nc();
 
@@ -32,6 +33,7 @@ const upload = multer({
 const uploadFile = upload.single('img');
 
 handler
+  .use(authToken)
   .use(uploadFile)
   .post(async (req: NextApiRequest & { [key: string]: any }, res: NextApiResponse) => {
     console.log(req.file);

@@ -1,3 +1,4 @@
+import Folder from '@/db/models/folder.models';
 import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
 import sequelize from '../connection';
 
@@ -51,10 +52,18 @@ User.init(
     refresh_token: new DataTypes.STRING(256),
   },
   {
-    tableName: 'users',
+    tableName: 'user',
     sequelize,
     timestamps: true,
   },
 );
+
+User.hasMany(Folder);
+Folder.belongsTo(User);
+
+User.sync();
+Folder.sync();
+// User.sync({ force: true });
+// Folder.sync({ force: true});
 
 export default User;

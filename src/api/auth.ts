@@ -28,7 +28,7 @@ export const userCheck = async (userData: UserInformationType, token: TokenType)
 
 export const userLoginApi = async (userData: UserInformationType, token: TokenType) => {
   try {
-    const { data } = await instance.post<UserCheckResponseType>('/api/auth/check', {
+    const { data } = await instance.post<UserCheckResponseType>('/api/auth/login', {
       userData,
       token,
     });

@@ -1,3 +1,4 @@
+import User from '@/db/models/user.model';
 import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
 
 import sequelize from '../connection';
