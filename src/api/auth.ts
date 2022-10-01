@@ -1,3 +1,5 @@
+import { UserAttributes } from '@/db/models/user.model';
+import { TokenType } from '@/hooks/useUserInformation';
 import instance from './instance';
 
 interface UserInformationType {
@@ -7,9 +9,16 @@ interface UserInformationType {
   gender: string;
 }
 
-export const userCheck = async (email: string) => {
+interface UserCheckResponseType {
+  result: UserAttributes;
+}
+
+export const userCheck = async (userData: UserInformationType, token: TokenType) => {
   try {
-    const { data } = await instance.post('/api/auth/check', { email });
+    const { data } = await instance.post<UserCheckResponseType>('/api/auth/check', {
+      userData,
+      token,
+    });
     return data.result;
   } catch (e) {
     console.log(e);
@@ -17,11 +26,15 @@ export const userCheck = async (email: string) => {
   }
 };
 
-export const userLogin = async (userInfo: UserInformationType) => {
+export const userLoginApi = async (userData: UserInformationType, token: TokenType) => {
   try {
-    const { data } = await instance.post('/api/auth/login', { userInfo });
-    console.log(data);
+    const { data } = await instance.post<UserCheckResponseType>('/api/auth/check', {
+      userData,
+      token,
+    });
+    return data.result;
   } catch (e) {
     console.log(e);
+    return null;
   }
 };

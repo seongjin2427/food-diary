@@ -1,14 +1,14 @@
 import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
 import sequelize from '../connection';
 
-type UserAttributes = {
+export type UserAttributes = {
   id: number;
   nickname: string;
   email: string;
   birthday?: string;
   gender: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  access_token: string;
+  refresh_token: string;
 };
 
 type UserCreationAttribues = Optional<UserAttributes, 'id'>;
@@ -19,9 +19,8 @@ class User extends Model<UserAttributes, UserCreationAttribues> {
   declare email: string | null;
   declare birthday: string | null;
   declare gender: string;
-
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
+  declare access_token: string;
+  declare refresh_token: string;
 }
 
 User.init(
@@ -48,18 +47,13 @@ User.init(
     gender: {
       type: new DataTypes.STRING(10),
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
+    access_token: new DataTypes.STRING(256),
+    refresh_token: new DataTypes.STRING(256),
   },
   {
     tableName: 'users',
     sequelize,
+    timestamps: true,
   },
 );
 
