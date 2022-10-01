@@ -1,28 +1,49 @@
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
 
-import { useAppDispatch } from '@/store/index';
+import { useAppDispatch, useAppSelector } from '@/store/index';
 import { clearDiary } from '@/store/diary';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
 import HomeHeader from '@/layouts/HomeHeader';
 import Calendar from '@/components/shared/Calendar';
+import Login from '@/components/shared/Login';
+import { userLogin } from '@/store/global';
 
 const Home: NextPage = () => {
+  const { isLogin } = useAppSelector(({ global }) => global);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(clearDiary());
   }, []);
 
+  useEffect(() => {
+    const authKey = localStorage.getItem('Authorization');
+    if (authKey) {
+      dispatch(userLogin());
+    }
+  }, []);
+
   return (
     <>
-      <Header>
-        <HomeHeader type='home' />
-      </Header>
-      <MainLayout>
-        <Calendar />
-      </MainLayout>
+      {isLogin && (
+        <>
+          <Header>
+            <HomeHeader type='home' />
+          </Header>
+          <MainLayout>
+            <Calendar />
+          </MainLayout>
+        </>
+      )}
+      {!isLogin && (
+        <>
+          <MainLayout>
+            <Login />
+          </MainLayout>
+        </>
+      )}
     </>
   );
 };
