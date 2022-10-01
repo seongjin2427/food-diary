@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface IAdditionalInfoState {
+export interface IAdditionalInfoState {
   menus: {
     menu: string;
     price: number;
@@ -11,7 +11,7 @@ interface IAdditionalInfoState {
 const initialState: IAdditionalInfoState = { menus: [{ menu: '', price: 0 }], memo: '' };
 
 const additionalInfoSlice = createSlice({
-  name: 'addInitionalInfo',
+  name: 'additionalInfo',
   initialState,
   reducers: {
     addAdditionalInfo: (state) => {

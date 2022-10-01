@@ -26,15 +26,15 @@ const EditorFooter = ({ editor }: EditorFooterProps) => {
         const imageFile = await uploadImageFile(e.target.files[0]);
         imageInputRef.current!.value = '';
         if (imageFile) {
-          const { id, src, fileName } = imageFile;
+          const { img_id, src, fileName } = imageFile;
           editor
             ?.chain()
             .focus()
-            .insertContent(`<custom-image id=${id} src=${src} />`)
+            .insertContent(`<custom-image id=${img_id} src=${src} />`)
             .createParagraphNear()
             .run();
 
-          dispatch(addImage({ id, src }));
+          dispatch(addImage({ id: img_id, src }));
         }
       }
     },

@@ -1,17 +1,17 @@
-import sequelize from '@/db/connection';
 import { CreationOptional, DataTypes, Model, Optional } from 'sequelize';
+import sequelize from '@/db/connection';
 
 type ImageFileAttributes = {
-  id: number;
+  img_id: number;
   fileName: string;
   src: string;
   fileSrc: string;
 };
 
-type ImageFileCreationAttributes = Optional<ImageFileAttributes, 'id'>;
+type ImageFileCreationAttributes = Optional<ImageFileAttributes, 'img_id'>;
 
 class ImageFile extends Model<ImageFileAttributes, ImageFileCreationAttributes> {
-  declare id: CreationOptional<number>;
+  declare img_id: CreationOptional<number>;
   declare fileName: string;
   declare src: string;
   declare fileSrc: string;
@@ -19,7 +19,7 @@ class ImageFile extends Model<ImageFileAttributes, ImageFileCreationAttributes> 
 
 ImageFile.init(
   {
-    id: {
+    img_id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
@@ -40,5 +40,7 @@ ImageFile.init(
     timestamps: true,
   },
 );
+
+ImageFile.sync();
 
 export default ImageFile;

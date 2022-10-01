@@ -12,13 +12,13 @@ import * as S from './AdditionalInfo.styled';
 
 const AdditinalInfo = () => {
   const dispatch = useAppDispatch();
-  const { menus, memo } = useAppSelector(({ addInitionalInfo }) => addInitionalInfo);
+  const { menus, memo } = useAppSelector(({ additionalInfo }) => additionalInfo);
 
   const onChange = useCallback(
     ({ target: { name, value } }: ChangeEvent<HTMLInputElement>, idx: number) => {
       dispatch(setAdditionalInfo({ idx, name, value }));
     },
-    [],
+    [menus],
   );
 
   const addInfo = useCallback(() => {
@@ -31,7 +31,7 @@ const AdditinalInfo = () => {
 
   const onChangeMemo = useCallback(({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(setMemo(value));
-  }, []);
+  }, [memo]);
 
   return (
     <S.Container>

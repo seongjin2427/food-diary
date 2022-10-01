@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { SearchResultType } from '@/hooks/useSearchPlace';
 
-interface ImageFileType {
+export interface ImageFileType {
   id: string;
   src: string;
 }
 
-interface IDiaryState {
+export interface IDiaryState {
   date: string;
   title: string;
   content: string;
