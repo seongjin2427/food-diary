@@ -1,17 +1,17 @@
-import User from '@/db/models/user.model';
+import models from '@/db/index';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 
 const handler = nc();
 
 export default handler.post<NextApiRequest, NextApiResponse>(async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   const { email } = req.body.userData;
   const { access_token, refresh_token } = req.body.token;
-  console.log(access_token, refresh_token);
+  // console.log(access_token, refresh_token);
 
-  let result = await User.findOne({
+  let result = await models.User.findOne({
     where: {
       email,
     },
@@ -20,7 +20,7 @@ export default handler.post<NextApiRequest, NextApiResponse>(async (req, res) =>
   console.log('before', result);
 
   if (!result) {
-    result = await User.create({ ...req.body.userData, access_token, refresh_token });
+    result = await models.User.create({ ...req.body.userData, access_token, refresh_token });
   } else {
     await result.update({ access_token, refresh_token });
   }

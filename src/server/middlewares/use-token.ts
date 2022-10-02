@@ -1,3 +1,4 @@
+import models from '@/db/index';
 import User from '@/db/models/user.model';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextHandler } from 'next-connect';
@@ -10,7 +11,7 @@ const authToken = async (req: NextApiExpanededRequest, res: NextApiResponse, nex
   const cookie = req.headers.cookie;
   const token = cookie?.split('=')[1];
 
-  const foundUser = await User.findOne({ where: { $refresh_token$: token } });
+  const foundUser = await models.User.findOne({ where: { $refresh_token$: token } });
   console.log('headers', foundUser);
   if (foundUser) {
     req.user = foundUser;

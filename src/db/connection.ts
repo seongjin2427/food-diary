@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import config from './config/config';
 
-const db = {};
 let sequelize = new Sequelize(config.development);
 
 if (process.env.NODE_ENV === 'production') {
@@ -9,8 +8,6 @@ if (process.env.NODE_ENV === 'production') {
 } else if (process.env.NODE_ENV === 'test') {
   sequelize = new Sequelize(config.test);
 }
-
-
 
 
 export default sequelize;

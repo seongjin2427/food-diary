@@ -1,5 +1,14 @@
 import User from '@/db/models/user.model';
-import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
+import {
+  Model,
+  DataTypes,
+  Optional,
+  CreationOptional,
+  ForeignKey,
+  InferAttributes,
+  InferCreationAttributes,
+  NonAttribute,
+} from 'sequelize';
 
 import sequelize from '../connection';
 
@@ -13,12 +22,18 @@ type FolderAttributes = {
 
 type FolderCreationAttribues = Optional<FolderAttributes, 'fid'>;
 
-class Folder extends Model<FolderAttributes, FolderCreationAttribues> {
+class Folder extends Model<InferAttributes<Folder>, InferCreationAttributes<Folder>> {
   declare fid: CreationOptional<number>;
   declare f_title: string;
   declare f_icon: string;
   declare f_color: string;
   declare f_places: string;
+
+  declare userId: ForeignKey<User['id']>;
+  declare user?: NonAttribute<User>;
+
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 
 Folder.init(
@@ -29,18 +44,20 @@ Folder.init(
       primaryKey: true,
     },
     f_title: {
-      type: new DataTypes.STRING(128),
+      type: DataTypes.STRING(128),
       allowNull: false,
     },
     f_icon: {
-      type: new DataTypes.STRING(128),
+      type: DataTypes.STRING(128),
       allowNull: false,
     },
     f_color: {
-      type: new DataTypes.STRING(128),
+      type: DataTypes.STRING(128),
       allowNull: false,
     },
-    f_places: new DataTypes.STRING(128),
+    f_places: DataTypes.STRING(128),
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   {
     tableName: 'folder',
@@ -48,7 +65,5 @@ Folder.init(
     timestamps: true,
   },
 );
-
-Folder.sync();
 
 export default Folder;
