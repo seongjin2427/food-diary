@@ -13,6 +13,7 @@ const authToken = async (req: NextApiExpanededRequest, res: NextApiResponse, nex
 
   const foundUser = await models.User.findOne({ where: { $refresh_token$: token } });
   console.log('headers', foundUser);
+
   if (foundUser) {
     req.user = foundUser;
     next();

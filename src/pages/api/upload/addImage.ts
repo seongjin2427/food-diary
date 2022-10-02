@@ -5,8 +5,8 @@ import multerS3, { AUTO_CONTENT_TYPE } from 'multer-s3';
 import moment from 'moment';
 
 import s3, { configKey } from '@/server/utils/aws-s3';
-import ImageFile from '@/db/models/imageFile.model';
 import authToken from '@/server/middlewares/use-token';
+import models from '@/db/index';
 
 const handler = nc();
 
@@ -39,7 +39,7 @@ handler
     console.log(req.file);
     const { originalname, location, key } = req.file;
 
-    const uploadedImage = await ImageFile.create({
+    const uploadedImage = await models.ImageFile.create({
       fileName: originalname,
       src: location,
       fileSrc: key,

@@ -17,6 +17,7 @@ handler.use(authToken).post(async (req: NextApiExpanededRequest, res: NextApiRes
         f_title: title,
         f_places: JSON.stringify(places),
       });
+
       res.status(201).json({ message: 'Success!' });
     }
   } catch (err) {

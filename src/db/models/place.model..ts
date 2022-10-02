@@ -1,28 +1,17 @@
-import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
+import {
+  Model,
+  DataTypes,
+  CreationOptional,
+  ForeignKey,
+  NonAttribute,
+  InferAttributes,
+  InferCreationAttributes,
+} from 'sequelize';
 
 import sequelize from '../connection';
+import Diary from '@/db/models/diary.model';
 
-type PlaceAttributes = {
-  pid: number;
-  place_id: string;
-  address_name: string;
-  category_group_code: string;
-  category_group_name: string;
-  category_name: string;
-  distance: string;
-  phone: string;
-  place_name: string;
-  place_url: string;
-  road_address_name: string;
-  x: string;
-  y: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-};
-
-type PlaceCreationAttribues = Optional<PlaceAttributes, 'pid'>;
-
-class Place extends Model<PlaceAttributes, PlaceCreationAttribues> {
+class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>> {
   declare pid: CreationOptional<number>;
   declare place_id: string;
   declare address_name: string;
@@ -36,6 +25,10 @@ class Place extends Model<PlaceAttributes, PlaceCreationAttribues> {
   declare road_address_name: string;
   declare x: string;
   declare y: string;
+
+  declare diaryId: ForeignKey<Diary['did']>;
+  declare diary?: NonAttribute<Diary>;
+
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -47,33 +40,26 @@ Place.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    place_id: new DataTypes.STRING(128),
-    address_name: new DataTypes.STRING(128),
-    category_group_code: new DataTypes.STRING(),
-    category_group_name: new DataTypes.STRING(128),
-    category_name: new DataTypes.STRING(128),
-    distance: new DataTypes.STRING(128),
-    phone: new DataTypes.STRING(128),
-    place_name: new DataTypes.STRING(128),
-    place_url: new DataTypes.STRING(128),
-    road_address_name: new DataTypes.STRING(128),
-    x: new DataTypes.STRING(128),
-    y: new DataTypes.STRING(128),
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
+    place_id: DataTypes.STRING(128),
+    address_name: DataTypes.STRING(128),
+    category_group_code: DataTypes.STRING(),
+    category_group_name: DataTypes.STRING(128),
+    category_name: DataTypes.STRING(128),
+    distance: DataTypes.STRING(128),
+    phone: DataTypes.STRING(128),
+    place_name: DataTypes.STRING(128),
+    place_url: DataTypes.STRING(128),
+    road_address_name: DataTypes.STRING(128),
+    x: DataTypes.STRING(128),
+    y: DataTypes.STRING(128),
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   {
     tableName: 'place',
     sequelize,
+    timestamps: true,
   },
 );
-
-Place.sync();
 
 export default Place;

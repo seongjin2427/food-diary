@@ -1,31 +1,76 @@
-import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
+import {
+  Model,
+  DataTypes,
+  CreationOptional,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManySetAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManyHasAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  NonAttribute,
+  Association,
+  InferAttributes,
+  InferCreationAttributes,
+  ForeignKey,
+} from 'sequelize';
 
 import sequelize from '../connection';
+import ImageFile from '@/db/models/imageFile.model';
+import Place from '@/db/models/place.model.';
+import User from '@/db/models/user.model';
 
-type DiaryAttributes = {
-  did: number;
-  d_title: string;
-  d_content: string;
-  d_date: string;
-  d_places: string;
-  d_thumbnail: string;
-  d_images: string;
-  d_menus: string;
-  d_memo: string;
-};
-
-type DiaryCreationAttribues = Optional<DiaryAttributes, 'did'>;
-
-class Diary extends Model<DiaryAttributes, DiaryCreationAttribues> {
+class Diary extends Model<
+  InferAttributes<Diary, { omit: 'imagefiles' & ' places' }>,
+  InferCreationAttributes<Diary, { omit: 'imagefiles' & ' places' }>
+> {
   declare did: CreationOptional<number>;
   declare d_title: string;
   declare d_content: string;
   declare d_date: string;
-  declare d_places: string;
   declare d_thumbnail: string;
-  declare d_images: string;
   declare d_menus: string;
   declare d_memo: string;
+
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+
+  declare getImageFiles: HasManyGetAssociationsMixin<ImageFile>; // Note the null assertions!
+  declare addImageFile: HasManyAddAssociationMixin<ImageFile, number>;
+  declare addImageFiles: HasManyAddAssociationsMixin<ImageFile, number>;
+  declare setImageFiles: HasManySetAssociationsMixin<ImageFile, number>;
+  declare removeImageFile: HasManyRemoveAssociationMixin<ImageFile, number>;
+  declare removeImageFiles: HasManyRemoveAssociationsMixin<ImageFile, number>;
+  declare hasImageFile: HasManyHasAssociationMixin<ImageFile, number>;
+  declare hasImageFiles: HasManyHasAssociationsMixin<ImageFile, number>;
+  declare countImageFiles: HasManyCountAssociationsMixin;
+  declare createImageFile: HasManyCreateAssociationMixin<ImageFile, 'img_id'>;
+
+  declare getPlaces: HasManyGetAssociationsMixin<Place>; // Note the null assertions!
+  declare addPlace: HasManyAddAssociationMixin<Place, number>;
+  declare addPlaces: HasManyAddAssociationsMixin<Place, number>;
+  declare setPlaces: HasManySetAssociationsMixin<Place, number>;
+  declare removePlace: HasManyRemoveAssociationMixin<Place, number>;
+  declare removePlaces: HasManyRemoveAssociationsMixin<Place, number>;
+  declare hasPlace: HasManyHasAssociationMixin<Place, number>;
+  declare hasPlaces: HasManyHasAssociationsMixin<Place, number>;
+  declare countPlaces: HasManyCountAssociationsMixin;
+  declare createPlace: HasManyCreateAssociationMixin<Place, 'pid'>;
+
+  declare userId: ForeignKey<User['id']>;
+  declare user?: NonAttribute<User>;
+
+  declare imagefiles?: NonAttribute<ImageFile[]>;
+  declare places?: NonAttribute<Place[]>;
+
+  declare static associations: {
+    imagefiles: Association<Diary, ImageFile>;
+    places: Association<Diary, Place>;
+  };
 }
 
 Diary.init(
@@ -36,27 +81,26 @@ Diary.init(
       primaryKey: true,
     },
     d_title: {
-      type: new DataTypes.STRING(128),
+      type: DataTypes.STRING(128),
       allowNull: false,
     },
     d_content: {
-      type: new DataTypes.TEXT(),
+      type: DataTypes.TEXT(),
       allowNull: false,
     },
     d_date: {
-      type: new DataTypes.STRING(128),
+      type: DataTypes.STRING(128),
       allowNull: false,
     },
-    d_places: new DataTypes.STRING(128),
-    d_thumbnail: new DataTypes.STRING(128),
-    d_images: new DataTypes.STRING(128),
-    d_menus: new DataTypes.STRING(128),
-    d_memo: new DataTypes.STRING(),
+    d_thumbnail: DataTypes.STRING(128),
+    d_menus: DataTypes.STRING(128),
+    d_memo: DataTypes.STRING(),
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   {
     tableName: 'diary',
     sequelize,
-    timestamps: true,
   },
 );
 

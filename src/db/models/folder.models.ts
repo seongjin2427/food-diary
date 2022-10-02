@@ -1,8 +1,6 @@
-import User from '@/db/models/user.model';
 import {
   Model,
   DataTypes,
-  Optional,
   CreationOptional,
   ForeignKey,
   InferAttributes,
@@ -11,16 +9,7 @@ import {
 } from 'sequelize';
 
 import sequelize from '../connection';
-
-type FolderAttributes = {
-  fid: number;
-  f_title: string;
-  f_icon: string;
-  f_color: string;
-  f_places: string;
-};
-
-type FolderCreationAttribues = Optional<FolderAttributes, 'fid'>;
+import User from '@/db/models/user.model';
 
 class Folder extends Model<InferAttributes<Folder>, InferCreationAttributes<Folder>> {
   declare fid: CreationOptional<number>;

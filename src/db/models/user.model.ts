@@ -1,4 +1,3 @@
-import Folder from '@/db/models/folder.models';
 import {
   Model,
   DataTypes,
@@ -19,6 +18,8 @@ import {
   InferCreationAttributes,
 } from 'sequelize';
 import sequelize from '../connection';
+import Diary from '@/db/models/diary.model';
+import Folder from '@/db/models/folder.models';
 
 export type UserAttributes = {
   id: number;
@@ -56,10 +57,23 @@ class User extends Model<
   declare countFolders: HasManyCountAssociationsMixin;
   declare createFolder: HasManyCreateAssociationMixin<Folder, 'fid'>;
 
+  declare getDiaries: HasManyGetAssociationsMixin<Diary>; // Note the null assertions!
+  declare addDiary: HasManyAddAssociationMixin<Diary, number>;
+  declare addDiaries: HasManyAddAssociationsMixin<Diary, number>;
+  declare setDiaries: HasManySetAssociationsMixin<Diary, number>;
+  declare removeDiary: HasManyRemoveAssociationMixin<Diary, number>;
+  declare removeDiaries: HasManyRemoveAssociationsMixin<Diary, number>;
+  declare hasDiary: HasManyHasAssociationMixin<Diary, number>;
+  declare hasDiaries: HasManyHasAssociationsMixin<Diary, number>;
+  declare countDiaries: HasManyCountAssociationsMixin;
+  declare createDiary: HasManyCreateAssociationMixin<Diary, 'did'>;
+
   declare folder?: NonAttribute<Folder[]>;
+  declare diary?: NonAttribute<Diary[]>;
 
   declare static associations: {
     folder: Association<User, Folder>;
+    diary: Association<User, Diary>;
   };
 }
 
@@ -95,7 +109,6 @@ User.init(
   {
     tableName: 'user',
     sequelize,
-    timestamps: true,
   },
 );
 
