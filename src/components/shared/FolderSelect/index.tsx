@@ -1,10 +1,17 @@
 import { memo, useState, useCallback, ChangeEvent } from 'react';
-import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
+import { useQuery, QueryClient } from '@tanstack/react-query';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
-import { addFolder, addPlaceInFolder } from '@/store/diary/folderSlice';
+import {
+  addFolder,
+  addPlaceInFolder,
+  FolderSliceFolderType,
+  replaceFolders,
+} from '@/store/diary/folderSlice';
+import { getFolderApi } from '@/api/diary';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 import MakeFolder from '@/components/shared/MakeFolder';
+import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
 import { IconColorKeyType } from '@/styles/theme';
 import * as S from './FolderSelect.styled';
 
@@ -20,8 +27,9 @@ interface FolderSelectProps {
 }
 
 const FolderSelect = ({ place }: FolderSelectProps) => {
+  const queryClient = new QueryClient();
   const dispatch = useAppDispatch();
-  const folders = useAppSelector(({ folder }) => folder);
+  const folders = useAppSelector(({ folder }) => folder.folders);
 
   const getSelectedFolder = useCallback(() => {
     const index = folders.findIndex(({ places }) => !!places.find((p) => p.id === place.id));
@@ -33,6 +41,17 @@ const FolderSelect = ({ place }: FolderSelectProps) => {
     }
     return;
   }, [folders]);
+
+  const { data } = useQuery(['folders'], getFolderApi, {
+    onSuccess: (fetchedFolders: FolderSliceFolderType[]) => {
+      dispatch(replaceFolders(fetchedFolders));
+      queryClient.invalidateQueries(['folders']);
+    },
+    onError: (err) => {
+      console.log(err);
+      dispatch(replaceFolders([]));
+    },
+  });
 
   const [selectedFolder, setSelectedFolder] = useState<FolderType | undefined>(getSelectedFolder());
   const [selectOpen, setSelectOpen] = useState<boolean>(false);

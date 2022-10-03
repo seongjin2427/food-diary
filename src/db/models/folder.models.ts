@@ -6,23 +6,51 @@ import {
   InferAttributes,
   InferCreationAttributes,
   NonAttribute,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManySetAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManyHasAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  Association,
 } from 'sequelize';
 
 import sequelize from '../connection';
 import User from '@/db/models/user.model';
+import Place from '@/db/models/place.model.';
 
 class Folder extends Model<InferAttributes<Folder>, InferCreationAttributes<Folder>> {
   declare fid: CreationOptional<number>;
-  declare f_title: string;
-  declare f_icon: string;
-  declare f_color: string;
-  declare f_places: string;
+  declare title: string;
+  declare icon: string;
+  declare color: string;
+
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+
+  declare getPlaces: HasManyGetAssociationsMixin<Place>; // Note the null assertions!
+  declare addPlace: HasManyAddAssociationMixin<Place, number>;
+  declare addPlaces: HasManyAddAssociationsMixin<Place, number>;
+  declare setPlaces: HasManySetAssociationsMixin<Place, number>;
+  declare removePlace: HasManyRemoveAssociationMixin<Place, number>;
+  declare removePlaces: HasManyRemoveAssociationsMixin<Place, number>;
+  declare hasPlace: HasManyHasAssociationMixin<Place, number>;
+  declare hasPlaces: HasManyHasAssociationsMixin<Place, number>;
+  declare countPlaces: HasManyCountAssociationsMixin;
+  declare createPlace: HasManyCreateAssociationMixin<Place, 'pid'>;
 
   declare userId: ForeignKey<User['id']>;
   declare user?: NonAttribute<User>;
 
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
+  declare places?: NonAttribute<Place[]>;
+
+  declare static associations: {
+    places: Association<Folder, Place>;
+  };
 }
 
 Folder.init(
@@ -32,19 +60,18 @@ Folder.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    f_title: {
+    title: {
       type: DataTypes.STRING(128),
       allowNull: false,
     },
-    f_icon: {
+    icon: {
       type: DataTypes.STRING(128),
       allowNull: false,
     },
-    f_color: {
+    color: {
       type: DataTypes.STRING(128),
       allowNull: false,
     },
-    f_places: DataTypes.STRING(128),
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },

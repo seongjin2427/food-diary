@@ -1,22 +1,26 @@
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 
-import { saveDiary, saveFolder } from '@/db/utils/diary';
+import { saveDiary } from '@/db/utils/diary';
+import { saveFolder } from '@/db/utils/folder';
 import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
 
 const handler = nc();
 
 handler.use(authToken).post(async (req: NextApiExpanededRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { diary, folder, additionalInfo } = req.body;
     const user = req.user;
-    // console.log(diary);
-    // console.log(folder);
-    // console.log(additionalInfo);
-    await saveDiary(user?.id, diary, additionalInfo);
-    // await saveFolder(folder);
+    const { diary, folders, additionalInfo } = req.body;
 
-    res.json({ message: 'Success!' });
+    try {
+      await saveDiary(user?.id, diary, additionalInfo);
+      await saveFolder(folders);
+
+      res.status(200).json({ message: 'Success!' });
+      return;
+    } catch (err) {
+      res.status(500).json({ message: 'Something was wrong!' });
+    }
   }
 });
 

@@ -6,16 +6,15 @@ import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-tok
 const handler = nc();
 
 handler.use(authToken).post(async (req: NextApiExpanededRequest, res: NextApiResponse) => {
-  const { color, icon, title, places } = req.body.folder;
+  const { color, icon, title } = req.body.folder;
   const user = req.user;
 
   try {
     if (user) {
       const madeFolder = await user.createFolder({
-        f_color: color,
-        f_icon: icon,
-        f_title: title,
-        f_places: JSON.stringify(places),
+        color,
+        icon,
+        title,
       });
 
       res.status(201).json({ message: 'Success!' });

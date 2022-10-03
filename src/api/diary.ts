@@ -1,7 +1,10 @@
 import instance from '@/api/instance';
+import { SearchResultType } from '@/hooks/useSearchPlace';
 import { IAdditionalInfoState } from '@/store/diary/additionalInfoSlice';
+import { FolderSliceFolderType } from '@/store/diary/folderSlice';
 import { IDiaryState } from '@/store/diary/diarySlice';
-import { IFolderState } from '@/store/diary/folderSlice';
+import { IconKeySet } from '@/components/shared/SVGIcon';
+import { IconColorKeyType } from '@/styles/theme';
 
 interface ImageFileType {
   imageFile: {
@@ -28,7 +31,7 @@ export const uploadImageFile = async (imageFile: File) => {
 
 interface uploadDiaryType {
   diary: IDiaryState;
-  folder: IFolderState[];
+  folders: FolderSliceFolderType[];
   additionalInfo: IAdditionalInfoState;
 }
 
@@ -43,11 +46,32 @@ export const uploadDiary = async (sendData: uploadDiaryType) => {
   }
 };
 
-export const addFolderApi = async (folder: IFolderState) => {
+export const addFolderApi = async (folder: FolderSliceFolderType) => {
   try {
     const { data } = await instance.post('/api/upload/folder', { folder });
     console.log(data);
   } catch (err) {
     console.log(err);
+  }
+};
+
+interface GetFolderApiType {
+  folders: {
+    fid: number;
+    color: IconColorKeyType;
+    icon: IconKeySet;
+    places: SearchResultType[];
+    title: string;
+  }[];
+}
+
+export const getFolderApi = async (): Promise<FolderSliceFolderType[] | undefined> => {
+  try {
+    const { data } = await instance.get<GetFolderApiType>('/api/folder/get-folders');
+
+    return data.folders;
+  } catch (err) {
+    console.log(err);
+    return undefined;
   }
 };

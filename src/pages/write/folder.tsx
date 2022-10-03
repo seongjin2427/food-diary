@@ -12,13 +12,13 @@ import FolderDiary from '@/components/shared/FolderDiary';
 const FolderPage: NextPage = () => {
   const router = useRouter();
   const { diary, folder, additionalInfo } = useAppSelector((state) => state);
+  const { folders } = folder;
   const [moveAbled, setMoveAbled] = useState<boolean>(false);
 
   const completeDiary = useCallback(async () => {
-    console.log('a');
-
-    const message = await uploadDiary({ diary, folder, additionalInfo });
-    console.log('folder', message);
+    const message = await uploadDiary({ diary, folders, additionalInfo });
+    console.log('folder message', message);
+    alert('정상적으로 완료되었습니다');
   }, [diary, folder, additionalInfo]);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const FolderPage: NextPage = () => {
 
   useEffect(() => {
     const places = diary.places;
-    const next = places.every((p) => !!folder.find((f) => f.places.find((pl) => pl.id === p.id)));
+    const next = places.every((p) => !!folders.find((f) => f.places.find((pl) => pl.id === p.id)));
     setMoveAbled(next);
   });
 
@@ -40,10 +40,10 @@ const FolderPage: NextPage = () => {
       <Header>
         <CommonHeader
           type='both'
-          nextDisabled={moveAbled}
+          nextUrl='/'
           nextText='완료'
+          nextDisabled={moveAbled}
           nextFn={completeDiary}
-          nextUrl='/write/folder'
         />
       </Header>
       <MainLayout>

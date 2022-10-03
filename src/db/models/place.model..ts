@@ -10,6 +10,7 @@ import {
 
 import sequelize from '../connection';
 import Diary from '@/db/models/diary.model';
+import Folder from '@/db/models/folder.models';
 
 class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>> {
   declare pid: CreationOptional<number>;
@@ -26,11 +27,14 @@ class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>
   declare x: string;
   declare y: string;
 
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+
   declare diaryId: ForeignKey<Diary['did']>;
   declare diary?: NonAttribute<Diary>;
 
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
+  declare folderId: ForeignKey<Folder['fid']>;
+  declare folder?: NonAttribute<Folder>;
 }
 
 Place.init(

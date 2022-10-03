@@ -25,8 +25,8 @@ import Place from '@/db/models/place.model.';
 import User from '@/db/models/user.model';
 
 class Diary extends Model<
-  InferAttributes<Diary, { omit: 'imagefiles' & ' places' }>,
-  InferCreationAttributes<Diary, { omit: 'imagefiles' & ' places' }>
+  InferAttributes<Diary, { omit: 'imagefile' & ' place' }>,
+  InferCreationAttributes<Diary, { omit: 'imagefile' & ' place' }>
 > {
   declare did: CreationOptional<number>;
   declare d_title: string;
@@ -48,7 +48,7 @@ class Diary extends Model<
   declare hasImageFile: HasManyHasAssociationMixin<ImageFile, number>;
   declare hasImageFiles: HasManyHasAssociationsMixin<ImageFile, number>;
   declare countImageFiles: HasManyCountAssociationsMixin;
-  declare createImageFile: HasManyCreateAssociationMixin<ImageFile, 'img_id'>;
+  declare makeImageFile: HasManyCreateAssociationMixin<ImageFile, 'img_id'>;
 
   declare getPlaces: HasManyGetAssociationsMixin<Place>; // Note the null assertions!
   declare addPlace: HasManyAddAssociationMixin<Place, number>;
@@ -64,12 +64,12 @@ class Diary extends Model<
   declare userId: ForeignKey<User['id']>;
   declare user?: NonAttribute<User>;
 
-  declare imagefiles?: NonAttribute<ImageFile[]>;
+  declare ImageFile?: NonAttribute<ImageFile[]>;
   declare places?: NonAttribute<Place[]>;
 
   declare static associations: {
-    imagefiles: Association<Diary, ImageFile>;
     places: Association<Diary, Place>;
+    ImageFile: Association<Diary, ImageFile>;
   };
 }
 

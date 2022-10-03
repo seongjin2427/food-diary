@@ -7,6 +7,7 @@ import {
   Model,
   NonAttribute,
 } from 'sequelize';
+
 import sequelize from '@/db/connection';
 import Diary from '@/db/models/diary.model';
 
@@ -16,11 +17,11 @@ class ImageFile extends Model<InferAttributes<ImageFile>, InferCreationAttribute
   declare src: string;
   declare fileSrc: string;
 
-  declare diaryId: ForeignKey<Diary['did']>;
-  declare diary?: NonAttribute<Diary>;
-
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+
+  declare diaryId: ForeignKey<Diary['did']>;
+  declare diary?: NonAttribute<Diary>;
 }
 
 ImageFile.init(
@@ -30,15 +31,9 @@ ImageFile.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    fileName: {
-      type: new DataTypes.STRING(),
-    },
-    src: {
-      type: new DataTypes.STRING(),
-    },
-    fileSrc: {
-      type: new DataTypes.STRING(),
-    },
+    fileName: DataTypes.STRING(256),
+    src: DataTypes.STRING(256),
+    fileSrc: DataTypes.STRING(256),
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },

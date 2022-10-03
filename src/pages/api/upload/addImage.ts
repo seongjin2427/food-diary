@@ -1,13 +1,18 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import multer from 'multer';
-import multerS3, { AUTO_CONTENT_TYPE } from 'multer-s3';
 import moment from 'moment';
+import { NextApiRequest, NextApiResponse } from 'next';
+import multerS3, { AUTO_CONTENT_TYPE } from 'multer-s3';
 
+import models from '@/db/index';
 import s3, { configKey } from '@/server/utils/aws-s3';
 import authToken from '@/server/middlewares/use-token';
-import models from '@/db/index';
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 const handler = nc();
 
 const storage = multerS3({
@@ -36,7 +41,6 @@ handler
   .use(authToken)
   .use(uploadFile)
   .post(async (req: NextApiRequest & { [key: string]: any }, res: NextApiResponse) => {
-    console.log(req.file);
     const { originalname, location, key } = req.file;
 
     const uploadedImage = await models.ImageFile.create({
@@ -49,9 +53,3 @@ handler
   });
 
 export default handler;
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
