@@ -7,6 +7,7 @@ export { default as UserCircleIcon } from './icons/user-circle.svg';
 export { default as XMark } from './icons/x-mark.svg';
 export { default as SettingsIcon } from './icons/settings.svg';
 export { default as MapPinIcon } from './icons/map-pin.svg';
+export { default as RoadMapIcon } from './icons/road-map-line.svg';
 
 export { default as BoldIcon } from './editor/bold.svg';
 export { default as ItalicIcon } from './editor/italic.svg';
@@ -26,3 +27,11 @@ export { default as QuotesIcon } from './editor/quotes.svg';
 export { default as StrikeIcon } from './editor/strike.svg';
 export { default as TextIcon } from './editor/text.svg';
 export { default as ImageAddIcon } from './editor/image-add.svg';
+
+export { default as FolderIcon } from './icons/folder.svg';
+export { default as RestaurantIcon } from './icons/restaurant.svg';
+export { default as CupIcon } from './icons/cup.svg';
+export { default as PushPinIcon } from './icons/push-pin.svg';
+export { default as CheckIcon } from './icons/check.svg';
+export { default as CirclePlusIcon } from './icons/circle-plus.svg';
+export { default as CircleMinusIcon } from './icons/circle-minus.svg';

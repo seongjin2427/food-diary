@@ -2,12 +2,16 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux';
 
 import GlobalReducer from '@/store/global';
-import DiaryReducer from '@/store/diary';
+import DiaryReducer from '@/store/diary/diarySlice';
+import FolderReducer from '@/store/diary/folderSlice';
+import AdditinoalInfoReducer from '@/store/diary/additionalInfoSlice';
 
 export const store = configureStore({
   reducer: {
     global: GlobalReducer,
     diary: DiaryReducer,
+    folder: FolderReducer,
+    additionalInfo: AdditinoalInfoReducer,
   },
 });
 

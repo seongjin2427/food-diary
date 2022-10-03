@@ -1,10 +1,10 @@
 import { SVGProps } from 'react';
 import * as Icons from '@/assets/index';
 
-type IconSet = keyof typeof Icons;
+export type IconKeySet = keyof typeof Icons;
 
 interface SVGIconProps extends SVGProps<SVGSVGElement> {
-  icon: IconSet;
+  icon: IconKeySet;
 }
 
 const SVGIcon = ({ icon, ...props }: SVGIconProps) => {

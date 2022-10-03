@@ -1,9 +1,10 @@
 /* eslint-disable  @typescript-eslint/no-non-null-assertion */
-import React, { ChangeEvent, useCallback, useContext, useRef } from 'react';
+import React, { ChangeEvent, useCallback, useRef } from 'react';
 import { Editor } from '@tiptap/react';
 
 import { uploadImageFile } from '@/api/diary';
-import { EditorContext } from '@/components/shared/Editor/context/editorContext';
+import { useAppDispatch } from '@/store/index';
+import { addImage } from '@/store/diary/diarySlice';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './EditorFooter.styled';
 
@@ -12,8 +13,7 @@ interface EditorFooterProps {
 }
 
 const EditorFooter = ({ editor }: EditorFooterProps) => {
-  const { setImages } = useContext(EditorContext);
-
+  const dispatch = useAppDispatch();
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const onClickAddImage = useCallback(() => {
@@ -26,20 +26,19 @@ const EditorFooter = ({ editor }: EditorFooterProps) => {
         const imageFile = await uploadImageFile(e.target.files[0]);
         imageInputRef.current!.value = '';
         if (imageFile) {
+          const { img_id, src, fileName } = imageFile;
           editor
             ?.chain()
             .focus()
-            .insertContent(`<custom-image src=${imageFile.src} id=${imageFile.id} />`)
+            .insertContent(`<custom-image id=${img_id} src=${src} />`)
             .createParagraphNear()
             .run();
 
-          setImages((prev) => {
-            return [...prev, imageFile.id + ''];
-          });
+          dispatch(addImage({ id: img_id, src }));
         }
       }
     },
-    [editor, setImages],
+    [editor],
   );
 
   return (

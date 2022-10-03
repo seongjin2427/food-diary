@@ -9,4 +9,5 @@ if (process.env.NODE_ENV === 'production') {
   sequelize = new Sequelize(config.test);
 }
 
+
 export default sequelize;

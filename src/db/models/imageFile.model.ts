@@ -1,33 +1,41 @@
+import {
+  CreationOptional,
+  DataTypes,
+  ForeignKey,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  NonAttribute,
+} from 'sequelize';
+
 import sequelize from '@/db/connection';
-import { CreationOptional, DataTypes, Model, Optional } from 'sequelize';
+import Diary from '@/db/models/diary.model';
 
-type ImageFileAttributes = {
-  id: number;
-  fileName: string;
-  src: string;
-};
-
-type ImageFileCreationAttributes = Optional<ImageFileAttributes, 'id'>;
-
-class ImageFile extends Model<ImageFileAttributes, ImageFileCreationAttributes> {
-  declare id: CreationOptional<number>;
+class ImageFile extends Model<InferAttributes<ImageFile>, InferCreationAttributes<ImageFile>> {
+  declare img_id: CreationOptional<number>;
   declare fileName: string;
   declare src: string;
+  declare fileSrc: string;
+
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+
+  declare diaryId: ForeignKey<Diary['did']>;
+  declare diary?: NonAttribute<Diary>;
 }
 
 ImageFile.init(
   {
-    id: {
+    img_id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
     },
-    fileName: {
-      type: new DataTypes.STRING(),
-    },
-    src: {
-      type: new DataTypes.STRING(),
-    },
+    fileName: DataTypes.STRING(256),
+    src: DataTypes.STRING(256),
+    fileSrc: DataTypes.STRING(256),
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
   },
   {
     tableName: 'imagefile',

@@ -6,12 +6,19 @@ import * as S from './CommonHeader.styled';
 
 interface CommonHeaderProps {
   type: 'home' | 'next' | 'prev' | 'both';
+  nextText?: string;
   nextUrl?: string;
   nextDisabled?: boolean;
   nextFn?: () => void;
 }
 
-const CommonHeader = ({ type, nextUrl, nextDisabled, nextFn }: CommonHeaderProps) => {
+const CommonHeader = ({
+  type,
+  nextText = '다음',
+  nextUrl,
+  nextDisabled,
+  nextFn,
+}: CommonHeaderProps) => {
   const router = useRouter();
 
   const moveBack = useCallback(() => {
@@ -24,6 +31,7 @@ const CommonHeader = ({ type, nextUrl, nextDisabled, nextFn }: CommonHeaderProps
 
   const moveNextPage = useCallback(() => {
     if (nextUrl && nextDisabled) {
+      console.log('next');
       nextFn && nextFn();
       router.push(nextUrl);
     }
@@ -37,7 +45,7 @@ const CommonHeader = ({ type, nextUrl, nextDisabled, nextFn }: CommonHeaderProps
             <SVGIcon icon='ChevronLeftIcon' width='2rem' onClick={moveBack} />
           </S.LeftButtonArea>
           <S.RightButtonArea onClick={moveNextPage} disabled={!nextDisabled}>
-            <S.ButtonSpan>다음</S.ButtonSpan>
+            <S.ButtonSpan>{nextText}</S.ButtonSpan>
             <SVGIcon icon='ChevronRightIcon' width='2rem' />
           </S.RightButtonArea>
         </>
@@ -48,7 +56,7 @@ const CommonHeader = ({ type, nextUrl, nextDisabled, nextFn }: CommonHeaderProps
             <SVGIcon icon='XMark' width='2rem' onClick={moveHomePage} />
           </S.LeftButtonArea>
           <S.RightButtonArea onClick={moveNextPage} disabled={!nextDisabled}>
-            <S.ButtonSpan>다음</S.ButtonSpan>
+            <S.ButtonSpan>{nextText}</S.ButtonSpan>
             <SVGIcon icon='ChevronRightIcon' width='2rem' />
           </S.RightButtonArea>
         </>

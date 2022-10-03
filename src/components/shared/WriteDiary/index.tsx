@@ -1,22 +1,25 @@
-import React, { useContext, ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 
-import { EditorContext } from '@/components/shared/Editor/context/editorContext';
-import { useAppSelector } from '@/store/index';
+import { useAppDispatch, useAppSelector } from '@/store/index';
+import { setDiaryByName } from '@/store/diary/diarySlice';
 import Editor from '@/components/shared/Editor';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './WriteDiary.styled';
 
 const WriteDiary = () => {
-  const currentPost = useAppSelector(({ diary }) => diary.post);
-  const { places } = currentPost;
-  const { title, setTitle } = useContext(EditorContext);
+  const dispatch = useAppDispatch();
+  const { places, title } = useAppSelector(({ diary }) => diary);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target?.value);
+  const onChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setDiaryByName({ name: 'title', value }));
   };
 
   return (
     <S.Container>
+      <S.TagTitle>
+        <SVGIcon icon='RoadMapIcon' width='1.5rem' height='1.5rem' />
+        추가된 위치
+      </S.TagTitle>
       <S.TagContainer>
         {places.map((place) => (
           <S.TagBox key={place.id}>

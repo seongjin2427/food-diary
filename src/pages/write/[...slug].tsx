@@ -13,7 +13,7 @@ interface WriteDiaryProps {
 
 const WriteDiary: NextPage<WriteDiaryProps> = ({ slug }) => {
   const [, month, year] = slug;
-  const selectedPlaces = useAppSelector(({ diary }) => diary.post.places);
+  const selectedPlaces = useAppSelector(({ diary }) => diary.places);
 
   if (12 < +month || 1950 > +year || +year > 2099) {
     return (

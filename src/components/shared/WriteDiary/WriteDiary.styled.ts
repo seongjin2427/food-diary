@@ -7,17 +7,20 @@ export const Container = styled.div`
 export const TagTitle = styled.h1`
   display: flex;
   align-items: center;
+  margin-left: 0.75rem;
+  margin-bottom: 1rem;
   font-size: 1.75em;
-  margin-bottom: 0.75rem;
+  font-weight: 900;
 
   svg {
-    margin-right: 0.25rem;
+    margin-right: 0.5rem;
   }
 `;
 
 export const TagContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 2rem;
   padding: 0.25rem;

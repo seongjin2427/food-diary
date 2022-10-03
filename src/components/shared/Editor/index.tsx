@@ -1,5 +1,5 @@
 /* eslint-disable  @typescript-eslint/no-non-null-assertion */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEditor } from '@tiptap/react';
 import { StarterKit } from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -11,7 +11,8 @@ import TaskList from '@tiptap/extension-task-list';
 import TaskItem from '@tiptap/extension-task-item';
 import Image from '@tiptap/extension-image';
 
-import { useAppSelector } from '@/store/index';
+import { useAppDispatch, useAppSelector } from '@/store/index';
+import { addImage, addTempImage, removeImage, removeTempImage } from '@/store/diary/diarySlice';
 import DashBoard from '@/components/shared/Editor/DashBoard';
 import EditorBody from '@/components/shared/Editor/EditorBody';
 import CustomImage from '@/components/shared/Editor/CustomImage';
@@ -20,8 +21,42 @@ import EditorFooter from '@/components/shared/Editor/EditorFooter';
 import * as S from './Editor.styled';
 
 const Editor = () => {
-  const currentPost = useAppSelector(({ diary }) => diary.post);
-  const { content } = currentPost;
+  const dispatch = useAppDispatch();
+  const { content, images, tempImages } = useAppSelector(({ diary }) => diary);
+  const [editorContent, setEditorContent] = useState<string>('');
+
+  useEffect(() => {
+    if (!editorContent) return;
+
+    if (images.length > 0) {
+      images.forEach(({ id, src }) => {
+        const watchImg = editorContent.includes(src);
+        if (!watchImg) {
+          const removedImg = images.find(({ id: nid }) => nid === id);
+
+          if (removedImg) {
+            dispatch(addTempImage(removedImg));
+            dispatch(removeImage(id));
+          }
+        }
+      });
+    }
+    if (tempImages.length > 0) {
+      tempImages.forEach(({ id, src }) => {
+        const watchImg = editorContent.includes(src);
+
+        if (watchImg) {
+          const toRestoreImg = tempImages.find(({ id: nid }) => nid === id);
+
+          if (toRestoreImg) {
+            dispatch(addImage(toRestoreImg));
+            dispatch(removeTempImage(id));
+          }
+        }
+      });
+    }
+  }, [editorContent, tempImages, images]);
+
   const editor = useEditor({
     extensions: [
       CustomImage,
@@ -47,6 +82,12 @@ const Editor = () => {
       `
       <p>일기를 써주세요!</p>
     `,
+    onCreate: ({ editor }) => {
+      setEditorContent(editor.getHTML());
+    },
+    onUpdate: ({ editor }) => {
+      setEditorContent(editor.getHTML());
+    },
   });
 
   return (

@@ -1,15 +1,21 @@
-import React, { ChangeEvent, useContext } from 'react';
+import React, { useCallback, ChangeEvent } from 'react';
 import { mergeAttributes, Node, NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react';
-import { EditorContext } from '@/components/shared/Editor/context/editorContext';
 
+import { useAppDispatch, useAppSelector } from '@/store/index';
+import { setDiaryByName } from '@/store/diary/diarySlice';
 import * as S from './CustomImage.styled';
 
 const CustomImage = (props: any) => {
-  const { setThumbnail } = useContext(EditorContext);
+  const dispatch = useAppDispatch();
+  const { thumbnail } = useAppSelector(({ diary }) => diary);
 
-  const onChangeThumbnail = (e: ChangeEvent<HTMLInputElement>) => {
-    setThumbnail(e.target.value);
+  const onChangeThumbnail = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setDiaryByName({ name: 'thumbnail', value }));
   };
+
+  const checkExistThumbnail = useCallback(() => {
+    if (+thumbnail === +props.node.attrs.id) return true;
+  }, [thumbnail]);
 
   return (
     <NodeViewWrapper>
@@ -19,6 +25,8 @@ const CustomImage = (props: any) => {
           name='image'
           value={props.node.attrs.id}
           onChange={onChangeThumbnail}
+          // checked={undefined}
+          defaultChecked={+thumbnail === +props.node.attrs.id}
         />
         <S.Image src={props.node.attrs.src} />
       </S.Container>

@@ -1,7 +1,8 @@
 import React, { FormEvent, useCallback, useRef } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
-import { addPlace, removePlace, setDate } from '@/store/diary';
+import { addPlace, removePlace, setDiaryByName } from '@/store/diary/diarySlice';
+import { removePlaceInFolder } from '@/store/diary/folderSlice';
 import useSearchPlace, { SearchResultType } from '@/hooks/useSearchPlace';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './SearchPlaces.styled';
@@ -13,7 +14,7 @@ interface SearchPlacesProps {
 const SearchPlaces = ({ slug }: SearchPlacesProps) => {
   const [day, month, year] = slug;
   const dispatch = useAppDispatch();
-  const pickedPlaces = useAppSelector(({ diary }) => diary.post.places);
+  const pickedPlaces = useAppSelector(({ diary }) => diary.places);
 
   const [searchedPlaces, searchHistoryRef, { search }] = useSearchPlace();
   const searchWordRef = useRef<HTMLInputElement>(null);
@@ -32,13 +33,15 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
   }, []);
 
   const pickPlace = useCallback((place: SearchResultType) => {
+    const value = `${year}-${month}-${day}`;
     dispatch(addPlace(place));
-    dispatch(setDate(`${year}-${month}-${day}`));
+    dispatch(setDiaryByName({ name: 'date', value }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const deletePlace = useCallback((place: SearchResultType) => {
     dispatch(removePlace(place));
+    dispatch(removePlaceInFolder(place.id));
   }, []);
 
   return (

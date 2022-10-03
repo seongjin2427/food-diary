@@ -1,37 +1,53 @@
 import { NextPage } from 'next';
-import React from 'react';
+import { useRouter } from 'next/router';
+import { useState, useCallback, useEffect } from 'react';
 
+import { uploadDiary } from '@/api/diary';
 import { useAppSelector } from '@/store/index';
 import CommonHeader from '@/layouts/CommonHeader';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
+import FolderDiary from '@/components/shared/FolderDiary';
 
 const FolderPage: NextPage = () => {
-  const aa = useAppSelector((state) => state.diary);
-  console.log('folder', aa);
-  // const { content, date, images, places, thumbnail, title } = aa.post;
+  const router = useRouter();
+  const { diary, folder, additionalInfo } = useAppSelector((state) => state);
+  const { folders } = folder;
+  const [moveAbled, setMoveAbled] = useState<boolean>(false);
+
+  const completeDiary = useCallback(async () => {
+    const message = await uploadDiary({ diary, folders, additionalInfo });
+    console.log('folder message', message);
+    alert('정상적으로 완료되었습니다');
+  }, [diary, folder, additionalInfo]);
+
+  useEffect(() => {
+    const places = diary.places.length;
+    if (!places) {
+      alert('메인 페이지로 돌아갑니다.');
+      router.push('/');
+    }
+  }, []);
+
+  useEffect(() => {
+    const places = diary.places;
+    const next = places.every((p) => !!folders.find((f) => f.places.find((pl) => pl.id === p.id)));
+    setMoveAbled(next);
+  });
 
   return (
     <>
       <Header>
-        <CommonHeader type='both' nextDisabled={true} />
+        <CommonHeader
+          type='both'
+          nextUrl='/'
+          nextText='완료'
+          nextDisabled={moveAbled}
+          nextFn={completeDiary}
+        />
       </Header>
       <MainLayout>
-        folder 페이지 입니다
-        {/* <>
-          {content}
-          <br />
-          {date}
-          <br />
-          {images[0]}
-          <br />
-          {places[0]}
-          <br />
-          {thumbnail}
-          <br />
-          {title}
-          <br />
-        </> */}
+        <FolderDiary />
       </MainLayout>
     </>
   );
