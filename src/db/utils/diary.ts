@@ -19,7 +19,7 @@ export const saveDiary = async (
   const toSaveDiary = {
     d_title: title,
     d_content: content,
-    d_date: date,
+    d_date: new Date(date),
     d_thumbnail: thumbnail,
     d_memo: memo,
     d_menus: menusToString,
@@ -43,6 +43,7 @@ export const saveDiary = async (
           await createdDiary.addPlace(foundPlace);
         } else {
           const createdPlace = await models.Place.create({ place_id: id, ...rest });
+          await foundUser?.addPlace(createdPlace);
           await createdDiary.addPlace(createdPlace);
         }
       });

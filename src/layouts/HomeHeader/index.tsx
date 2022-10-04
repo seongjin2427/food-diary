@@ -21,6 +21,10 @@ const HomeHeader = ({ type, nextUrl, nextDisabled, nextFn }: HomeHeaderProps) =>
     }
   }, [nextDisabled, nextFn]);
 
+  const moveSearchPage = useCallback(() => {
+    router.push('/search');
+  }, [router]);
+
   return (
     <S.Container>
       {type === 'home' && (
@@ -30,7 +34,7 @@ const HomeHeader = ({ type, nextUrl, nextDisabled, nextFn }: HomeHeaderProps) =>
             <SVGIcon icon='ChevronDownIcon' width='1.25rem' />
           </S.LeftButtonArea>
           <S.RightButtonArea>
-            <SVGIcon icon='SearchIcon' width='2rem' />
+            <SVGIcon icon='SearchIcon' width='2rem' onClick={moveSearchPage} />
             <SVGIcon icon='SettingsIcon' width='2rem' />
           </S.RightButtonArea>
         </>
