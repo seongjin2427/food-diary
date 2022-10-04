@@ -5,6 +5,7 @@ export const Container = styled.div`
 `;
 
 export const PeriodArea = styled.div`
+  height: 2.75rem;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,8 +1,13 @@
 import { useState, useCallback, ChangeEvent, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { QueryClient, useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 
-import { getSearchDiaryBySearchWord, SearchedDiaryType } from '@/api/diary';
+import {
+  getSearchDiaryBySearchWord,
+  getSearchPlacesBySearchWord,
+  SearchedDiaryType,
+} from '@/api/diary';
+import { SearchResultType } from '@/hooks/useSearchPlace';
 
 export interface SearchDiaryType {
   open: boolean;
@@ -10,7 +15,9 @@ export interface SearchDiaryType {
   searchOption: string;
   prevDate: Date;
   nextDate: Date;
-  searchResults: SearchedDiaryType[] | undefined;
+  searchDiaryResults: SearchedDiaryType[] | undefined;
+  searchPlaceResults: SearchResultType[] | undefined;
+  currentPlace: number;
 }
 
 export interface SearchDiaryActionType {
@@ -19,6 +26,8 @@ export interface SearchDiaryActionType {
   onToggleOpen: () => void;
   setSearchPrevDate: (date: Date, e: ChangeEvent<HTMLInputElement>) => void;
   setSearchNextDate: (date: Date, e: ChangeEvent<HTMLInputElement>) => void;
+  setPrevPlace: () => void;
+  setNextPlace: () => void;
 }
 
 const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
@@ -29,7 +38,58 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
   const [prevDate, setPrevDate] = useState<Date>(new Date());
   const [nextDate, setNextDate] = useState<Date>(new Date());
 
-  const [searchResults, setSearchResults] = useState<SearchedDiaryType[] | undefined>([]);
+  const [searchDiaryResults, setSearchDiaryResults] = useState<SearchedDiaryType[] | undefined>([]);
+
+  const [currentPlace, setCurrentPlace] = useState<number>(0);
+  const [searchPlaceResults, setSearchPlaceResults] = useState<SearchResultType[] | undefined>([]);
+
+  const queryClient = new QueryClient();
+
+  if (searchOption === 'all' || searchOption === 'diary') {
+    useQuery(
+      ['searchDiaryResult', searchWord],
+      () => {
+        const formattedPrevDate = dayjs(prevDate).format('YYYY-MM-DD');
+        const formattedNextDate = dayjs(nextDate).format('YYYY-MM-DD');
+
+        return getSearchDiaryBySearchWord({
+          nextDate: formattedNextDate,
+          prevDate: formattedPrevDate,
+          searchWord,
+        });
+      },
+      {
+        refetchOnWindowFocus: false,
+        onSuccess: (searchedData) => {
+          setSearchDiaryResults(searchedData);
+          queryClient.invalidateQueries();
+        },
+      },
+    );
+  }
+
+  if (searchOption === 'map') {
+    useQuery(
+      ['searchPlaceResult', searchWord],
+      () => {
+        const formattedPrevDate = dayjs(prevDate).format('YYYY-MM-DD');
+        const formattedNextDate = dayjs(nextDate).format('YYYY-MM-DD');
+
+        return getSearchPlacesBySearchWord({
+          nextDate: formattedNextDate,
+          prevDate: formattedPrevDate,
+          searchWord,
+        });
+      },
+      {
+        refetchOnWindowFocus: false,
+        onSuccess: (searchedData) => {
+          setSearchPlaceResults(searchedData);
+          queryClient.invalidateQueries();
+        },
+      },
+    );
+  }
 
   useEffect(() => {
     if (prevDate > nextDate) {
@@ -37,32 +97,13 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
     }
   }, [nextDate, prevDate]);
 
-  useQuery(
-    ['searchResult', searchWord],
-    () => {
-      const formattedPrevDate = dayjs(prevDate).format('YYYY-MM-DD');
-      const formattedNextDate = dayjs(nextDate).format('YYYY-MM-DD');
-
-      return getSearchDiaryBySearchWord({
-        nextDate: formattedNextDate,
-        prevDate: formattedPrevDate,
-        searchOption,
-        searchWord,
-      });
-    },
-    {
-      onSuccess: (searchedData) => {
-        setSearchResults(searchedData);
-      },
-    },
-  );
-
   const actions: SearchDiaryActionType = {
     onSearch: useCallback(
       async ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
         setSearchWord(value);
+        setCurrentPlace(0);
       },
-      [searchWord],
+      [searchWord, currentPlace],
     ),
     selectSearchOption: useCallback(
       (select: string) => {
@@ -86,9 +127,34 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
       },
       [prevDate, nextDate],
     ),
+    setPrevPlace: useCallback(() => {
+      console.log('a');
+      if (currentPlace > 0) {
+        setCurrentPlace((prev) => prev - 1);
+      }
+    }, [currentPlace]),
+    setNextPlace: useCallback(() => {
+      if (searchPlaceResults) {
+        if (currentPlace < searchPlaceResults.length - 1) {
+          setCurrentPlace((prev) => prev + 1);
+        }
+      }
+    }, [currentPlace]),
   };
 
-  return [{ open, searchWord, searchOption, prevDate, nextDate, searchResults }, actions];
+  return [
+    {
+      open,
+      searchWord,
+      searchOption,
+      prevDate,
+      nextDate,
+      searchDiaryResults,
+      searchPlaceResults,
+      currentPlace,
+    },
+    actions,
+  ];
 };
 
 export default useSearchDiary;

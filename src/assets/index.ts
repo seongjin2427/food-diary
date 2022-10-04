@@ -10,6 +10,8 @@ export { default as MapPinIcon } from './icons/map-pin.svg';
 export { default as RoadMapIcon } from './icons/road-map-line.svg';
 export { default as CalendarIcon } from './icons/calendar.svg';
 export { default as SubstractIcon } from './icons/substract.svg';
+export { default as BlankCircleIcon } from './icons/blank-circle.svg';
+export { default as FillCircleIcon } from './icons/fill-circle.svg';
 
 export { default as BoldIcon } from './editor/bold.svg';
 export { default as ItalicIcon } from './editor/italic.svg';

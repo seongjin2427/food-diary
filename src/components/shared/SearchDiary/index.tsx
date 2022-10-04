@@ -5,9 +5,11 @@ import SearchInput from '@/components/shared/SearchInput';
 import * as S from './SearchDiary.styled';
 import SelectPeriod from '@/components/shared/SelectPeriod';
 import SearchResultDiary from '@/components/shared/SearchResultDiary';
+import SearchResultMap from '@/components/shared/SearchResultMap';
 
 const SearchDiary = () => {
   const [states, actions] = useSearchDiary();
+  const { searchOption } = states;
 
   return (
     <S.Container>
@@ -18,7 +20,12 @@ const SearchDiary = () => {
         <SelectPeriod searchDiaryStates={states} searchDiaryActions={actions} />
       </S.PeriodArea>
       <S.SearchResultArea>
-        <SearchResultDiary searchDiaryStates={states} />
+        {(searchOption === 'diary' || searchOption === 'all') && (
+          <SearchResultDiary searchDiaryStates={states} />
+        )}
+        {searchOption === 'map' && (
+          <SearchResultMap searchDiaryStates={states} searchDiaryActions={actions} />
+        )}
       </S.SearchResultArea>
     </S.Container>
   );

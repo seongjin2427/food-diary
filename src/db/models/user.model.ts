@@ -20,6 +20,7 @@ import {
 import sequelize from '../connection';
 import Diary from '@/db/models/diary.model';
 import Folder from '@/db/models/folder.models';
+import Place from '@/db/models/place.model.';
 
 export type UserAttributes = {
   id: number;
@@ -68,12 +69,25 @@ class User extends Model<
   declare countDiaries: HasManyCountAssociationsMixin;
   declare createDiary: HasManyCreateAssociationMixin<Diary, 'did'>;
 
+  declare getPlace: HasManyGetAssociationsMixin<Place>; // Note the null assertions!
+  declare addPlace: HasManyAddAssociationMixin<Place, number>;
+  declare addPlaces: HasManyAddAssociationsMixin<Place, number>;
+  declare setPlaces: HasManySetAssociationsMixin<Place, number>;
+  declare removePlace: HasManyRemoveAssociationMixin<Place, number>;
+  declare removePlaces: HasManyRemoveAssociationsMixin<Place, number>;
+  declare hasPlace: HasManyHasAssociationMixin<Place, number>;
+  declare hasPlaces: HasManyHasAssociationsMixin<Place, number>;
+  declare countPlaces: HasManyCountAssociationsMixin;
+  declare createPlace: HasManyCreateAssociationMixin<Place, 'pid'>;
+
   declare folder?: NonAttribute<Folder[]>;
   declare diary?: NonAttribute<Diary[]>;
+  declare place?: NonAttribute<Place[]>;
 
   declare static associations: {
     folder: Association<User, Folder>;
     diary: Association<User, Diary>;
+    place: Association<User, Place>;
   };
 }
 

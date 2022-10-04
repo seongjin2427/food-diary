@@ -14,19 +14,20 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
   const searchedQuery = req.query;
   const { searchWord, prevDate, nextDate } = searchedQuery;
 
-  const diaries = await models.Diary.findAll({
-    attributes: ['did', 'd_title', 'd_thumbnail', 'd_content', 'd_date'],
+  const results = await user?.getPlace({
     where: {
-      userId: user?.id,
       [Op.or]: {
-        $d_title$: {
+        place_name: {
           [Op.like]: `%${searchWord}%`,
         },
-        $d_content$: {
+        address_name: {
+          [Op.like]: `%${searchWord}%`,
+        },
+        road_address_name: {
           [Op.like]: `%${searchWord}%`,
         },
       },
-      $d_date$: {
+      createdAt: {
         [Op.and]: [
           {
             [Op.gte]: `${prevDate}`,
@@ -36,14 +37,8 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
       },
     },
   });
-  const results = await Promise.all(
-    await diaries.map(async ({ did, d_thumbnail, d_title, d_date, d_content }) => {
-      const image = await ImageFile.findByPk(d_thumbnail);
-      return { thumbnail: image?.src, did, d_title, d_date, d_content };
-    }),
-  );
 
-  console.log('diary', results);
+  console.log('places', results);
 
   res.status(200).json({ results });
 });

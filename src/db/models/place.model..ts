@@ -6,11 +6,13 @@ import {
   NonAttribute,
   InferAttributes,
   InferCreationAttributes,
+  Association,
 } from 'sequelize';
 
 import sequelize from '../connection';
 import Diary from '@/db/models/diary.model';
 import Folder from '@/db/models/folder.models';
+import User from '@/db/models/user.model';
 
 class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>> {
   declare pid: CreationOptional<number>;

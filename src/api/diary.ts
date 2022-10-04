@@ -80,7 +80,6 @@ interface SearchOptionsType {
   searchWord: string;
   prevDate: string;
   nextDate: string;
-  searchOption: string;
 }
 
 export interface SearchedDiaryType {
@@ -92,18 +91,39 @@ export interface SearchedDiaryType {
 }
 
 export interface SearchedDiaryApiType {
-  diaries: SearchedDiaryType[];
+  results: SearchedDiaryType[];
 }
 
 export const getSearchDiaryBySearchWord = async (searchOptions: SearchOptionsType) => {
-  const { nextDate, prevDate, searchOption, searchWord } = searchOptions;
+  const { nextDate, prevDate, searchWord } = searchOptions;
   try {
     let results: SearchedDiaryType[] = [];
     if (searchWord) {
       const { data } = await instance.get<SearchedDiaryApiType>(
-        `/api/search/diary?searchWord=${searchWord}&prevDate=${prevDate}&nextDate=${nextDate}&options=${searchOption}`,
+        `/api/search/diary?searchWord=${searchWord}&prevDate=${prevDate}&nextDate=${nextDate}`,
       );
-      results = data.diaries;
+      results = data.results;
+    }
+    console.log(results);
+    return results;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export interface SearchedPlaceApiType {
+  results: SearchResultType[];
+}
+
+export const getSearchPlacesBySearchWord = async (searchOptions: SearchOptionsType) => {
+  const { nextDate, prevDate, searchWord } = searchOptions;
+  try {
+    let results: SearchResultType[] = [];
+    if (searchWord) {
+      const { data } = await instance.get<SearchedPlaceApiType>(
+        `/api/search/place?searchWord=${searchWord}&prevDate=${prevDate}&nextDate=${nextDate}`,
+      );
+      results = data.results;
     }
     console.log(results);
     return results;

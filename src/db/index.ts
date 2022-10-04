@@ -5,6 +5,7 @@ import Place from '@/db/models/place.model.';
 import Diary from '@/db/models/diary.model';
 import DiaryPlace from '@/db/models/diary-place.model';
 import FolderPlace from '@/db/models/folder-place.model';
+import UserPlace from '@/db/models/user-place.model';
 
 User.hasMany(Folder, {
   sourceKey: 'id',
@@ -24,6 +25,16 @@ Diary.hasMany(ImageFile, {
   as: 'ImageFile',
 });
 
+User.belongsToMany(Place, {
+  through: 'UserPlace',
+  foreignKey: 'pid',
+  as: 'place',
+});
+Place.belongsToMany(User, {
+  through: 'UserPlace',
+  foreignKey: 'id',
+  as: 'user',
+});
 Diary.belongsToMany(Place, {
   through: 'DiaryPlace',
   foreignKey: 'pid',
@@ -49,6 +60,7 @@ User.sync();
 Folder.sync();
 Diary.sync();
 Place.sync();
+UserPlace.sync();
 ImageFile.sync();
 DiaryPlace.sync();
 FolderPlace.sync();
