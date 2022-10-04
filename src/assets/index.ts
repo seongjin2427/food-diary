@@ -8,6 +8,8 @@ export { default as XMark } from './icons/x-mark.svg';
 export { default as SettingsIcon } from './icons/settings.svg';
 export { default as MapPinIcon } from './icons/map-pin.svg';
 export { default as RoadMapIcon } from './icons/road-map-line.svg';
+export { default as CalendarIcon } from './icons/calendar.svg';
+export { default as SubstractIcon } from './icons/substract.svg';
 
 export { default as BoldIcon } from './editor/bold.svg';
 export { default as ItalicIcon } from './editor/italic.svg';

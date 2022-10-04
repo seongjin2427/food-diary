@@ -3,16 +3,11 @@ import styled from '@emotion/styled';
 
 export const Container = styled.div`
   display: flex;
-  justify-content: center;
-`;
-
-export const SearchInputBox = styled.div`
-  display: flex;
-  width: 20rem;
+  width: 100%;
   background: white;
   border: 1px solid black;
-  font-size: 1.25rem;
   border-radius: 0.25rem;
+  font-size: 1.25rem;
 `;
 
 export const SelectSearchOption = styled.div``;
@@ -42,6 +37,7 @@ export const SearchInputSelectUl = styled.ul<OpenProps>`
   background: white;
   border: 1px solid black;
   border-radius: 0 0 0.25rem 0.25rem;
+  z-index: 10;
 
   ${({ isOpen }) =>
     isOpen &&

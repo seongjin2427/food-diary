@@ -75,3 +75,39 @@ export const getFolderApi = async (): Promise<FolderSliceFolderType[] | undefine
     return undefined;
   }
 };
+
+interface SearchOptionsType {
+  searchWord: string;
+  prevDate: string;
+  nextDate: string;
+  searchOption: string;
+}
+
+export interface SearchedDiaryType {
+  did: number;
+  d_title: string;
+  d_date: string;
+  d_content: string;
+  thumbnail: string;
+}
+
+export interface SearchedDiaryApiType {
+  diaries: SearchedDiaryType[];
+}
+
+export const getSearchDiaryBySearchWord = async (searchOptions: SearchOptionsType) => {
+  const { nextDate, prevDate, searchOption, searchWord } = searchOptions;
+  try {
+    let results: SearchedDiaryType[] = [];
+    if (searchWord) {
+      const { data } = await instance.get<SearchedDiaryApiType>(
+        `/api/search/diary?searchWord=${searchWord}&prevDate=${prevDate}&nextDate=${nextDate}&options=${searchOption}`,
+      );
+      results = data.diaries;
+    }
+    console.log(results);
+    return results;
+  } catch (err) {
+    console.log(err);
+  }
+};

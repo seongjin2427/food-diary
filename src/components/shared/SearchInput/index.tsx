@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { SearchDiaryActionType, SearchDiaryType } from '@/hooks/useSearchDiary';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './SearchInput.styled';
-import { SearchDiaryActionType, SearchDiaryType } from '@/hooks/useSearchDiary';
 
 const SEARCH_OPTIONS = [
   {
@@ -30,32 +30,30 @@ const SearchInput = ({ searchDiaryStates, searchDiaryActions }: SerachInputProps
 
   return (
     <S.Container>
-      <S.SearchInputBox>
-        <S.SearchInputSelectArea>
+      <S.SearchInputSelectArea>
+        {SEARCH_OPTIONS.map(
+          ({ name, value }) =>
+            value === searchOption && (
+              <S.SelectSearchOption key={value} onClick={onToggleOpen}>
+                {name}
+              </S.SelectSearchOption>
+            ),
+        )}
+        <SVGIcon icon='ChevronDownIcon' width='1rem' />
+        <S.SearchInputSelectUl isOpen={open}>
           {SEARCH_OPTIONS.map(
             ({ name, value }) =>
-              value === searchOption && (
-                <S.SelectSearchOption key={value} onClick={onToggleOpen}>
+              value !== searchOption && (
+                <S.SearchInputSelectLi key={value} onClick={() => selectSearchOption(value)}>
                   {name}
-                </S.SelectSearchOption>
+                </S.SearchInputSelectLi>
               ),
           )}
-          <SVGIcon icon='ChevronDownIcon' width='1rem' />
-          <S.SearchInputSelectUl isOpen={open}>
-            {SEARCH_OPTIONS.map(
-              ({ name, value }) =>
-                value !== searchOption && (
-                  <S.SearchInputSelectLi key={value} onClick={() => selectSearchOption(value)}>
-                    {name}
-                  </S.SearchInputSelectLi>
-                ),
-            )}
-          </S.SearchInputSelectUl>
-        </S.SearchInputSelectArea>
-        <S.SearchInputArea>
-          <S.SearchInput value={searchWord} onChange={onSearch} />
-        </S.SearchInputArea>
-      </S.SearchInputBox>
+        </S.SearchInputSelectUl>
+      </S.SearchInputSelectArea>
+      <S.SearchInputArea>
+        <S.SearchInput value={searchWord} onChange={onSearch} />
+      </S.SearchInputArea>
     </S.Container>
   );
 };

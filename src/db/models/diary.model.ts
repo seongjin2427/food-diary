@@ -31,7 +31,7 @@ class Diary extends Model<
   declare did: CreationOptional<number>;
   declare d_title: string;
   declare d_content: string;
-  declare d_date: string;
+  declare d_date: Date;
   declare d_thumbnail: string;
   declare d_menus: string;
   declare d_memo: string;
@@ -89,7 +89,7 @@ Diary.init(
       allowNull: false,
     },
     d_date: {
-      type: DataTypes.STRING(128),
+      type: DataTypes.DATE,
       allowNull: false,
     },
     d_thumbnail: DataTypes.STRING(128),

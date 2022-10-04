@@ -57,7 +57,7 @@ class User extends Model<
   declare countFolders: HasManyCountAssociationsMixin;
   declare createFolder: HasManyCreateAssociationMixin<Folder, 'fid'>;
 
-  declare getDiaries: HasManyGetAssociationsMixin<Diary>; // Note the null assertions!
+  declare getDiary: HasManyGetAssociationsMixin<Diary>; // Note the null assertions!
   declare addDiary: HasManyAddAssociationMixin<Diary, number>;
   declare addDiaries: HasManyAddAssociationsMixin<Diary, number>;
   declare setDiaries: HasManySetAssociationsMixin<Diary, number>;
