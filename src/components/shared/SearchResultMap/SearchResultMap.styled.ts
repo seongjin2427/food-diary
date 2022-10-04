@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  height: 10rem;
+`;
 
 export const Slider = styled.div`
   display: flex;

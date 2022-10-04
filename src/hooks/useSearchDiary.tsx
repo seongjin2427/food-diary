@@ -28,6 +28,7 @@ export interface SearchDiaryActionType {
   setSearchNextDate: (date: Date, e: ChangeEvent<HTMLInputElement>) => void;
   setPrevPlace: () => void;
   setNextPlace: () => void;
+  changeCurrentPlace: (n: number) => void;
 }
 
 const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
@@ -128,18 +129,20 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
       [prevDate, nextDate],
     ),
     setPrevPlace: useCallback(() => {
-      console.log('a');
       if (currentPlace > 0) {
         setCurrentPlace((prev) => prev - 1);
       }
-    }, [currentPlace]),
+    }, [searchPlaceResults, currentPlace]),
     setNextPlace: useCallback(() => {
       if (searchPlaceResults) {
         if (currentPlace < searchPlaceResults.length - 1) {
           setCurrentPlace((prev) => prev + 1);
         }
       }
-    }, [currentPlace]),
+    }, [searchPlaceResults, currentPlace]),
+    changeCurrentPlace: useCallback((position: number) => {
+      setCurrentPlace(position);
+    }, []),
   };
 
   return [

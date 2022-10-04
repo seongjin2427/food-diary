@@ -24,8 +24,8 @@ const SearchResultMap = ({ searchDiaryStates, searchDiaryActions }: SearchResult
             <S.SliderContainer>
               <S.SliderArea placeNumber={currentPlace}>
                 {searchPlaceResults.map(
-                  ({ id, category_group_name, address_name, place_name, phone, distance }) => (
-                    <S.PlaceContainer key={id}>
+                  ({ id, category_group_name, address_name, place_name, phone, distance }, idx) => (
+                    <S.PlaceContainer key={idx}>
                       <S.PlaceTitleBox>
                         <S.PlaceName>{place_name}</S.PlaceName>
                         <S.PlaceKind>{category_group_name}</S.PlaceKind>

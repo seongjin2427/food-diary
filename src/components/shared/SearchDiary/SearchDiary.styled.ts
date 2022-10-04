@@ -21,3 +21,7 @@ export const PeriodArea = styled.div`
 export const SearchResultArea = styled.div`
   width: 100%;
 `;
+
+export const MapArea = styled.div`
+  width: 100%;
+`;
