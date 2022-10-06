@@ -163,7 +163,7 @@ export const getDiaryByDid = async (did: number) => {
   try {
     const { data } = await instance.get<GetDiaryType>(`/api/diary/${did}`);
     console.log(data);
-    return data;
+    return data.diary[0];
   } catch (err) {
     console.log(err);
   }

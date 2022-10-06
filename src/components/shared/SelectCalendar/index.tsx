@@ -1,19 +1,20 @@
 import React, { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import dayjs from 'dayjs';
-import { OnChangeDateCallback } from 'react-calendar';
 
 import * as S from './SelectCalendar.styled';
 
 const Calendar = dynamic(() => import('react-calendar'), { ssr: false });
 
 interface SelectCalendarProps {
+  type: 'prevDate' | 'nextDate';
   alignDirection: 'left' | 'right';
-  selectDate: Date;
-  setSelectDate: OnChangeDateCallback;
+  selectDate: string;
+  setSelectDate: (v: { name: 'prevDate' | 'nextDate'; date: Date }) => void;
 }
 
 const SelectCalendar = ({
+  type,
   alignDirection = 'left',
   selectDate,
   setSelectDate,
@@ -28,6 +29,10 @@ const SelectCalendar = ({
     setOpen(false);
   }, [open]);
 
+  const onChange = useCallback((date: Date) => {
+    setSelectDate({ name: type, date });
+  }, []);
+
   return (
     <S.Container>
       <S.Backdrop isOpen={open} onClick={onClickClose} />
@@ -39,8 +44,8 @@ const SelectCalendar = ({
       <S.Calendar isOpen={open} alignDirection={alignDirection}>
         <Calendar
           formatDay={(locale, date) => dayjs(date).format('DD')}
-          value={selectDate}
-          onChange={setSelectDate}
+          value={new Date(selectDate)}
+          onChange={onChange}
           calendarType='US'
         />
       </S.Calendar>

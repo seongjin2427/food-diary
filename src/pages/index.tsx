@@ -1,11 +1,9 @@
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
 
-import { clearDiary } from '@/store/diary/diarySlice';
-import { clearAdditionalInfo } from '@/store/diary/additionalInfoSlice';
-import { clearFolder } from '@/store/diary/folderSlice';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { userLogin } from '@/store/global';
+import useReduxReset from '@/hooks/useReduxReset';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
 import HomeHeader from '@/layouts/HomeHeader';
@@ -15,11 +13,10 @@ import Login from '@/components/shared/Login';
 const Home: NextPage = () => {
   const { isLogin } = useAppSelector(({ global }) => global);
   const dispatch = useAppDispatch();
+  const reset = useReduxReset();
 
   useEffect(() => {
-    dispatch(clearDiary());
-    dispatch(clearAdditionalInfo());
-    dispatch(clearFolder());
+    reset();
   });
 
   useEffect(() => {

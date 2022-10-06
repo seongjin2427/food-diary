@@ -55,4 +55,5 @@ export const DiaryContent = styled.p`
   line-height: 1.125;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  font-size: 0.875rem;
 `;

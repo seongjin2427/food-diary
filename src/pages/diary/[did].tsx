@@ -11,6 +11,7 @@ import { useAppDispatch } from '@/store/index';
 import { setDiary } from '@/store/diary/diarySlice';
 import { setAllAdditionalInfo } from '@/store/diary/additionalInfoSlice';
 import dayjs from 'dayjs';
+import Spinner from '@/components/shared/Spinner';
 
 interface ReadDiaryPageProps {
   did: string;
@@ -19,16 +20,19 @@ interface ReadDiaryPageProps {
 const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
   const dispatch = useAppDispatch();
 
-  const { data } = useQuery(['DiaryByDid', did], () => getDiaryByDid(+did), {
+  const { data, isFetching } = useQuery(['DiaryByDid', did], () => getDiaryByDid(+did), {
     refetchOnWindowFocus: false,
-    staleTime: Infinity,
     onSuccess: (diaryData) => {
       if (diaryData) {
-        dispatch(setDiary(diaryData.diary[0]));
-        dispatch(setAllAdditionalInfo(diaryData.diary[0]));
+        dispatch(setDiary(diaryData));
+        dispatch(setAllAdditionalInfo(diaryData));
       }
     },
   });
+
+  if (isFetching) {
+    return <Spinner color='lightcoral' size='2rem' speed='1' />;
+  }
 
   if (!data) {
     return (
@@ -43,7 +47,7 @@ const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
     );
   }
 
-  const { date } = data.diary[0];
+  const { date } = data;
   const [year, month, day] = dayjs(date).format('YYYY-MM-DD').split('-');
 
   return (

@@ -4,8 +4,9 @@ import { GetServerSideProps, NextPage } from 'next';
 import MainLayout from '@/layouts/MainLayout';
 import Header from '@/layouts/Header';
 import WriteDiaryBody from '@/components/shared/SearchPlaces';
-import { useAppSelector } from '@/store/index';
+import { useAppDispatch, useAppSelector } from '@/store/index';
 import CommonHeader from '@/layouts/CommonHeader';
+import { onDiaryModifyMode } from '@/store/global';
 
 interface WriteDiaryProps {
   slug: string[];
@@ -14,6 +15,7 @@ interface WriteDiaryProps {
 const WriteDiary: NextPage<WriteDiaryProps> = ({ slug }) => {
   const [, month, year] = slug;
   const selectedPlaces = useAppSelector(({ diary }) => diary.places);
+  const dispatch = useAppDispatch();
 
   if (12 < +month || 1950 > +year || +year > 2099) {
     return (
@@ -30,6 +32,7 @@ const WriteDiary: NextPage<WriteDiaryProps> = ({ slug }) => {
           type='next'
           nextUrl='/write/diary'
           nextDisabled={selectedPlaces.length !== 0}
+          nextFn={() => dispatch(onDiaryModifyMode())}
         />
       </Header>
       <MainLayout>
