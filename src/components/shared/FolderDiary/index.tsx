@@ -15,7 +15,7 @@ const FolderDiary = () => {
         <S.Title>어디에 저장할까요?</S.Title>
         <S.FolderTagArea>
           {places.map((place) => (
-            <S.FolderArea key={place.id}>
+            <S.FolderArea key={place.address_name}>
               <S.TagBox>
                 <SVGIcon icon='MapPinIcon' width='1rem' height='1rem' />
                 <S.Tag>{place.place_name}</S.Tag>

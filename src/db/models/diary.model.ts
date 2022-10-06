@@ -29,26 +29,26 @@ class Diary extends Model<
   InferCreationAttributes<Diary, { omit: 'imagefile' & ' place' }>
 > {
   declare did: CreationOptional<number>;
-  declare d_title: string;
-  declare d_content: string;
-  declare d_date: Date;
-  declare d_thumbnail: string;
-  declare d_menus: string;
-  declare d_memo: string;
+  declare title: string;
+  declare content: string;
+  declare date: Date;
+  declare thumbnail: string;
+  declare menus: string;
+  declare memo: string;
 
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  declare getImageFiles: HasManyGetAssociationsMixin<ImageFile>; // Note the null assertions!
-  declare addImageFile: HasManyAddAssociationMixin<ImageFile, number>;
-  declare addImageFiles: HasManyAddAssociationsMixin<ImageFile, number>;
-  declare setImageFiles: HasManySetAssociationsMixin<ImageFile, number>;
-  declare removeImageFile: HasManyRemoveAssociationMixin<ImageFile, number>;
-  declare removeImageFiles: HasManyRemoveAssociationsMixin<ImageFile, number>;
-  declare hasImageFile: HasManyHasAssociationMixin<ImageFile, number>;
-  declare hasImageFiles: HasManyHasAssociationsMixin<ImageFile, number>;
-  declare countImageFiles: HasManyCountAssociationsMixin;
-  declare makeImageFile: HasManyCreateAssociationMixin<ImageFile, 'img_id'>;
+  declare getImages: HasManyGetAssociationsMixin<ImageFile>; // Note the null assertions!
+  declare addImage: HasManyAddAssociationMixin<ImageFile, number>;
+  declare addImages: HasManyAddAssociationsMixin<ImageFile, number>;
+  declare setImages: HasManySetAssociationsMixin<ImageFile, number>;
+  declare removeImage: HasManyRemoveAssociationMixin<ImageFile, number>;
+  declare removeImages: HasManyRemoveAssociationsMixin<ImageFile, number>;
+  declare hasImage: HasManyHasAssociationMixin<ImageFile, number>;
+  declare hasImages: HasManyHasAssociationsMixin<ImageFile, number>;
+  declare countImages: HasManyCountAssociationsMixin;
+  declare createImages: HasManyCreateAssociationMixin<ImageFile, 'img_id'>;
 
   declare getPlaces: HasManyGetAssociationsMixin<Place>; // Note the null assertions!
   declare addPlace: HasManyAddAssociationMixin<Place, number>;
@@ -64,12 +64,12 @@ class Diary extends Model<
   declare userId: ForeignKey<User['id']>;
   declare user?: NonAttribute<User>;
 
-  declare ImageFile?: NonAttribute<ImageFile[]>;
+  declare images?: NonAttribute<ImageFile[]>;
   declare places?: NonAttribute<Place[]>;
 
   declare static associations: {
     places: Association<Diary, Place>;
-    ImageFile: Association<Diary, ImageFile>;
+    images: Association<Diary, ImageFile>;
   };
 }
 
@@ -80,21 +80,21 @@ Diary.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    d_title: {
+    title: {
       type: DataTypes.STRING(128),
       allowNull: false,
     },
-    d_content: {
+    content: {
       type: DataTypes.TEXT(),
       allowNull: false,
     },
-    d_date: {
+    date: {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    d_thumbnail: DataTypes.STRING(128),
-    d_menus: DataTypes.STRING(128),
-    d_memo: DataTypes.STRING(),
+    thumbnail: DataTypes.STRING(128),
+    menus: DataTypes.STRING(128),
+    memo: DataTypes.STRING(),
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },

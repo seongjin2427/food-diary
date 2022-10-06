@@ -8,6 +8,7 @@ export interface ImageFileType {
 }
 
 export interface IDiaryState {
+  did?: number;
   date: string;
   title: string;
   content: string;
@@ -15,7 +16,7 @@ export interface IDiaryState {
   places: SearchResultType[];
   images: ImageFileType[];
   tempImages: ImageFileType[];
-  [key: string]: string | null | SearchResultType[] | ImageFileType[];
+  [key: string]: string | null | number | undefined | SearchResultType[] | ImageFileType[];
 }
 
 const initialState: IDiaryState = {
@@ -73,6 +74,17 @@ const diarySlice = createSlice({
       const { name, value } = action.payload;
       state[name] = value;
     },
+    setDiary: (state, actions: PayloadAction<IDiaryState>) => {
+      const { did, title, content, date, images, places, thumbnail } = actions.payload;
+      state.did = did;
+      state.title = title;
+      state.content = content;
+      state.thumbnail = thumbnail;
+      state.places = places;
+      state.images = images;
+      state.date = date;
+      state.tempImages = [];
+    },
     clearDiary: (state) => {
       state.date = '';
       state.title = '';
@@ -94,6 +106,7 @@ export const {
   addTempImage,
   removeTempImage,
   setDiaryByName,
+  setDiary,
   clearDiary,
 } = diarySlice.actions;
 export default diarySlice.reducer;

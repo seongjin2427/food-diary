@@ -5,19 +5,23 @@ import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './CommonHeader.styled';
 
 interface CommonHeaderProps {
-  type: 'home' | 'next' | 'prev' | 'both';
+  type: 'next' | 'prev' | 'both' | 'read-diary';
   nextText?: string;
   nextUrl?: string;
   nextDisabled?: boolean;
   nextFn?: () => void;
+  modifyFn?: () => void;
+  removeFn?: () => void;
 }
 
 const CommonHeader = ({
-  type,
   nextText = '다음',
-  nextUrl,
   nextDisabled,
+  type,
+  nextUrl,
   nextFn,
+  modifyFn,
+  removeFn,
 }: CommonHeaderProps) => {
   const router = useRouter();
 
@@ -42,30 +46,41 @@ const CommonHeader = ({
       {type === 'both' && (
         <>
           <S.LeftButtonArea>
-            <SVGIcon icon='ChevronLeftIcon' width='2rem' onClick={moveBack} />
+            <SVGIcon icon='ChevronLeftIcon' width='2rem' height='2rem' onClick={moveBack} />
           </S.LeftButtonArea>
           <S.RightButtonArea onClick={moveNextPage} disabled={!nextDisabled}>
             <S.ButtonSpan>{nextText}</S.ButtonSpan>
-            <SVGIcon icon='ChevronRightIcon' width='2rem' />
+            <SVGIcon icon='ChevronRightIcon' width='2rem' height='2rem' />
           </S.RightButtonArea>
         </>
       )}
       {type === 'next' && (
         <>
           <S.LeftButtonArea>
-            <SVGIcon icon='XMark' width='2rem' onClick={moveHomePage} />
+            <SVGIcon icon='XMark' width='2rem' height='2rem' onClick={moveHomePage} />
           </S.LeftButtonArea>
           <S.RightButtonArea onClick={moveNextPage} disabled={!nextDisabled}>
             <S.ButtonSpan>{nextText}</S.ButtonSpan>
-            <SVGIcon icon='ChevronRightIcon' width='2rem' />
+            <SVGIcon icon='ChevronRightIcon' width='2rem' height='2rem' />
           </S.RightButtonArea>
         </>
       )}
       {type === 'prev' && (
         <>
           <S.LeftButtonArea>
-            <SVGIcon icon='ChevronLeftIcon' width='2rem' onClick={moveBack} />
+            <SVGIcon icon='ChevronLeftIcon' width='2rem' height='2rem' onClick={moveBack} />
           </S.LeftButtonArea>
+        </>
+      )}
+      {type === 'read-diary' && (
+        <>
+          <S.LeftButtonArea>
+            <SVGIcon icon='ChevronLeftIcon' width='2rem' height='2rem' onClick={moveBack} />
+          </S.LeftButtonArea>
+          <S.RightButtonArea>
+            <SVGIcon icon='PenIcon' width='2rem' height='2rem' onClick={moveNextPage} />
+            <SVGIcon icon='BinIcon' width='2rem' height='2rem' onClick={removeFn} />
+          </S.RightButtonArea>
         </>
       )}
     </S.Container>

@@ -5,13 +5,12 @@ import { IconColorKeyType } from '@/styles/theme';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 import { addFolderApi } from '@/api/diary';
 
-export interface FolderSliceFolderType {  
+export interface FolderSliceFolderType {
   fid?: number;
   title: string;
   color: IconColorKeyType;
   icon: IconKeySet;
   places: SearchResultType[];
-
 }
 export interface IFolderState {
   folders: FolderSliceFolderType[];
@@ -33,7 +32,7 @@ const folderSlice = createSlice({
     ) => {
       const { title, color, icon } = action.payload;
       state.folders.push({ title, color, icon, places: [] });
-      addFolderApi({ title, color, icon, places: [] })
+      addFolderApi({ title, color, icon, places: [] });
     },
     addPlaceInFolder: (
       state,
@@ -54,10 +53,13 @@ const folderSlice = createSlice({
     replaceFolders: (state, action: PayloadAction<FolderSliceFolderType[]>) => {
       state.folders = action.payload;
     },
+    clearFolder: (state) => {
+      state.folders = [];
+    },
   },
 });
 
-export const { addFolder, addPlaceInFolder, removePlaceInFolder, replaceFolders } =
+export const { addFolder, addPlaceInFolder, removePlaceInFolder, replaceFolders, clearFolder } =
   folderSlice.actions;
 
 export default folderSlice.reducer;

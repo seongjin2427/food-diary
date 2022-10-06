@@ -13,11 +13,14 @@ export const updateFolder = async (folder: FolderSliceFolderType) => {
   const { fid, places } = folder;
   try {
     const foundFolder = await models.Folder.findByPk(fid);
+
     if (foundFolder) {
       places.forEach(async ({ id }) => {
         const foundPlace = await findPlace(id);
+
         if (foundPlace) {
           const existedPlace = await foundFolder.hasPlace(foundPlace);
+
           if (!existedPlace) {
             await foundFolder.addPlace(foundPlace);
           }

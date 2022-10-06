@@ -1,6 +1,5 @@
 import { useState, useCallback, ChangeEvent, useEffect } from 'react';
 import { QueryClient, useQuery } from '@tanstack/react-query';
-import dayjs from 'dayjs';
 
 import {
   getSearchDiaryBySearchWord,
@@ -31,13 +30,27 @@ export interface SearchDiaryActionType {
   changeCurrentPlace: (n: number) => void;
 }
 
+function getToday() {
+  const todayDate = new Date();
+  const today = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate());
+  const tomorrow = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+    today.getHours(),
+    today.getMinutes(),
+    today.getSeconds() - 1,
+  );
+  return [today, tomorrow];
+}
+
 const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
   const [open, setOpen] = useState<boolean>(false);
   const [searchWord, setSearchWord] = useState<string>('');
-  const [searchOption, setSearchOption] = useState<string>('all');
+  const [searchOption, setSearchOption] = useState<string>('diary');
 
-  const [prevDate, setPrevDate] = useState<Date>(new Date());
-  const [nextDate, setNextDate] = useState<Date>(new Date());
+  const [prevDate, setPrevDate] = useState<Date>(getToday()[0]);
+  const [nextDate, setNextDate] = useState<Date>(getToday()[1]);
 
   const [searchDiaryResults, setSearchDiaryResults] = useState<SearchedDiaryType[] | undefined>([]);
 
@@ -46,43 +59,34 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
 
   const queryClient = new QueryClient();
 
-  if (searchOption === 'all' || searchOption === 'diary') {
-    useQuery(
-      ['searchDiaryResult', searchWord],
-      () => {
-        const formattedPrevDate = dayjs(prevDate).format('YYYY-MM-DD');
-        const formattedNextDate = dayjs(nextDate).format('YYYY-MM-DD');
-
-        return getSearchDiaryBySearchWord({
-          nextDate: formattedNextDate,
-          prevDate: formattedPrevDate,
-          searchWord,
-        });
+  useQuery(
+    ['searchDiaryResult', searchWord],
+    () =>
+      getSearchDiaryBySearchWord({
+        nextDate,
+        prevDate,
+        searchWord,
+      }),
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (searchedData) => {
+        setSearchDiaryResults(searchedData);
+        queryClient.invalidateQueries();
       },
-      {
-        refetchOnWindowFocus: false,
-        onSuccess: (searchedData) => {
-          setSearchDiaryResults(searchedData);
-          queryClient.invalidateQueries();
-        },
-      },
-    );
-  }
+    },
+  );
 
   if (searchOption === 'map') {
     useQuery(
       ['searchPlaceResult', searchWord],
-      () => {
-        const formattedPrevDate = dayjs(prevDate).format('YYYY-MM-DD');
-        const formattedNextDate = dayjs(nextDate).format('YYYY-MM-DD');
-
-        return getSearchPlacesBySearchWord({
-          nextDate: formattedNextDate,
-          prevDate: formattedPrevDate,
+      () =>
+        getSearchPlacesBySearchWord({
+          nextDate,
+          prevDate,
           searchWord,
-        });
-      },
+        }),
       {
+        staleTime: Infinity,
         refetchOnWindowFocus: false,
         onSuccess: (searchedData) => {
           setSearchPlaceResults(searchedData);

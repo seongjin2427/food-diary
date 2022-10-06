@@ -13,7 +13,7 @@ handler.use(authToken).post(async (req: NextApiExpanededRequest, res: NextApiRes
     const { diary, folders, additionalInfo } = req.body;
 
     try {
-      await saveDiary(user?.id, diary, additionalInfo);
+      await saveDiary(user, diary, additionalInfo);
       await saveFolder(folders);
 
       res.status(200).json({ message: 'Success!' });

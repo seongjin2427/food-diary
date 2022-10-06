@@ -5,7 +5,7 @@ import MainLayout from '@/layouts/MainLayout';
 import { NextPage } from 'next';
 import React from 'react';
 
-const SearchPage: NextPage = () => {
+const SearchDiaryPage: NextPage = () => {
   return (
     <>
       <Header>
@@ -18,4 +18,4 @@ const SearchPage: NextPage = () => {
   );
 };
 
-export default SearchPage;
+export default SearchDiaryPage;

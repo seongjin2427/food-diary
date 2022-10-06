@@ -9,7 +9,6 @@ import GlobalStyle from '@/styles/global';
 import theme from '@/styles/theme';
 import { Provider } from 'react-redux';
 import { store } from '@/store/index';
-import EditorProvider from '@/components/shared/Editor/context/editorContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
@@ -26,9 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           ></script>
         </Head>
         <Provider store={store}>
-          <EditorProvider>
-            <Component {...pageProps} />
-          </EditorProvider>
+          <Component {...pageProps} />
         </Provider>
       </ThemeProvider>
     </QueryClientProvider>

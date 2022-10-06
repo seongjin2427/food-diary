@@ -22,7 +22,7 @@ const HomeHeader = ({ type, nextUrl, nextDisabled, nextFn }: HomeHeaderProps) =>
   }, [nextDisabled, nextFn]);
 
   const moveSearchPage = useCallback(() => {
-    router.push('/search');
+    router.push('/search/diary');
   }, [router]);
 
   return (

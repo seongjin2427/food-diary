@@ -22,7 +22,7 @@ Diary.hasMany(ImageFile, {
   sourceKey: 'did',
   foreignKey: 'diaryId',
   onDelete: 'CASCADE',
-  as: 'ImageFile',
+  as: 'images',
 });
 
 User.belongsToMany(Place, {

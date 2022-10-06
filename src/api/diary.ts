@@ -55,21 +55,44 @@ export const addFolderApi = async (folder: FolderSliceFolderType) => {
   }
 };
 
+export interface FetchedPlacesType {
+  pid: number;
+  place_id: string;
+  address_name: string;
+  category_group_code: string;
+  category_group_name: string;
+  category_name: string;
+  distance: string;
+  phone: string;
+  place_name: string;
+  place_url: string;
+  road_address_name: string;
+  x: string;
+  y: string;
+}
+
 interface GetFolderApiType {
   folders: {
     fid: number;
     color: IconColorKeyType;
     icon: IconKeySet;
-    places: SearchResultType[];
+    places: FetchedPlacesType[];
     title: string;
   }[];
 }
 
 export const getFolderApi = async (): Promise<FolderSliceFolderType[] | undefined> => {
   try {
-    const { data } = await instance.get<GetFolderApiType>('/api/folder/get-folders');
+    const {
+      data: { folders },
+    } = await instance.get<GetFolderApiType>('/api/folder/get-folders');
 
-    return data.folders;
+    const convertedFolders = folders.map(({ places, ...folderRest }) => ({
+      places: places.map(({ place_id, ...rest }) => ({ id: place_id, ...rest })),
+      ...folderRest,
+    }));
+
+    return convertedFolders;
   } catch (err) {
     console.log(err);
     return undefined;
@@ -78,15 +101,15 @@ export const getFolderApi = async (): Promise<FolderSliceFolderType[] | undefine
 
 interface SearchOptionsType {
   searchWord: string;
-  prevDate: string;
-  nextDate: string;
+  prevDate: Date;
+  nextDate: Date;
 }
 
 export interface SearchedDiaryType {
   did: number;
-  d_title: string;
-  d_date: string;
-  d_content: string;
+  title: string;
+  date: string;
+  content: string;
   thumbnail: string;
 }
 
@@ -127,6 +150,20 @@ export const getSearchPlacesBySearchWord = async (searchOptions: SearchOptionsTy
     }
     console.log(results);
     return results;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export interface GetDiaryType {
+  diary: (IDiaryState & IAdditionalInfoState)[];
+}
+
+export const getDiaryByDid = async (did: number) => {
+  try {
+    const { data } = await instance.get<GetDiaryType>(`/api/diary/${did}`);
+    console.log(data);
+    return data;
   } catch (err) {
     console.log(err);
   }
