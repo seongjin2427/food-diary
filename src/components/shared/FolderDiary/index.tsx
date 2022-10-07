@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useAppSelector } from '@/store/index';
 import SVGIcon from '@/components/shared/SVGIcon';
@@ -8,6 +8,11 @@ import * as S from './FolderDiary.styled';
 
 const FolderDiary = () => {
   const { places } = useAppSelector(({ diary }) => diary);
+  const { folders } = useAppSelector(({ folder }) => folder);
+
+  useEffect(() => {
+    console.log(folders);
+  }, [folders]);
 
   return (
     <S.Container>

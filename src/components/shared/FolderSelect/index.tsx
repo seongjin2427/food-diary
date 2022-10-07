@@ -1,4 +1,4 @@
-import { memo, useState, useCallback, ChangeEvent } from 'react';
+import { memo, useState, useCallback, ChangeEvent, useEffect } from 'react';
 import { useQuery, QueryClient } from '@tanstack/react-query';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
@@ -32,17 +32,22 @@ const FolderSelect = ({ place }: FolderSelectProps) => {
   const folders = useAppSelector(({ folder }) => folder.folders);
 
   const getSelectedFolder = useCallback(() => {
-    const index = folders.findIndex(({ places }) => !!places.find((p) => p.id === place.id));
+    const index = folders.findIndex(
+      ({ places }) => !!places.find((p) => p.address_name === place.address_name),
+    );
     if (index >= 0) {
       return {
         index,
         ...folders[index],
       };
     }
+    console.log(place);
+    console.log('getSelectedFolder', index);
     return;
   }, [folders]);
 
   const { data } = useQuery(['folders'], getFolderApi, {
+    refetchOnWindowFocus: false,
     onSuccess: (fetchedFolders: FolderSliceFolderType[]) => {
       dispatch(replaceFolders(fetchedFolders));
       queryClient.invalidateQueries(['folders']);

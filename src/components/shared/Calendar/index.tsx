@@ -1,12 +1,21 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import useCalendar from '@/hooks/useCalendar';
 import * as S from './Calendar.styled';
+import { useAppSelector } from '@/store/index';
 
 function Calendar() {
   const router = useRouter();
   const [today, currentMonth, startDay] = useCalendar();
+
+  const {
+    folder: { folders },
+  } = useAppSelector((state) => state);
+
+  useEffect(() => {
+    console.log(folders[1]);
+  }, [folders]);
 
   const clickDay = useCallback((date: Date) => {
     router.push(

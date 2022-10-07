@@ -7,6 +7,10 @@ import {
   InferAttributes,
   InferCreationAttributes,
   Association,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManySetAssociationsMixin,
 } from 'sequelize';
 
 import sequelize from '../connection';
@@ -33,10 +37,8 @@ class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>
   declare updatedAt: CreationOptional<Date>;
 
   declare diaryId: ForeignKey<Diary['did']>;
-  declare diary?: NonAttribute<Diary>;
 
   declare folderId: ForeignKey<Folder['fid']>;
-  declare folder?: NonAttribute<Folder>;
 }
 
 Place.init(
