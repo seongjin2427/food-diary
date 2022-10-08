@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { setDiaryByName } from '@/store/diary/diarySlice';
@@ -8,7 +8,13 @@ import * as S from './WriteDiary.styled';
 
 const WriteDiary = () => {
   const dispatch = useAppDispatch();
-  const { places, title } = useAppSelector(({ diary }) => diary);
+  const state = useAppSelector((state) => state);
+  const { places, title, images, tempImages } = state.diary;
+
+  useEffect(() => {
+    console.log('images', images);
+    console.log('tempImages', tempImages);
+  }, [images, tempImages]);
 
   const onChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
     dispatch(setDiaryByName({ name: 'title', value }));
@@ -22,14 +28,14 @@ const WriteDiary = () => {
       </S.TagTitle>
       <S.TagContainer>
         {places.map((place) => (
-          <S.TagBox key={place.id}>
+          <S.TagBox key={place.address_name}>
             <SVGIcon icon='MapPinIcon' width='1rem' height='1rem' />
             <S.Tag>{place.place_name}</S.Tag>
           </S.TagBox>
         ))}
       </S.TagContainer>
       <S.DiaryTitle placeholder='제목을 입력해주세요' value={title} onChange={onChange} />
-      <Editor />
+      <Editor editable={true} />
     </S.Container>
   );
 };

@@ -1,5 +1,5 @@
-import { memo, useState, useCallback, ChangeEvent } from 'react';
-import { useQuery, QueryClient } from '@tanstack/react-query';
+import { memo, useState, useCallback, ChangeEvent, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import {
@@ -8,7 +8,7 @@ import {
   FolderSliceFolderType,
   replaceFolders,
 } from '@/store/diary/folderSlice';
-import { getFolderApi } from '@/api/diary';
+import { addFolderApi, getFolderApi } from '@/api/diary';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 import MakeFolder from '@/components/shared/MakeFolder';
 import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
@@ -27,25 +27,14 @@ interface FolderSelectProps {
 }
 
 const FolderSelect = ({ place }: FolderSelectProps) => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const folders = useAppSelector(({ folder }) => folder.folders);
 
-  const getSelectedFolder = useCallback(() => {
-    const index = folders.findIndex(({ places }) => !!places.find((p) => p.id === place.id));
-    if (index >= 0) {
-      return {
-        index,
-        ...folders[index],
-      };
-    }
-    return;
-  }, [folders]);
-
-  const { data } = useQuery(['folders'], getFolderApi, {
+  const fetchedFolder = useQuery(['folders'], getFolderApi, {
+    refetchOnWindowFocus: false,
     onSuccess: (fetchedFolders: FolderSliceFolderType[]) => {
       dispatch(replaceFolders(fetchedFolders));
-      queryClient.invalidateQueries(['folders']);
     },
     onError: (err) => {
       console.log(err);
@@ -53,10 +42,29 @@ const FolderSelect = ({ place }: FolderSelectProps) => {
     },
   });
 
-  const [selectedFolder, setSelectedFolder] = useState<FolderType | undefined>(getSelectedFolder());
+  const mutation = useMutation(addFolderApi, {
+    onSuccess(data) {
+      queryClient.invalidateQueries(['folders']);
+    },
+  });
+
+  const [selectedFolder, setSelectedFolder] = useState<FolderType | undefined>(undefined);
   const [selectOpen, setSelectOpen] = useState<boolean>(false);
   const [inputMode, setinputMode] = useState<boolean>(false);
   const [newFolderTitle, setNewFolderTitle] = useState<string>('');
+
+  useEffect(() => {
+    if (!selectedFolder) {
+      const index = folders.findIndex(({ places }) => places.find((p) => p.id === place.id));
+
+      if (index >= 0) {
+        setSelectedFolder({
+          index,
+          ...folders[index],
+        });
+      }
+    }
+  }, [selectedFolder, folders]);
 
   const onClickOpenSelect = useCallback(() => {
     setSelectOpen((prev) => !prev);
@@ -91,8 +99,9 @@ const FolderSelect = ({ place }: FolderSelectProps) => {
   const onClickNewFolderInfo = useCallback(
     (icon: IconKeySet, color: IconColorKeyType) => {
       dispatch(addFolder({ icon, color, title: newFolderTitle }));
-      setinputMode(false);
+      mutation.mutate({ icon, color, title: newFolderTitle, places: [] });
       setNewFolderTitle('');
+      setinputMode(false);
     },
     [newFolderTitle],
   );

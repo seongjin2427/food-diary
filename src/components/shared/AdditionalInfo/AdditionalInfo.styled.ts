@@ -8,7 +8,7 @@ export const Container = styled.div`
 export const Description = styled.h1`
   padding-left: 1rem;
   margin-bottom: 2rem;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 800;
   line-height: 1.5;
 `;
@@ -25,8 +25,8 @@ export const InfoArea = styled.div`
 `;
 
 export const InfoSubject = styled.p`
-  width: 3.5rem;
-  font-size: 1.25rem;
+  width: 3rem;
+  font-size: 1.125rem;
   margin-top: 0.375rem;
 `;
 
@@ -51,4 +51,9 @@ export const InfoTextarea = styled.textarea`
   border-radius: 0.25rem;
   line-height: 1.5;
   outline: none;
+
+  :read-only {
+    color: #555;
+    background: #eee;
+  }
 `;

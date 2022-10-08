@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export const Container = styled.div`
   background: white;
-  padding: 0.25rem 0rem;
   margin-top: 10px;
+  padding: 0.25rem 0rem;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -18,6 +18,7 @@ export const ButtonBox = styled.div`
   background: lightcoral;
   overflow-y: scroll;
   position: relative;
+  border-radius: 0.25rem 0.25rem 0 0;
 
   ::-webkit-scrollbar {
     display: none;

@@ -10,7 +10,11 @@ import { useAppDispatch, useAppSelector } from '@/store/index';
 import AdditionalInfoInput from '@/components/shared/AdditionalInfoInput';
 import * as S from './AdditionalInfo.styled';
 
-const AdditinalInfo = () => {
+interface AdditionalInfoProps {
+  readOnly?: boolean;
+}
+
+const AdditinalInfo = ({ readOnly }: AdditionalInfoProps) => {
   const dispatch = useAppDispatch();
   const { menus, memo } = useAppSelector(({ additionalInfo }) => additionalInfo);
 
@@ -29,16 +33,22 @@ const AdditinalInfo = () => {
     dispatch(removeAdditionalInfo(idx));
   }, []);
 
-  const onChangeMemo = useCallback(({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch(setMemo(value));
-  }, [memo]);
+  const onChangeMemo = useCallback(
+    ({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) => {
+      dispatch(setMemo(value));
+    },
+    [memo],
+  );
 
   return (
     <S.Container>
-      <S.Description>
-        추가 정보를 기록하고 싶은 경우,
-        <br /> 아래에 작성해주세요.
-      </S.Description>
+      {readOnly ? (
+        <S.Description>작성했던 메모</S.Description>
+      ) : (
+        <S.Description>
+          추가 정보에 대해서는 <br /> 아래에 작성해주세요.
+        </S.Description>
+      )}
       <S.InfoContainer>
         <S.InfoArea>
           <S.InfoSubject>메뉴</S.InfoSubject>
@@ -51,6 +61,7 @@ const AdditinalInfo = () => {
                 addInfo={addInfo}
                 removeInfo={removeInfo}
                 length={menus.length}
+                readOnly={readOnly}
               />
             ))}
           </S.InfoInputsContainer>
@@ -58,7 +69,7 @@ const AdditinalInfo = () => {
         <S.InfoArea>
           <S.InfoSubject>메모</S.InfoSubject>
           <S.InfoMemoArea>
-            <S.InfoTextarea onChange={onChangeMemo} value={memo} />
+            <S.InfoTextarea onChange={onChangeMemo} value={memo} readOnly={readOnly} />
           </S.InfoMemoArea>
         </S.InfoArea>
       </S.InfoContainer>

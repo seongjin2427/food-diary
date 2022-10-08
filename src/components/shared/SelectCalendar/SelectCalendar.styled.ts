@@ -6,7 +6,9 @@ interface CalendarType {
   alignDirection?: 'left' | 'right';
 }
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100%;
+`;
 
 export const Backdrop = styled.div<CalendarType>`
   display: none;

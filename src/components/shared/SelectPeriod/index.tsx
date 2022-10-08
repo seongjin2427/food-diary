@@ -13,7 +13,7 @@ interface SerachPeriodProps {
 }
 const SelectPeriod = ({ searchDiaryStates, searchDiaryActions }: SerachPeriodProps) => {
   const { prevDate, nextDate } = searchDiaryStates;
-  const { setSearchPrevDate, setSearchNextDate } = searchDiaryActions;
+  const { setSelectDate } = searchDiaryActions;
 
   return (
     <S.Container>
@@ -23,18 +23,20 @@ const SelectPeriod = ({ searchDiaryStates, searchDiaryActions }: SerachPeriodPro
           <S.Period>
             <SVGIcon icon='CalendarIcon' width='1.25rem' height='1.25rem' />
             <SelectCalendar
+              type='prevDate'
               alignDirection='left'
               selectDate={prevDate}
-              setSelectDate={setSearchPrevDate}
+              setSelectDate={setSelectDate}
             />
           </S.Period>
           <SVGIcon icon='SubstractIcon' width='1.25rem' height='1.25rem' />
           <S.Period>
             <SVGIcon icon='CalendarIcon' width='1.25rem' height='1.25rem' />
             <SelectCalendar
+              type='nextDate'
               alignDirection='right'
               selectDate={nextDate}
-              setSelectDate={setSearchNextDate}
+              setSelectDate={setSelectDate}
             />
           </S.Period>
         </S.PeriodBox>

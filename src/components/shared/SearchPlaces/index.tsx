@@ -54,7 +54,7 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
       <S.PlaceTags>
         {pickedPlaces.length > 0 &&
           pickedPlaces.map((place) => (
-            <S.PlaceTag key={place.id}>
+            <S.PlaceTag key={place.address_name}>
               <SVGIcon icon='XMark' width='1rem' onClick={() => deletePlace(place)} />
               <S.Tag>{place.place_name}</S.Tag>
             </S.PlaceTag>

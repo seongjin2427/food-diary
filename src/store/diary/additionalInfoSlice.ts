@@ -1,3 +1,4 @@
+import { GetDiaryType } from '@/api/diary';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IAdditionalInfoState {
@@ -31,6 +32,10 @@ const additionalInfoSlice = createSlice({
     setMemo: (state, action: PayloadAction<string>) => {
       state.memo = action.payload;
     },
+    setAllAdditionalInfo: (state, action: PayloadAction<GetDiaryType['diary'][0]>) => {
+      state.memo = action.payload.memo;
+      state.menus = JSON.parse(String(action.payload.menus));
+    },
     clearAdditionalInfo: (state) => {
       state.memo = '';
       state.menus = [{ menu: '', price: 0 }];
@@ -42,6 +47,7 @@ export const {
   addAdditionalInfo,
   setAdditionalInfo,
   removeAdditionalInfo,
+  setAllAdditionalInfo,
   setMemo,
   clearAdditionalInfo,
 } = additionalInfoSlice.actions;
