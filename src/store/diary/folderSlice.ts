@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IconKeySet } from '@/components/shared/SVGIcon';
 import { IconColorKeyType } from '@/styles/theme';
 import { SearchResultType } from '@/hooks/useSearchPlace';
-import { addFolderApi } from '@/api/diary';
 
 export interface FolderSliceFolderType {
   fid?: number;
@@ -32,7 +31,6 @@ const folderSlice = createSlice({
     ) => {
       const { title, color, icon } = action.payload;
       state.folders.push({ title, color, icon, places: [] });
-      addFolderApi({ title, color, icon, places: [] });
     },
     addPlaceInFolder: (
       state,

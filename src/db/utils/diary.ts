@@ -63,7 +63,7 @@ export const saveDiary = async (
               await selectedDiary?.addPlace(foundPlace);
             } else {
               console.log('uploadDiary', foundPlace);
-              const createdPlace = await models.Place.create({ place_id: id, ...rest });
+              const createdPlace = await models.Place.create({ id, ...rest });
               console.log('uploadDiary created', createdPlace);
               const a = await user?.addPlace(createdPlace);
               console.log('user addPlace', a);

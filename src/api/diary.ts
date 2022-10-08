@@ -57,7 +57,7 @@ export const addFolderApi = async (folder: FolderSliceFolderType) => {
 
 export interface FetchedPlacesType {
   pid: number;
-  place_id: string;
+  id: string;
   address_name: string;
   category_group_code: string;
   category_group_name: string;
@@ -87,12 +87,7 @@ export const getFolderApi = async (): Promise<FolderSliceFolderType[] | undefine
       data: { folders },
     } = await instance.get<GetFolderApiType>('/api/folder/get-folders');
 
-    const convertedFolders = folders.map(({ places, ...folderRest }) => ({
-      places: places.map(({ place_id, ...rest }) => ({ id: place_id, ...rest })),
-      ...folderRest,
-    }));
-
-    return convertedFolders;
+    return folders;
   } catch (err) {
     console.log(err);
     return undefined;

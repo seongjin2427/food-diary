@@ -3,24 +3,17 @@ import {
   DataTypes,
   CreationOptional,
   ForeignKey,
-  NonAttribute,
   InferAttributes,
   InferCreationAttributes,
-  Association,
-  HasManyGetAssociationsMixin,
-  HasManyAddAssociationMixin,
-  HasManyAddAssociationsMixin,
-  HasManySetAssociationsMixin,
 } from 'sequelize';
 
 import sequelize from '../connection';
 import Diary from '@/db/models/diary.model';
 import Folder from '@/db/models/folder.models';
-import User from '@/db/models/user.model';
 
 class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>> {
   declare pid: CreationOptional<number>;
-  declare place_id: string;
+  declare id: string;
   declare address_name: string;
   declare category_group_code: string;
   declare category_group_name: string;
@@ -48,7 +41,7 @@ Place.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    place_id: DataTypes.STRING(128),
+    id: DataTypes.STRING(128),
     address_name: DataTypes.STRING(128),
     category_group_code: DataTypes.STRING(),
     category_group_name: DataTypes.STRING(128),

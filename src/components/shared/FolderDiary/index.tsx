@@ -10,9 +10,13 @@ const FolderDiary = () => {
   const { places } = useAppSelector(({ diary }) => diary);
   const { folders } = useAppSelector(({ folder }) => folder);
 
-  useEffect(() => {
-    console.log(folders);
-  }, [folders]);
+  // useEffect(() => {
+  //   console.log(folders);
+  // }, [folders]);
+
+  // useEffect(() => {
+  //   console.log('places', places);
+  // }, [places]);
 
   return (
     <S.Container>
