@@ -154,7 +154,7 @@ export interface GetDiaryType {
   diary: (IDiaryState & IAdditionalInfoState)[];
 }
 
-export const getDiaryByDid = async (did: number) => {
+export const getDiaryByDid = async (did: string) => {
   try {
     const { data } = await instance.get<GetDiaryType>(`/api/diary/${did}`);
     console.log(data);

@@ -4,8 +4,8 @@ import { ImageFileType } from '@/store/diary/diarySlice';
 
 export const removeTempImage = async (tempImages: ImageFileType[]) => {
   const resultArr = await Promise.all(
-    tempImages.map(async ({ id }) => {
-      const foundImage = await ImageFile.findByPk(id);
+    tempImages.map(async ({ img_id }) => {
+      const foundImage = await ImageFile.findByPk(img_id);
 
       if (foundImage) {
         await s3.deleteObject(
@@ -18,7 +18,7 @@ export const removeTempImage = async (tempImages: ImageFileType[]) => {
           },
         );
 
-        foundImage.destroy();
+        await foundImage.destroy();
 
         return true;
       } else {

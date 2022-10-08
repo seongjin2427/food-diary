@@ -1,17 +1,17 @@
-import { NextPage, NextPageContext } from 'next';
 import React from 'react';
+import dayjs from 'dayjs';
+import { NextPage, NextPageContext } from 'next';
+import { useQuery } from '@tanstack/react-query';
 
-import CommonHeader from '@/layouts/CommonHeader';
+import { getDiaryByDid } from '@/api/diary';
+import { setDiary } from '@/store/diary/diarySlice';
+import { useAppDispatch } from '@/store/index';
+import { setAllAdditionalInfo } from '@/store/diary/additionalInfoSlice';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
-import { useQuery } from '@tanstack/react-query';
-import { getDiaryByDid } from '@/api/diary';
-import ReadDiary from '@/components/shared/ReadDiary';
-import { useAppDispatch } from '@/store/index';
-import { setDiary } from '@/store/diary/diarySlice';
-import { setAllAdditionalInfo } from '@/store/diary/additionalInfoSlice';
-import dayjs from 'dayjs';
+import CommonHeader from '@/layouts/CommonHeader';
 import Spinner from '@/components/shared/Spinner';
+import ReadDiary from '@/components/shared/ReadDiary';
 
 interface ReadDiaryPageProps {
   did: string;
@@ -20,7 +20,7 @@ interface ReadDiaryPageProps {
 const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
   const dispatch = useAppDispatch();
 
-  const { data, isFetching } = useQuery(['DiaryByDid', did], () => getDiaryByDid(+did), {
+  const { data, isFetching } = useQuery(['DiaryByDid', did], () => getDiaryByDid(did), {
     refetchOnWindowFocus: false,
     onSuccess: (diaryData) => {
       if (diaryData) {

@@ -10,7 +10,6 @@ interface CommonHeaderProps {
   nextUrl?: string;
   nextDisabled?: boolean;
   nextFn?: () => void;
-  modifyFn?: () => void;
   removeFn?: () => void;
 }
 
@@ -20,7 +19,6 @@ const CommonHeader = ({
   type,
   nextUrl,
   nextFn,
-  modifyFn,
   removeFn,
 }: CommonHeaderProps) => {
   const router = useRouter();

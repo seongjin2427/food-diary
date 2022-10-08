@@ -40,28 +40,29 @@ const Editor = ({ editable }: EditorProps) => {
     dispatch(setDiaryByName({ name: 'content', value: editorContent }));
 
     if (images.length > 0) {
-      images.forEach(({ id, src }) => {
+      images.forEach(({ img_id, src }) => {
         const watchImg = editorContent.includes(src);
+
         if (!watchImg) {
-          const removedImg = images.find(({ id: nid }) => nid === id);
+          const removedImg = images.find(({ img_id: wid }) => wid === img_id);
 
           if (removedImg) {
             dispatch(addTempImage(removedImg));
-            dispatch(removeImage(id));
+            dispatch(removeImage(img_id));
           }
         }
       });
     }
     if (tempImages.length > 0) {
-      tempImages.forEach(({ id, src }) => {
+      tempImages.forEach(({ img_id, src }) => {
         const watchImg = editorContent.includes(src);
 
         if (watchImg) {
-          const toRestoreImg = tempImages.find(({ id: nid }) => nid === id);
+          const toRestoreImg = tempImages.find(({ img_id: nid }) => nid === img_id);
 
           if (toRestoreImg) {
             dispatch(addImage(toRestoreImg));
-            dispatch(removeTempImage(id));
+            dispatch(removeTempImage(img_id));
           }
         }
       });
