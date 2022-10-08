@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { SearchDiaryActionType, SearchDiaryType } from '@/hooks/useSearchDiary';
 import SVGIcon from '@/components/shared/SVGIcon';
@@ -11,7 +11,7 @@ const SEARCH_OPTIONS = [
   },
   {
     name: '폴더',
-    value: 'map',
+    value: 'folder',
   },
 ];
 
@@ -22,8 +22,16 @@ interface SerachInputProps {
 }
 
 const SearchInput = ({ searchDiaryStates, searchDiaryActions, searchMap }: SerachInputProps) => {
-  const { open, searchOption, searchWord } = searchDiaryStates;
-  const { onToggleOpen, onSearch, selectSearchOption } = searchDiaryActions;
+  const { searchWord } = searchDiaryStates;
+  const { onSearch } = searchDiaryActions;
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [searchOption, setSearchOption] = useState<string>('map');
+
+  const onClickChangeSearchOption = useCallback((value: string) => {
+    setSearchOption(value);
+    setOpen(false);
+  }, []);
 
   return (
     <S.Container>
@@ -32,7 +40,7 @@ const SearchInput = ({ searchDiaryStates, searchDiaryActions, searchMap }: Serac
           {SEARCH_OPTIONS.map(
             ({ name, value }) =>
               value === searchOption && (
-                <S.SelectSearchOption key={value} onClick={onToggleOpen}>
+                <S.SelectSearchOption key={value} onClick={() => setOpen(!open)}>
                   {name}
                 </S.SelectSearchOption>
               ),
@@ -42,7 +50,10 @@ const SearchInput = ({ searchDiaryStates, searchDiaryActions, searchMap }: Serac
             {SEARCH_OPTIONS.map(
               ({ name, value }) =>
                 value !== searchOption && (
-                  <S.SearchInputSelectLi key={value} onClick={() => selectSearchOption(value)}>
+                  <S.SearchInputSelectLi
+                    key={value}
+                    onClick={() => onClickChangeSearchOption(value)}
+                  >
                     {name}
                   </S.SearchInputSelectLi>
                 ),

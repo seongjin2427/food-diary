@@ -1,5 +1,5 @@
 import { useState, useCallback, ChangeEvent, useEffect } from 'react';
-import { QueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { getSearchDiaryBySearchWord, SearchedDiaryType } from '@/api/diary';
 import { useAppDispatch, useAppSelector } from '@/store/index';
@@ -21,8 +21,6 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
   const { searchWord, prevDate, nextDate } = useAppSelector(({ search }) => search);
   const [searchDiaryResults, setSearchDiaryResults] = useState<SearchedDiaryType[] | undefined>([]);
 
-  const queryClient = new QueryClient();
-
   useQuery(
     ['searchDiaryResult', searchWord],
     () =>
@@ -35,7 +33,6 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
       refetchOnWindowFocus: false,
       onSuccess: (searchedData) => {
         setSearchDiaryResults(searchedData);
-        queryClient.invalidateQueries();
       },
     },
   );
