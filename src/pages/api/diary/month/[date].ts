@@ -4,6 +4,7 @@ import { NextApiResponse } from 'next';
 
 import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
 import ImageFile from '@/db/models/imageFile.model';
+import dayjs from 'dayjs';
 
 const handler = nc();
 
@@ -17,7 +18,7 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
     attributes: ['did', 'date', 'thumbnail'],
     where: {
       date: {
-        [Op.startsWith]: `${date}%`,
+        [Op.startsWith]: `${date}`,
       },
     },
     include: {
@@ -27,9 +28,15 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
     },
   });
 
-  console.log('diary', diary);
+  const sendDiary = diary?.map(({ did, date, thumbnail, images }) => {
+    return {
+      did,
+      date: dayjs(date).format('YYYY-MM-DD'),
+      image: images?.filter((img) => img.img_id === +thumbnail)[0].src,
+    };
+  });
 
-  res.status(200).json({ diary });
+  res.status(200).json({ diary: sendDiary });
 });
 
 export default handler;

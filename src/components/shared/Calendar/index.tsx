@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
 
@@ -9,15 +10,17 @@ function Calendar() {
   const router = useRouter();
   const [today, currentCalendar, startDay, setMonth] = useCalendar();
 
-  const clickDay = useCallback((date: Date) => {
-    router.push(
-      `/write/${date.toLocaleString('en-GB', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      })}`,
-    );
-  }, []);
+  const clickDay = useCallback(
+    (date: string, image: string | undefined, did: number | null | undefined) => {
+      if (!image) {
+        const [year, month, day] = date.split('-');
+        router.push(`/write/${day}/${month}/${year}`);
+      } else {
+        router.push(`/diary/${did}`);
+      }
+    },
+    [],
+  );
 
   const moveMonth = (n: number) => {
     setMonth(n);
@@ -29,24 +32,27 @@ function Calendar() {
         <S.CalendarButton onClick={() => moveMonth(-1)}>
           <SVGIcon icon='ChevronLeftIcon' width='2rem' height='2rem' />
         </S.CalendarButton>
-        <S.Month>
-          {today.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-          })}
-        </S.Month>
+        <S.Month>{dayjs(today).format('MMM YYYY')}</S.Month>
         <S.CalendarButton onClick={() => moveMonth(1)}>
           <SVGIcon icon='ChevronRightIcon' width='2rem' height='2rem' />
         </S.CalendarButton>
       </S.MonthArea>
 
       <S.DayArea>
-        {currentCalendar.map((date) => {
+        {currentCalendar.map(({ did, date, image }) => {
           return (
-            <S.Day onClick={() => clickDay(date)} key={date.toString()} startDay={startDay}>
-              <S.Date today={today === date}>
-                {date.toLocaleDateString('en-US', { day: '2-digit' })}
-              </S.Date>
+            <S.Day
+              onClick={() => clickDay(date, image, did)}
+              key={date.toString()}
+              startDay={startDay}
+            >
+              {image ? (
+                <S.Image src={image} />
+              ) : (
+                <S.Date today={dayjs(today).format('YYYY-MM-DD') === date}>
+                  {date.split('-')[2]}
+                </S.Date>
+              )}
             </S.Day>
           );
         })}

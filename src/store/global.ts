@@ -1,13 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SliceState = {
   isLogin: boolean;
   diaryModifyMode: boolean;
+  today: string;
+  currentMonth: string;
 };
+
+const today = new Date();
 
 const initialState: SliceState = {
   isLogin: false,
   diaryModifyMode: false,
+  today: today.toString(),
+  currentMonth: today.getMonth().toString(),
 };
 
 const GlobalSlice = createSlice({
@@ -26,9 +32,22 @@ const GlobalSlice = createSlice({
     offDiaryModifyMode: (state) => {
       state.diaryModifyMode = false;
     },
+    changeCurrentMonth: (state, action: PayloadAction<string>) => {
+      state.currentMonth = action.payload;
+    },
+    setOnToday: (state) => {
+      state.today = new Date().toString();
+    },
   },
 });
 
-export const { userLogin, userLogout, onDiaryModifyMode, offDiaryModifyMode } = GlobalSlice.actions;
+export const {
+  userLogin,
+  userLogout,
+  onDiaryModifyMode,
+  offDiaryModifyMode,
+  changeCurrentMonth,
+  setOnToday,
+} = GlobalSlice.actions;
 
 export default GlobalSlice.reducer;
