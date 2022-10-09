@@ -6,6 +6,12 @@ import { IDiaryState } from '@/store/diary/diarySlice';
 import { IconKeySet } from '@/components/shared/SVGIcon';
 import { IconColorKeyType } from '@/styles/theme';
 
+export const getDiaryByMonth = async (date: string) => {
+  const { data } = await instance.get(`/api/diary/month/${date}`);
+  console.log(data);
+  return data;
+};
+
 interface ImageFileType {
   imageFile: {
     img_id: string;

@@ -8,11 +8,19 @@ export const Container = styled.div`
 export const MonthArea = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   height: 5rem;
   margin-bottom: 1rem;
 `;
+
+export const CalendarButton = styled.button`
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+`;
+
 export const Month = styled.div`
   font-size: 2rem;
 `;
