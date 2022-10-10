@@ -1,9 +1,9 @@
-import React from 'react';
-import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
+import React, { useCallback } from 'react';
 import { NextPage, NextPageContext } from 'next';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { getDiaryByDid } from '@/api/diary';
+import { getDiaryByDid, removeDiaryBydid } from '@/api/diary';
 import { setDiary } from '@/store/diary/diarySlice';
 import { useAppDispatch } from '@/store/index';
 import { setAllAdditionalInfo } from '@/store/diary/additionalInfoSlice';
@@ -19,6 +19,7 @@ interface ReadDiaryPageProps {
 
 const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const { data, isFetching } = useQuery(['DiaryByDid', did], () => getDiaryByDid(did), {
     refetchOnWindowFocus: false,
@@ -29,6 +30,17 @@ const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
       }
     },
   });
+
+  const removeMutation = useMutation(removeDiaryBydid, {
+    onSuccess: () => {
+      console.log('성공?');
+    },
+  });
+
+  const removeDiary = useCallback(() => {
+    removeMutation.mutate(did);
+    router.replace('/');
+  }, []);
 
   if (isFetching) {
     return <Spinner color='lightcoral' size='2rem' speed='1' />;
@@ -47,13 +59,15 @@ const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
     );
   }
 
-  const { date } = data;
-  const [year, month, day] = dayjs(date).format('YYYY-MM-DD').split('-');
-
   return (
     <>
       <Header>
-        <CommonHeader type='read-diary' nextUrl={`/write/${day}/${month}/${year}`} nextDisabled />
+        <CommonHeader
+          type='read-diary'
+          nextUrl={`/write/diary`}
+          removeFn={removeDiary}
+          nextDisabled
+        />
       </Header>
       <MainLayout>
         <ReadDiary />

@@ -1,14 +1,14 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import { useQuery } from '@tanstack/react-query';
 import React, { useCallback } from 'react';
 
 import { changeCurrentMonth } from '@/store/global';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import useCalendar from '@/hooks/useCalendar';
 import SVGIcon from '@/components/shared/SVGIcon';
-import * as S from './Calendar.styled';
-import { useQuery } from '@tanstack/react-query';
 import Spinner from '@/components/shared/Spinner';
+import * as S from './Calendar.styled';
 
 function Calendar() {
   const dispatch = useAppDispatch();

@@ -86,6 +86,7 @@ const diarySlice = createSlice({
       state.tempImages = [];
     },
     clearDiary: (state) => {
+      state.did = undefined;
       state.date = '';
       state.title = '';
       state.content = '';

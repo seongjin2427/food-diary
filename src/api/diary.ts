@@ -177,3 +177,14 @@ export const getDiaryByDid = async (did: string) => {
     console.log(err);
   }
 };
+
+export const removeDiaryBydid = async (did: string) => {
+  try {
+    const { data } = await instance.delete(`/api/remove/diary/${did}`);
+    console.log(data);
+
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};

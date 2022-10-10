@@ -3,9 +3,6 @@ import nc from 'next-connect';
 import { Op } from 'sequelize';
 
 import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
-import ImageFile from '@/db/models/imageFile.model';
-import models from '@/db/index';
-import Place from '@/db/models/place.model.';
 
 const handler = nc();
 
