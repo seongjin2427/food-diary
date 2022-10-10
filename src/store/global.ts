@@ -13,7 +13,7 @@ const initialState: SliceState = {
   isLogin: false,
   diaryModifyMode: false,
   today: today.toString(),
-  currentMonth: today.getMonth().toString(),
+  currentMonth: today.toString(),
 };
 
 const GlobalSlice = createSlice({
@@ -35,8 +35,8 @@ const GlobalSlice = createSlice({
     changeCurrentMonth: (state, action: PayloadAction<string>) => {
       state.currentMonth = action.payload;
     },
-    setOnToday: (state) => {
-      state.today = new Date().toString();
+    setOnToday: (state, action: PayloadAction<string>) => {
+      state.today = action.payload;
     },
   },
 });

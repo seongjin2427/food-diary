@@ -1,14 +1,22 @@
 import dayjs from 'dayjs';
-import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
+import React, { useCallback } from 'react';
 
+import { changeCurrentMonth } from '@/store/global';
+import { useAppDispatch, useAppSelector } from '@/store/index';
 import useCalendar from '@/hooks/useCalendar';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './Calendar.styled';
+import { useQuery } from '@tanstack/react-query';
+import Spinner from '@/components/shared/Spinner';
 
 function Calendar() {
+  const dispatch = useAppDispatch();
+  const { today, currentMonth } = useAppSelector(({ global }) => global);
   const router = useRouter();
-  const [today, currentCalendar, startDay, setMonth] = useCalendar();
+  const [currentCalendar, startDay] = useCalendar();
+
+  const { isFetching } = useQuery(['useCalendar', currentMonth]);
 
   const clickDay = useCallback(
     (date: string, image: string | undefined, did: number | null | undefined) => {
@@ -23,8 +31,12 @@ function Calendar() {
   );
 
   const moveMonth = (n: number) => {
-    setMonth(n);
+    dispatch(changeCurrentMonth(dayjs(currentMonth).add(n, 'month').toString()));
   };
+
+  if (isFetching) {
+    return <Spinner color='lightcoral' size='2rem' speed='1' />;
+  }
 
   return (
     <S.Container>
@@ -32,7 +44,7 @@ function Calendar() {
         <S.CalendarButton onClick={() => moveMonth(-1)}>
           <SVGIcon icon='ChevronLeftIcon' width='2rem' height='2rem' />
         </S.CalendarButton>
-        <S.Month>{dayjs(today).format('MMM YYYY')}</S.Month>
+        <S.Month>{dayjs(currentMonth).format('MMM YYYY')}</S.Month>
         <S.CalendarButton onClick={() => moveMonth(1)}>
           <SVGIcon icon='ChevronRightIcon' width='2rem' height='2rem' />
         </S.CalendarButton>
@@ -42,8 +54,8 @@ function Calendar() {
         {currentCalendar.map(({ did, date, image }) => {
           return (
             <S.Day
-              onClick={() => clickDay(date, image, did)}
               key={date.toString()}
+              onClick={() => clickDay(date, image, did)}
               startDay={startDay}
             >
               {image ? (
