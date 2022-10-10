@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { changeCurrentMonth } from '@/store/global';
 import { useAppDispatch, useAppSelector } from '@/store/index';
@@ -12,12 +12,16 @@ import Spinner from '@/components/shared/Spinner';
 import * as S from './Calendar.styled';
 
 function Calendar() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const { today, currentMonth } = useAppSelector(({ global }) => global);
-  const router = useRouter();
   const [currentCalendar, startDay] = useCalendar();
 
-  const { isFetching } = useQuery(['useCalendar', currentMonth]);
+  const { isFetching, refetch } = useQuery(['useCalendar', currentMonth]);
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   const clickDay = useCallback(
     (date: string, image: string | undefined, did: number | null | undefined) => {
@@ -60,7 +64,7 @@ function Calendar() {
               startDay={startDay}
             >
               {image ? (
-                <Image src={image} width="100%" height="100%" layout="fill" />
+                <Image src={image} layout='fill' />
               ) : (
                 <S.Date today={dayjs(today).format('YYYY-MM-DD') === date}>
                   {date.split('-')[2]}

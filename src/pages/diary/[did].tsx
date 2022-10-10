@@ -18,11 +18,12 @@ interface ReadDiaryPageProps {
 }
 
 const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
-  const dispatch = useAppDispatch();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const { data, isFetching } = useQuery(['DiaryByDid', did], () => getDiaryByDid(did), {
     refetchOnWindowFocus: false,
+    refetchOnMount: true,
     onSuccess: (diaryData) => {
       if (diaryData) {
         dispatch(setDiary(diaryData));
@@ -40,6 +41,7 @@ const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
   const removeDiary = useCallback(() => {
     removeMutation.mutate(did);
     router.replace('/');
+    alert('정상적으로 삭제되었습니다!');
   }, []);
 
   if (isFetching) {
