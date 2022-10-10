@@ -1,50 +1,78 @@
-import React, { useCallback, useEffect } from 'react';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { useQuery } from '@tanstack/react-query';
+import React, { useCallback, useEffect } from 'react';
 
+import { changeCurrentMonth } from '@/store/global';
+import { useAppDispatch, useAppSelector } from '@/store/index';
 import useCalendar from '@/hooks/useCalendar';
+import SVGIcon from '@/components/shared/SVGIcon';
+import Spinner from '@/components/shared/Spinner';
 import * as S from './Calendar.styled';
-import { useAppSelector } from '@/store/index';
 
 function Calendar() {
   const router = useRouter();
-  const [today, currentMonth, startDay] = useCalendar();
+  const dispatch = useAppDispatch();
+  const { today, currentMonth } = useAppSelector(({ global }) => global);
+  const [currentCalendar, startDay] = useCalendar();
 
-  const {
-    folder: { folders },
-  } = useAppSelector((state) => state);
+  const { isFetching, refetch } = useQuery(['useCalendar', currentMonth]);
 
   useEffect(() => {
-    console.log(folders[1]);
-  }, [folders]);
-
-  const clickDay = useCallback((date: Date) => {
-    router.push(
-      `/write/${date.toLocaleString('en-GB', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      })}`,
-    );
+    refetch();
   }, []);
+
+  const clickDay = useCallback(
+    (date: string, image: string | undefined, did: number | null | undefined) => {
+      if (!image) {
+        const [year, month, day] = date.split('-');
+        router.push(`/write/${day}/${month}/${year}`);
+      } else {
+        router.push(`/diary/${did}`);
+      }
+    },
+    [],
+  );
+
+  const moveMonth = (n: number) => {
+    dispatch(changeCurrentMonth(dayjs(currentMonth).add(n, 'month').toString()));
+  };
+
+  if (isFetching) {
+    return <Spinner color='lightcoral' size='2rem' speed='1' />;
+  }
 
   return (
     <S.Container>
       <S.MonthArea>
-        <S.Month>
-          {today.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-          })}
-        </S.Month>
+        <S.CalendarButton onClick={() => moveMonth(-1)}>
+          <SVGIcon icon='ChevronLeftIcon' width='2rem' height='2rem' />
+        </S.CalendarButton>
+        <S.Month>{dayjs(currentMonth).format('MMM YYYY')}</S.Month>
+        <S.CalendarButton onClick={() => moveMonth(1)}>
+          <SVGIcon icon='ChevronRightIcon' width='2rem' height='2rem' />
+        </S.CalendarButton>
       </S.MonthArea>
+
       <S.DayArea>
-        {currentMonth.map((val) => (
-          <S.Day onClick={() => clickDay(val)} key={val.toString()} startDay={startDay}>
-            <S.Date today={today === val}>
-              {val.toLocaleDateString('en-US', { day: '2-digit' })}
-            </S.Date>
-          </S.Day>
-        ))}
+        {currentCalendar.map(({ did, date, image }) => {
+          return (
+            <S.Day
+              key={date.toString()}
+              onClick={() => clickDay(date, image, did)}
+              startDay={startDay}
+            >
+              {image ? (
+                <Image src={image} layout='fill' />
+              ) : (
+                <S.Date today={dayjs(today).format('YYYY-MM-DD') === date}>
+                  {date.split('-')[2]}
+                </S.Date>
+              )}
+            </S.Day>
+          );
+        })}
       </S.DayArea>
     </S.Container>
   );

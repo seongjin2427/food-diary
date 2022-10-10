@@ -28,6 +28,8 @@ export const saveDiary = async (
   try {
     let selectedDiary: Diary | undefined;
 
+    console.log('did', did);
+
     if (did) {
       const foundDiary = await user?.getDiary({
         where: {

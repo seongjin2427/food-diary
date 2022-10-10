@@ -6,6 +6,20 @@ import { IDiaryState } from '@/store/diary/diarySlice';
 import { IconKeySet } from '@/components/shared/SVGIcon';
 import { IconColorKeyType } from '@/styles/theme';
 
+interface getDiaryByMonthType {
+  diary: {
+    did: number;
+    date: string;
+    image: string;
+  }[];
+}
+
+export const getDiaryByMonth = async (date: string) => {
+  const { data } = await instance.get<getDiaryByMonthType>(`/api/diary/month/${date}`);
+  // console.log(data);
+  return data.diary;
+};
+
 interface ImageFileType {
   imageFile: {
     img_id: string;
@@ -159,6 +173,17 @@ export const getDiaryByDid = async (did: string) => {
     const { data } = await instance.get<GetDiaryType>(`/api/diary/${did}`);
     console.log(data);
     return data.diary[0];
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const removeDiaryBydid = async (did: string) => {
+  try {
+    const { data } = await instance.delete(`/api/remove/diary/${did}`);
+    console.log(data);
+
+    return data;
   } catch (err) {
     console.log(err);
   }

@@ -8,11 +8,19 @@ export const Container = styled.div`
 export const MonthArea = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   height: 5rem;
   margin-bottom: 1rem;
 `;
+
+export const CalendarButton = styled.button`
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+`;
+
 export const Month = styled.div`
   font-size: 2rem;
 `;
@@ -32,10 +40,24 @@ export const Day = styled.div<DayProps>`
   background: lightblue;
   height: 5rem;
   padding: 0.25rem;
+  position: relative;
+  object-fit: contain;
 
-  :first-of-type {
-    grid-column: ${({ startDay }) => `${startDay + 1} / ${startDay + 2}`};
-  }
+  ${({ startDay }) => css`
+    :first-of-type {
+      grid-column: ${startDay + 1} / ${startDay + 2};
+    }
+  `}
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
 `;
 
 interface DateProps {
