@@ -1,7 +1,9 @@
+import React from 'react';
+
 import Header from '@/layouts/Header';
 import HomeHeader from '@/layouts/HomeHeader';
 import MainLayout from '@/layouts/MainLayout';
-import React from 'react';
+import SearchMaps from '@/components/shared/SearchMaps';
 
 const MapsPage = () => {
   return (
@@ -9,7 +11,9 @@ const MapsPage = () => {
       <Header>
         <HomeHeader type='map' />
       </Header>
-      <MainLayout>MapsPage</MainLayout>
+      <MainLayout>
+        <SearchMaps />
+      </MainLayout>
     </>
   );
 };

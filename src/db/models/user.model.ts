@@ -47,7 +47,7 @@ class User extends Model<
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  declare getFolders: HasManyGetAssociationsMixin<Folder>; // Note the null assertions!
+  declare getFolder: HasManyGetAssociationsMixin<Folder>; // Note the null assertions!
   declare addFolder: HasManyAddAssociationMixin<Folder, number>;
   declare addFolders: HasManyAddAssociationsMixin<Folder, number>;
   declare setFolders: HasManySetAssociationsMixin<Folder, number>;

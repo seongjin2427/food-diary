@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 
-import { SearchDiaryActionType, SearchDiaryType } from '@/hooks/useSearchDiary';
+import { useAppSelector } from '@/store/index';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './SearchInput.styled';
 
@@ -16,14 +16,12 @@ const SEARCH_OPTIONS = [
 ];
 
 interface SerachInputProps {
-  searchDiaryStates: SearchDiaryType;
-  searchDiaryActions: SearchDiaryActionType;
+  onSearch: (e: ChangeEvent<HTMLInputElement>) => void;
   searchMap?: boolean;
 }
 
-const SearchInput = ({ searchDiaryStates, searchDiaryActions, searchMap }: SerachInputProps) => {
-  const { searchWord } = searchDiaryStates;
-  const { onSearch } = searchDiaryActions;
+const SearchInput = ({ onSearch, searchMap }: SerachInputProps) => {
+  const { searchWord } = useAppSelector(({ search }) => search);
 
   const [open, setOpen] = useState<boolean>(false);
   const [searchOption, setSearchOption] = useState<string>('map');

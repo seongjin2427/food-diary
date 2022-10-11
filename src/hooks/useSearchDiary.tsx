@@ -5,7 +5,6 @@ import { getSearchDiaryBySearchWord, SearchedDiaryType } from '@/api/diary';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { searchBySearchWord, selectSearchDate } from '@/store/search/searchSlice';
 export interface SearchDiaryType {
-  searchWord: string;
   prevDate: string;
   nextDate: string;
   searchDiaryResults: SearchedDiaryType[] | undefined;
@@ -44,7 +43,6 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
   }, [nextDate, prevDate]);
 
   const states = {
-    searchWord,
     prevDate,
     nextDate,
     searchDiaryResults,

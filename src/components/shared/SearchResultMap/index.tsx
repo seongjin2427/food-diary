@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { SearchDiaryActionType, SearchDiaryType } from '@/hooks/useSearchDiary';
+import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './SearchResultMap.styled';
 
 interface SearchResultMapProps {
-  searchDiaryStates: SearchDiaryType;
-  searchDiaryActions: SearchDiaryActionType;
+  searchMapsStates: SearchMapsType;
+  searchMapsActions: SearchMapsActionType;
 }
 
-const SearchResultMap = ({ searchDiaryStates, searchDiaryActions }: SearchResultMapProps) => {
-  const { searchPlaceResults, currentPlace } = searchDiaryStates;
-  const { setNextPlace, setPrevPlace } = searchDiaryActions;
+const SearchResultMap = ({ searchMapsStates, searchMapsActions }: SearchResultMapProps) => {
+  const { searchPlaceResults, currentPlace } = searchMapsStates;
+  const { setNextPlace, setPrevPlace } = searchMapsActions;
 
   return (
     <S.Container>
@@ -24,11 +24,17 @@ const SearchResultMap = ({ searchDiaryStates, searchDiaryActions }: SearchResult
             <S.SliderContainer>
               <S.SliderArea placeNumber={currentPlace}>
                 {searchPlaceResults.map(
-                  ({ id, category_group_name, address_name, place_name, phone, distance }, idx) => (
+                  ({ address_name, place_name, phone, distance, folder }, idx) => (
                     <S.PlaceContainer key={idx}>
                       <S.PlaceTitleBox>
                         <S.PlaceName>{place_name}</S.PlaceName>
-                        <S.PlaceKind>{category_group_name}</S.PlaceKind>
+                        <S.PlaceKind>
+                          {folder.map(({ fid, icon, color }) => (
+                            <S.FolderIcon key={fid} selectedColor={color}>
+                              <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
+                            </S.FolderIcon>
+                          ))}
+                        </S.PlaceKind>
                       </S.PlaceTitleBox>
                       <S.PlaceContentBox>
                         <S.PlaceAddress>{address_name}</S.PlaceAddress>
