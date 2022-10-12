@@ -17,7 +17,7 @@ const SearchFolderList = ({ searchMapsStates, searchMapsActions }: SearchResultM
     (fid: number | undefined) => {
       if (fid) changeCurrentFolder(fid);
     },
-    [currentFolder],
+    [folderResults],
   );
 
   return (

@@ -44,6 +44,7 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
   useEffect(() => {
     if (searchWord && searchOption === 'map') search(searchWord);
     setCurrentFolder(undefined);
+    setCurrentPlace(0);
   }, [searchWord]);
 
   useEffect(() => {
@@ -68,13 +69,14 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
     }, []),
     changeCurrentFolder: useCallback(
       (n: number) => {
+        setCurrentPlace(0);
         setCurrentFolder(n);
-        if (folderResults) {
-          const places = folderResults[n]?.places;
+        if (folderResults && folderResults.length > 0) {
+          const places = folderResults[n - 1].places;
           setSearchPlaceResults(places);
         }
       },
-      [currentFolder, folderResults],
+      [folderResults],
     ),
     onSetSearchPlacesResults: useCallback((places: SearchResultType[]) => {
       setSearchPlaceResults(places);
