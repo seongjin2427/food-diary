@@ -12,7 +12,7 @@ const SearchDiary = () => {
   return (
     <S.Container>
       <S.SearchArea>
-        <SearchInput onSearch={actions.onSearch} />
+        <SearchInput />
       </S.SearchArea>
       <S.PeriodArea>
         <SelectPeriod searchDiaryStates={states} searchDiaryActions={actions} />

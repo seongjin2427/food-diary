@@ -5,8 +5,8 @@ import Map from '@/components/shared/Map';
 import SVGIcon from '@/components/shared/SVGIcon';
 import SearchInput from '@/components/shared/SearchInput';
 import SearchResultMap from '@/components/shared/SearchResultMap';
-import * as S from './SearchMaps.styled';
 import SearchFolderList from '@/components/shared/SearchFolderList';
+import * as S from './SearchMaps.styled';
 
 const SearchMaps = () => {
   const [states, actions] = useSearchMaps();
@@ -19,7 +19,7 @@ const SearchMaps = () => {
   return (
     <S.Container>
       <S.SearchInputArea>
-        <SearchInput onSearch={actions.onSearch} searchMap />
+        <SearchInput searchMap />
         <S.SearchResultDisplayFilter>
           {showList ? (
             <SVGIcon onClick={toggleShowList} icon='MapIcon' width='2rem' height='2rem' />

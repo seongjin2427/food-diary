@@ -57,6 +57,7 @@ export const SearchInputSelectLi = styled.li`
 `;
 
 export const SearchInputArea = styled.div`
+  display: flex;
   flex: 1;
 `;
 
@@ -65,6 +66,12 @@ export const SearchInput = styled.input`
   height: 100%;
   padding: 0.5rem;
   font-size: 1.25rem;
+  background: none;
+  border: none;
+  outline: none;
+`;
+
+export const SearchButton = styled.button`
   background: none;
   border: none;
   outline: none;

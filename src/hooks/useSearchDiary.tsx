@@ -11,13 +11,13 @@ export interface SearchDiaryType {
 }
 
 export interface SearchDiaryActionType {
-  onSearch: (e: ChangeEvent<HTMLInputElement>) => void;
   setSelectDate: (v: { name: 'prevDate' | 'nextDate'; date: Date }) => void;
 }
 
 const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
   const dispatch = useAppDispatch();
   const { searchWord, prevDate, nextDate } = useAppSelector(({ search }) => search);
+  
   const [searchDiaryResults, setSearchDiaryResults] = useState<SearchedDiaryType[] | undefined>([]);
 
   useQuery(
@@ -49,12 +49,6 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
   };
 
   const actions: SearchDiaryActionType = {
-    onSearch: useCallback(
-      async ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-        dispatch(searchBySearchWord(value));
-      },
-      [searchWord],
-    ),
     setSelectDate: useCallback(
       ({ name, date }) => {
         dispatch(selectSearchDate({ name, date: date.toString() }));

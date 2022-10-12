@@ -153,15 +153,11 @@ export interface SearchedPlaceApiData {
 
 export const getSearchPlacesBySearchWord = async (searchWord: string) => {
   try {
-    let results: SearchedPlaceApiData = { places: [], folder: [] };
-    if (searchWord) {
-      const { data } = await instance.get<SearchedPlaceApiData>(
-        `/api/search/place?searchWord=${searchWord}`,
-      );
-      console.log(data);
-      results = data;
-    }
-    return results;
+    const { data } = await instance.get<SearchedPlaceApiData>(
+      `/api/search/place?searchWord=${searchWord}`,
+    );
+    console.log(data);
+    return data;
   } catch (err) {
     console.log(err);
   }

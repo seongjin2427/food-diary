@@ -5,32 +5,33 @@ import {
   getSearchPlacesBySearchWord,
   getSearchPlacesBySearchWordSearchResultData,
 } from '@/api/diary';
-import { useAppDispatch, useAppSelector } from '@/store/index';
 import { searchBySearchWord } from '@/store/search/searchSlice';
 import { FolderSliceFolderType } from '@/store/diary/folderSlice';
+import { useAppDispatch, useAppSelector } from '@/store/index';
 
 export interface SearchMapsType {
   currentPlace: number;
+  currentFolder: number | undefined;
   searchPlaceResults: getSearchPlacesBySearchWordSearchResultData[] | undefined;
   folderResults: FolderSliceFolderType[] | undefined;
 }
 
 export interface SearchMapsActionType {
-  onSearch: (e: ChangeEvent<HTMLInputElement>) => void;
   setPrevPlace: () => void;
   setNextPlace: () => void;
   changeCurrentPlace: (n: number) => void;
+  changeCurrentFolder: (n: number) => void;
 }
 
 const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
-  const dispatch = useAppDispatch();
-  const { searchWord } = useAppSelector(({ search }) => search);
+  const { searchWord, searchOption } = useAppSelector(({ search }) => search);
 
   const [currentPlace, setCurrentPlace] = useState<number>(0);
   const [searchPlaceResults, setSearchPlaceResults] = useState<
     getSearchPlacesBySearchWordSearchResultData[] | undefined
   >([]);
 
+  const [currentFolder, setCurrentFolder] = useState<number>();
   const [folderResults, setFolderResults] = useState<FolderSliceFolderType[] | undefined>([]);
 
   useQuery(['searchPlaceResult', searchWord], () => getSearchPlacesBySearchWord(searchWord), {
@@ -42,12 +43,6 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
   });
 
   const actions: SearchMapsActionType = {
-    onSearch: useCallback(
-      async ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-        dispatch(searchBySearchWord(value));
-      },
-      [searchWord],
-    ),
     setPrevPlace: useCallback(() => {
       if (currentPlace > 0) {
         setCurrentPlace((prev) => prev - 1);
@@ -63,11 +58,18 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
     changeCurrentPlace: useCallback((position: number) => {
       setCurrentPlace(position);
     }, []),
+    changeCurrentFolder: useCallback(
+      (n: number) => {
+        setCurrentFolder(n);
+      },
+      [currentFolder],
+    ),
   };
 
   return [
     {
       currentPlace,
+      currentFolder,
       searchPlaceResults,
       folderResults,
     },
