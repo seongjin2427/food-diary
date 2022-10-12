@@ -40,13 +40,13 @@ const SearchInput = ({ searchMap }: SerachInputProps) => {
   );
 
   const onClickChangeSearchWord = useCallback(() => {
-    if (searchWordInputRef.current && searchOption === 'folder') {
+    if (searchWordInputRef.current) {
       dispatch(searchBySearchWord(searchWordInputRef.current.value));
     }
   }, [searchOption]);
 
   const onKeyupChangeSearchWord = useCallback((e: KeyboardEvent) => {
-    if (e.code === 'Enter' && searchWordInputRef.current && searchOption === 'folder') {
+    if (e.code === 'Enter' && searchWordInputRef.current) {
       dispatch(searchBySearchWord(searchWordInputRef.current.value));
     }
   }, [searchOption]);

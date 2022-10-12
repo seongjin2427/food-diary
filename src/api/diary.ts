@@ -142,12 +142,8 @@ export const getSearchDiaryBySearchWord = async (searchOptions: SearchOptionsTyp
     console.log(err);
   }
 };
-
-export interface getSearchPlacesBySearchWordSearchResultData extends SearchResultType {
-  folder: FolderSliceFolderType[];
-}
 export interface SearchedPlaceApiData {
-  places: getSearchPlacesBySearchWordSearchResultData[] | undefined;
+  places: SearchResultType[] | undefined;
   folder: FolderSliceFolderType[];
 }
 

@@ -1,3 +1,4 @@
+import { IconColorKeyType } from '@/styles/theme';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -18,7 +19,7 @@ export const FolderIconList = styled.ul`
   gap: 0.5rem;
 `;
 
-export const FolderIconItem = styled.li<{ selectedColor: string }>`
+export const FolderIconItem = styled.li<{ selectedColor: IconColorKeyType }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,9 +28,9 @@ export const FolderIconItem = styled.li<{ selectedColor: string }>`
   border-radius: 50%;
   position: relative;
 
-  ${({ selectedColor }) => css`
+  ${({ theme, selectedColor }) => css`
     svg {
-      fill: ${selectedColor};
+      fill: ${theme.iconColor[selectedColor]};
     }
   `}
 `;
@@ -43,6 +44,6 @@ export const CheckIcon = styled.div`
   position: absolute;
   background: rgba(0, 0, 0, 0.5);
   svg {
-    fill: #fff;
+    fill: #ffffff;
   }
 `;

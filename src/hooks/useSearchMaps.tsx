@@ -1,18 +1,15 @@
-import { useState, useCallback, ChangeEvent } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useState, useCallback, useEffect } from 'react';
 
-import {
-  getSearchPlacesBySearchWord,
-  getSearchPlacesBySearchWordSearchResultData,
-} from '@/api/diary';
-import { searchBySearchWord } from '@/store/search/searchSlice';
+import useSearchPlace, { SearchResultType } from '@/hooks/useSearchPlace';
+import { useAppSelector } from '@/store/index';
 import { FolderSliceFolderType } from '@/store/diary/folderSlice';
-import { useAppDispatch, useAppSelector } from '@/store/index';
+import { getSearchPlacesBySearchWord } from '@/api/diary';
 
 export interface SearchMapsType {
   currentPlace: number;
   currentFolder: number | undefined;
-  searchPlaceResults: getSearchPlacesBySearchWordSearchResultData[] | undefined;
+  searchPlaceResults: SearchResultType[] | undefined;
   folderResults: FolderSliceFolderType[] | undefined;
 }
 
@@ -21,26 +18,37 @@ export interface SearchMapsActionType {
   setNextPlace: () => void;
   changeCurrentPlace: (n: number) => void;
   changeCurrentFolder: (n: number) => void;
+  onSetSearchPlacesResults: (p: SearchResultType[]) => void;
 }
 
 const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
   const { searchWord, searchOption } = useAppSelector(({ search }) => search);
 
   const [currentPlace, setCurrentPlace] = useState<number>(0);
-  const [searchPlaceResults, setSearchPlaceResults] = useState<
-    getSearchPlacesBySearchWordSearchResultData[] | undefined
-  >([]);
+  const [searchPlaceResults, setSearchPlaceResults] = useState<SearchResultType[] | undefined>([]);
 
   const [currentFolder, setCurrentFolder] = useState<number>();
   const [folderResults, setFolderResults] = useState<FolderSliceFolderType[] | undefined>([]);
 
+  const [searchedPlaces, , { search }] = useSearchPlace();
+
   useQuery(['searchPlaceResult', searchWord], () => getSearchPlacesBySearchWord(searchWord), {
+    enabled: searchOption === 'folder',
     refetchOnWindowFocus: false,
     onSuccess: (searchedData) => {
       setSearchPlaceResults(searchedData?.places);
       setFolderResults(searchedData?.folder);
     },
   });
+
+  useEffect(() => {
+    if (searchWord && searchOption === 'map') search(searchWord);
+    setCurrentFolder(undefined);
+  }, [searchWord]);
+
+  useEffect(() => {
+    setSearchPlaceResults(searchedPlaces);
+  }, [searchedPlaces]);
 
   const actions: SearchMapsActionType = {
     setPrevPlace: useCallback(() => {
@@ -61,9 +69,16 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
     changeCurrentFolder: useCallback(
       (n: number) => {
         setCurrentFolder(n);
+        if (folderResults) {
+          const places = folderResults[n]?.places;
+          setSearchPlaceResults(places);
+        }
       },
-      [currentFolder],
+      [currentFolder, folderResults],
     ),
+    onSetSearchPlacesResults: useCallback((places: SearchResultType[]) => {
+      setSearchPlaceResults(places);
+    }, []),
   };
 
   return [
