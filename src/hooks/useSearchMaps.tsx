@@ -1,117 +1,48 @@
-import { useState, useCallback, ChangeEvent, useEffect } from 'react';
-import { QueryClient, useQuery } from '@tanstack/react-query';
+import { useState, useCallback, ChangeEvent } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import {
-  getSearchDiaryBySearchWord,
   getSearchPlacesBySearchWord,
-  SearchedDiaryType,
+  getSearchPlacesBySearchWordSearchResultData,
 } from '@/api/diary';
-import { SearchResultType } from '@/hooks/useSearchPlace';
+import { searchBySearchWord } from '@/store/search/searchSlice';
+import { FolderSliceFolderType } from '@/store/diary/folderSlice';
+import { useAppDispatch, useAppSelector } from '@/store/index';
 
-export interface SearchDiaryType {
-  open: boolean;
-  searchWord: string;
-  searchOption: string;
-  prevDate: Date;
-  nextDate: Date;
-  searchPlaceResults: SearchResultType[] | undefined;
+export interface SearchMapsType {
   currentPlace: number;
+  currentFolder: number | undefined;
+  searchPlaceResults: getSearchPlacesBySearchWordSearchResultData[] | undefined;
+  folderResults: FolderSliceFolderType[] | undefined;
 }
 
-export interface SearchDiaryActionType {
-  onSearch: (e: ChangeEvent<HTMLInputElement>) => void;
-  selectSearchOption: (e: string) => void;
-  onToggleOpen: () => void;
-  setSearchPrevDate: (date: Date, e: ChangeEvent<HTMLInputElement>) => void;
-  setSearchNextDate: (date: Date, e: ChangeEvent<HTMLInputElement>) => void;
+export interface SearchMapsActionType {
   setPrevPlace: () => void;
   setNextPlace: () => void;
   changeCurrentPlace: (n: number) => void;
+  changeCurrentFolder: (n: number) => void;
 }
 
-function getToday() {
-  const todayDate = new Date();
-  const today = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate());
-  const tomorrow = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-    today.getHours(),
-    today.getMinutes(),
-    today.getSeconds() - 1,
-  );
-  return [today, tomorrow];
-}
-
-const useSearchMaps = (): [SearchDiaryType, SearchDiaryActionType] => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [searchWord, setSearchWord] = useState<string>('');
-  const [searchOption, setSearchOption] = useState<string>('map');
-
-  const [prevDate, setPrevDate] = useState<Date>(getToday()[0]);
-  const [nextDate, setNextDate] = useState<Date>(getToday()[1]);
+const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
+  const { searchWord, searchOption } = useAppSelector(({ search }) => search);
 
   const [currentPlace, setCurrentPlace] = useState<number>(0);
-  const [searchPlaceResults, setSearchPlaceResults] = useState<SearchResultType[] | undefined>([]);
+  const [searchPlaceResults, setSearchPlaceResults] = useState<
+    getSearchPlacesBySearchWordSearchResultData[] | undefined
+  >([]);
 
-  const queryClient = new QueryClient();
+  const [currentFolder, setCurrentFolder] = useState<number>();
+  const [folderResults, setFolderResults] = useState<FolderSliceFolderType[] | undefined>([]);
 
-  if (searchOption === 'map') {
-    useQuery(
-      ['searchPlaceResult', searchWord],
-      () =>
-        getSearchPlacesBySearchWord({
-          nextDate,
-          prevDate,
-          searchWord,
-        }),
-      {
-        staleTime: Infinity,
-        refetchOnWindowFocus: false,
-        onSuccess: (searchedData) => {
-          setSearchPlaceResults(searchedData);
-          queryClient.invalidateQueries();
-        },
-      },
-    );
-  }
+  useQuery(['searchPlaceResult', searchWord], () => getSearchPlacesBySearchWord(searchWord), {
+    refetchOnWindowFocus: false,
+    onSuccess: (searchedData) => {
+      setSearchPlaceResults(searchedData?.places);
+      setFolderResults(searchedData?.folder);
+    },
+  });
 
-  useEffect(() => {
-    if (prevDate > nextDate) {
-      setNextDate(prevDate);
-    }
-  }, [nextDate, prevDate]);
-
-  const actions: SearchDiaryActionType = {
-    onSearch: useCallback(
-      async ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-        setSearchWord(value);
-        setCurrentPlace(0);
-      },
-      [searchWord, currentPlace],
-    ),
-    selectSearchOption: useCallback(
-      (select: string) => {
-        setSearchOption(select);
-        setOpen(false);
-      },
-      [open],
-    ),
-    onToggleOpen: useCallback(() => {
-      setOpen(!open);
-    }, [open]),
-    setSearchPrevDate: useCallback(
-      (date: Date) => {
-        setPrevDate(date);
-      },
-      [prevDate, nextDate],
-    ),
-    setSearchNextDate: useCallback(
-      (date: Date) => {
-        setNextDate(date);
-      },
-      [prevDate, nextDate],
-    ),
+  const actions: SearchMapsActionType = {
     setPrevPlace: useCallback(() => {
       if (currentPlace > 0) {
         setCurrentPlace((prev) => prev - 1);
@@ -127,17 +58,20 @@ const useSearchMaps = (): [SearchDiaryType, SearchDiaryActionType] => {
     changeCurrentPlace: useCallback((position: number) => {
       setCurrentPlace(position);
     }, []),
+    changeCurrentFolder: useCallback(
+      (n: number) => {
+        setCurrentFolder(n);
+      },
+      [currentFolder],
+    ),
   };
 
   return [
     {
-      open,
-      searchWord,
-      searchOption,
-      prevDate,
-      nextDate,
-      searchPlaceResults,
       currentPlace,
+      currentFolder,
+      searchPlaceResults,
+      folderResults,
     },
     actions,
   ];

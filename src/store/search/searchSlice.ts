@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ISearchState {
   searchWord: string;
+  searchOption: 'map' | 'folder';
   prevDate: string;
   nextDate: string;
 }
 
 const initialState: ISearchState = {
   searchWord: '',
+  searchOption: 'folder',
   prevDate: getToday()[0].toString(),
   nextDate: getToday()[1].toString(),
 };
@@ -19,6 +21,9 @@ const searchSlice = createSlice({
   reducers: {
     searchBySearchWord: (state, action: PayloadAction<string>) => {
       state.searchWord = action.payload;
+    },
+    selectSearchOption: (state, action: PayloadAction<'map' | 'folder'>) => {
+      state.searchOption = action.payload;
     },
     selectSearchDate: (
       state,
@@ -35,6 +40,7 @@ const searchSlice = createSlice({
   },
 });
 
-export const { searchBySearchWord, selectSearchDate, clearSearchStates } = searchSlice.actions;
+export const { searchBySearchWord, selectSearchOption, selectSearchDate, clearSearchStates } =
+  searchSlice.actions;
 
 export default searchSlice.reducer;

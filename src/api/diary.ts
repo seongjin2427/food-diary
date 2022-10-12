@@ -143,22 +143,21 @@ export const getSearchDiaryBySearchWord = async (searchOptions: SearchOptionsTyp
   }
 };
 
-export interface SearchedPlaceApiType {
-  results: SearchResultType[];
+export interface getSearchPlacesBySearchWordSearchResultData extends SearchResultType {
+  folder: FolderSliceFolderType[];
+}
+export interface SearchedPlaceApiData {
+  places: getSearchPlacesBySearchWordSearchResultData[] | undefined;
+  folder: FolderSliceFolderType[];
 }
 
-export const getSearchPlacesBySearchWord = async (searchOptions: SearchOptionsType) => {
-  const { nextDate, prevDate, searchWord } = searchOptions;
+export const getSearchPlacesBySearchWord = async (searchWord: string) => {
   try {
-    let results: SearchResultType[] = [];
-    if (searchWord) {
-      const { data } = await instance.get<SearchedPlaceApiType>(
-        `/api/search/place?searchWord=${searchWord}&prevDate=${prevDate}&nextDate=${nextDate}`,
-      );
-      results = data.results;
-    }
-    console.log(results);
-    return results;
+    const { data } = await instance.get<SearchedPlaceApiData>(
+      `/api/search/place?searchWord=${searchWord}`,
+    );
+    console.log(data);
+    return data;
   } catch (err) {
     console.log(err);
   }

@@ -31,7 +31,7 @@ const useCalendar = (): [CalendarDate[], number] => {
 
   useEffect(() => {
     const madeCalendar = makeCalendar();
-    const startDay = dayjs(currentMonth).add(-1, 'month').toDate().getDay();
+    const startDay = dayjs(currentMonth).set('date', 1).toDate().getDay();
 
     setCalendar(madeCalendar);
     setDay(startDay);

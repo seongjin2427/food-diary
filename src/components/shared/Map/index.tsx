@@ -1,4 +1,5 @@
 import { SearchDiaryActionType, SearchDiaryType } from '@/hooks/useSearchDiary';
+import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
 import { useEffect } from 'react';
 
 interface GeolocationType {
@@ -11,13 +12,13 @@ declare global {
 }
 
 interface MapProps {
-  searchDiaryStates: SearchDiaryType;
-  searchDiaryActions: SearchDiaryActionType;
+  searchMapsStates: SearchMapsType;
+  searchMapsActions: SearchMapsActionType;
 }
 
-const Map = ({ searchDiaryStates, searchDiaryActions }: MapProps) => {
-  const { searchPlaceResults, currentPlace } = searchDiaryStates;
-  const { changeCurrentPlace } = searchDiaryActions;
+const Map = ({ searchMapsStates, searchMapsActions }: MapProps) => {
+  const { searchPlaceResults, currentPlace } = searchMapsStates;
+  const { changeCurrentPlace } = searchMapsActions;
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords }: GeolocationType) => {
@@ -96,7 +97,7 @@ const Map = ({ searchDiaryStates, searchDiaryActions }: MapProps) => {
 
   return (
     <>
-      <div id='kakaoMap' style={{ width: '100%', height: '30rem' }} />
+      <div id='kakaoMap' style={{ width: '100%', height: '30rem', marginBottom: '1rem' }} />
     </>
   );
 };

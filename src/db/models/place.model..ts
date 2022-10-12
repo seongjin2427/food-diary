@@ -5,11 +5,24 @@ import {
   ForeignKey,
   InferAttributes,
   InferCreationAttributes,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManySetAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManyHasAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  NonAttribute,
+  Association,
 } from 'sequelize';
 
 import sequelize from '../connection';
 import Diary from '@/db/models/diary.model';
 import Folder from '@/db/models/folder.models';
+import User from '@/db/models/user.model';
 
 class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>> {
   declare pid: CreationOptional<number>;
@@ -29,9 +42,26 @@ class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  declare diaryId: ForeignKey<Diary['did']>;
+  declare getFolder: HasManyGetAssociationsMixin<Folder>; // Note the null assertions!
+  declare addFolder: HasManyAddAssociationMixin<Folder, number>;
+  declare addFolders: HasManyAddAssociationsMixin<Folder, number>;
+  declare setFolders: HasManySetAssociationsMixin<Folder, number>;
+  declare removeFolder: HasManyRemoveAssociationMixin<Folder, number>;
+  declare removeFolders: HasManyRemoveAssociationsMixin<Folder, number>;
+  declare hasFolder: HasManyHasAssociationMixin<Folder, number>;
+  declare hasFolders: HasManyHasAssociationsMixin<Folder, number>;
+  declare countFolders: HasManyCountAssociationsMixin;
+  declare createFolder: HasManyCreateAssociationMixin<Folder, 'fid'>;
 
+  declare diaryId: ForeignKey<Diary['did']>;
   declare folderId: ForeignKey<Folder['fid']>;
+  declare userId: ForeignKey<User['id']>;
+
+  declare folder?: NonAttribute<Folder[]>;
+
+  declare static associations: {
+    folder: Association<Place, Folder>;
+  };
 }
 
 Place.init(

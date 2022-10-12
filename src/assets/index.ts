@@ -14,6 +14,8 @@ export { default as BlankCircleIcon } from './icons/blank-circle.svg';
 export { default as FillCircleIcon } from './icons/fill-circle.svg';
 export { default as BinIcon } from './icons/bin.svg';
 export { default as PenIcon } from './icons/pen.svg';
+export { default as MapIcon } from './icons/map.svg';
+export { default as FileListIcon } from './icons/file-list.svg';
 
 export { default as BoldIcon } from './editor/bold.svg';
 export { default as ItalicIcon } from './editor/italic.svg';

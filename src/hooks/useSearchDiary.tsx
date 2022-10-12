@@ -5,20 +5,19 @@ import { getSearchDiaryBySearchWord, SearchedDiaryType } from '@/api/diary';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { searchBySearchWord, selectSearchDate } from '@/store/search/searchSlice';
 export interface SearchDiaryType {
-  searchWord: string;
   prevDate: string;
   nextDate: string;
   searchDiaryResults: SearchedDiaryType[] | undefined;
 }
 
 export interface SearchDiaryActionType {
-  onSearch: (e: ChangeEvent<HTMLInputElement>) => void;
   setSelectDate: (v: { name: 'prevDate' | 'nextDate'; date: Date }) => void;
 }
 
 const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
   const dispatch = useAppDispatch();
   const { searchWord, prevDate, nextDate } = useAppSelector(({ search }) => search);
+  
   const [searchDiaryResults, setSearchDiaryResults] = useState<SearchedDiaryType[] | undefined>([]);
 
   useQuery(
@@ -44,19 +43,12 @@ const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
   }, [nextDate, prevDate]);
 
   const states = {
-    searchWord,
     prevDate,
     nextDate,
     searchDiaryResults,
   };
 
   const actions: SearchDiaryActionType = {
-    onSearch: useCallback(
-      async ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-        dispatch(searchBySearchWord(value));
-      },
-      [searchWord],
-    ),
     setSelectDate: useCallback(
       ({ name, date }) => {
         dispatch(selectSearchDate({ name, date: date.toString() }));
