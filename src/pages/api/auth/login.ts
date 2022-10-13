@@ -9,13 +9,13 @@ export default handler.post<NextApiRequest, NextApiResponse>(async (req, res) =>
   const { email } = req.body.userData;
   const { access_token, refresh_token } = req.body.token;
 
-  let result = await models.User.findOne({
-    where: {
-      email,
-    },
-  });
-
   try {
+    let result = await models.User.findOne({
+      where: {
+        email,
+      },
+    });
+
     if (!result) {
       result = await models.User.create({ ...req.body.userData, access_token, refresh_token });
     } else {
