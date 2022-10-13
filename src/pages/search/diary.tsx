@@ -8,7 +8,7 @@ import React from 'react';
 const SearchDiaryPage: NextPage = () => {
   return (
     <>
-      <Header>
+      <Header title='음식일기 : 일기 검색'>
         <CommonHeader type='prev' />
       </Header>
       <MainLayout>
