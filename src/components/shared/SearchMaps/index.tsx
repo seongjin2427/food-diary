@@ -29,9 +29,13 @@ const SearchMaps = () => {
         </S.SearchResultDisplayFilter>
       </S.SearchInputArea>
       <S.SearchResultArea>
-        <Map searchMapsStates={states} searchMapsActions={actions} />
+        {!showList && <Map searchMapsStates={states} searchMapsActions={actions} />}
         <SearchFolderList searchMapsStates={states} searchMapsActions={actions} />
-        <SearchResultMap searchMapsStates={states} searchMapsActions={actions} />
+        <SearchResultMap
+          searchMapsStates={states}
+          searchMapsActions={actions}
+          showList={showList}
+        />
       </S.SearchResultArea>
     </S.Container>
   );

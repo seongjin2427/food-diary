@@ -1,9 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Container = styled.div`
-  height: 10rem;
-`;
+export const Container = styled.div``;
 
 export const Slider = styled.div`
   display: flex;
@@ -24,7 +22,7 @@ export const SliderArea = styled.div<SliderAreaProps>`
 
   ${({ placeNumber }) => css`
     transition: all 0.5s;
-    transform: translateX(${placeNumber * -20}rem);
+    margin-left: ${placeNumber * -100}%;
   `}
 `;
 
@@ -34,8 +32,22 @@ export const ArrowButton = styled.button`
   outline: none;
 `;
 
-export const PlaceContainer = styled.div`
-  width: 19rem;
+export const PlaceListContainer = styled.div`
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid black;
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+`;
+
+interface PlaceContainerProps {
+  placeWidth: number;
+}
+
+export const PlaceContainer = styled.div<PlaceContainerProps>`
+  ${({ placeWidth }) => css`
+    width: calc(${placeWidth}px - 7rem);
+  `}
   padding: 0.75rem;
   border: 1px solid black;
   margin: 0 0.5rem;

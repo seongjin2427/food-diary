@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
 import SVGIcon from '@/components/shared/SVGIcon';
@@ -7,15 +7,25 @@ import * as S from './SearchResultMap.styled';
 interface SearchResultMapProps {
   searchMapsStates: SearchMapsType;
   searchMapsActions: SearchMapsActionType;
+  showList?: boolean;
 }
 
-const SearchResultMap = ({ searchMapsStates, searchMapsActions }: SearchResultMapProps) => {
+const SearchResultMap = ({
+  showList,
+  searchMapsStates,
+  searchMapsActions,
+}: SearchResultMapProps) => {
   const { searchPlaceResults, currentPlace, folderResults } = searchMapsStates;
   const { setNextPlace, setPrevPlace } = searchMapsActions;
+  const [placeWidth, setPlaceWidth] = useState<number>(0);
+
+  useEffect(() => {
+    setPlaceWidth(window.innerWidth);
+  }, []);
 
   return (
     <S.Container>
-      {searchPlaceResults && searchPlaceResults.length > 0 && (
+      {!showList && searchPlaceResults && searchPlaceResults.length > 0 && (
         <>
           <S.Slider>
             <S.ArrowButton onClick={setPrevPlace}>
@@ -25,13 +35,13 @@ const SearchResultMap = ({ searchMapsStates, searchMapsActions }: SearchResultMa
               <S.SliderArea placeNumber={currentPlace}>
                 {searchPlaceResults.map(
                   ({ id, address_name, place_name, phone, distance }, idx) => (
-                    <S.PlaceContainer key={idx}>
+                    <S.PlaceContainer key={idx} placeWidth={placeWidth}>
                       <S.PlaceTitleBox>
                         <S.PlaceName>{place_name}</S.PlaceName>
                         <S.PlaceKind>
                           {folderResults?.map(
                             ({ fid, icon, color, places }) =>
-                              !!places.find((p) => p.id === id) && (
+                              places.find((p) => p.id === id) && (
                                 <S.FolderIcon key={fid} selectedColor={color}>
                                   <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
                                 </S.FolderIcon>
@@ -63,6 +73,33 @@ const SearchResultMap = ({ searchMapsStates, searchMapsActions }: SearchResultMa
                 );
             })}
           </S.SliderPagination>
+        </>
+      )}
+      {showList && (
+        <>
+          {searchPlaceResults &&
+            searchPlaceResults.map(({ id, address_name, place_name, phone, distance }, idx) => (
+              <S.PlaceListContainer key={idx}>
+                <S.PlaceTitleBox>
+                  <S.PlaceName>{place_name}</S.PlaceName>
+                  <S.PlaceKind>
+                    {folderResults?.map(
+                      ({ fid, icon, color, places }) =>
+                        places.find((p) => p.id === id) && (
+                          <S.FolderIcon key={fid} selectedColor={color}>
+                            <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
+                          </S.FolderIcon>
+                        ),
+                    )}
+                  </S.PlaceKind>
+                </S.PlaceTitleBox>
+                <S.PlaceContentBox>
+                  <S.PlaceAddress>{address_name}</S.PlaceAddress>
+                  <S.PlacePhone>{phone}</S.PlacePhone>
+                  <S.PlaceDistance>{+distance / 1000}km</S.PlaceDistance>
+                </S.PlaceContentBox>
+              </S.PlaceListContainer>
+            ))}
         </>
       )}
       {searchPlaceResults && searchPlaceResults.length <= 0 && (
