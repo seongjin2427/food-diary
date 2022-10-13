@@ -10,9 +10,14 @@ const GlobalStyle = () => {
         *, *::before, *::after {
           box-sizing: border-box;
         }
-        
+
         body {
           font-family: 'noto sans';
+        }
+
+        a {
+          color: black;
+          -webkit-tap-highlight-color: transparent;
         }
       `}
     />

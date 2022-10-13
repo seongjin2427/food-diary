@@ -13,12 +13,10 @@ interface UserCheckResponseType {
   result: UserAttributes;
 }
 
-export const userCheck = async (userData: UserInformationType, token: TokenType) => {
+export const userCheck = async (token: string | null) => {
   try {
-    const { data } = await instance.post<UserCheckResponseType>('/api/auth/check', {
-      userData,
-      token,
-    });
+    const { data } = await instance.get<UserCheckResponseType>(`/api/auth/check?token=${token}`);
+    console.log(data);
     return data.result;
   } catch (e) {
     console.log(e);
