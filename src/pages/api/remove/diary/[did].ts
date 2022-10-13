@@ -1,5 +1,6 @@
 import { removeTempImage } from '@/db/utils/image';
 import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
+import { ImageFileType } from '@/store/diary/diarySlice';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 
@@ -19,8 +20,11 @@ handler.use(authToken).delete(async (req: NextApiExpanededRequest, res: NextApiR
   try {
     if (foundDiary) {
       const foundImages = await foundDiary[0].getImages();
-
-      await removeTempImage(foundImages);
+      const removeImages: ImageFileType[] = foundImages.map(({ img_id, src }) => ({
+        img_id: img_id + '',
+        src,
+      }));
+      await removeTempImage(removeImages);
       await foundDiary[0].destroy();
     }
 
