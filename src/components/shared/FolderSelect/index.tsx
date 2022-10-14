@@ -1,17 +1,13 @@
-import { memo, useState, useCallback, ChangeEvent } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { memo, useState, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { useAppDispatch, useAppSelector } from '@/store/index';
-import {
-  addFolder,
-  addPlaceInFolder,
-  FolderSliceFolderType,
-  replaceFolders,
-} from '@/store/diary/folderSlice';
-import { addFolderApi, getFolderApi } from '@/api/diary';
+import { getFolderApi } from '@/api/diary';
+import useMakeFolder from '@/hooks/useMakeFolder';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 import MakeFolder from '@/components/shared/MakeFolder';
 import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
+import { useAppDispatch, useAppSelector } from '@/store/index';
+import { addPlaceInFolder, FolderSliceFolderType, replaceFolders } from '@/store/diary/folderSlice';
 import { IconColorKeyType } from '@/styles/theme';
 import * as S from './FolderSelect.styled';
 
@@ -27,9 +23,12 @@ interface FolderSelectProps {
 }
 
 const FolderSelect = ({ place }: FolderSelectProps) => {
-  const queryClient = useQueryClient();
   const dispatch = useAppDispatch();
   const folders = useAppSelector(({ folder }) => folder.folders);
+  const [
+    { inputMode, newFolderTitle },
+    { onChangeNewTitle, onClickNewFolderInfo, setNewFolderTitle, setInputMode },
+  ] = useMakeFolder();
 
   useQuery(['folders'], getFolderApi, {
     refetchOnWindowFocus: false,
@@ -45,20 +44,12 @@ const FolderSelect = ({ place }: FolderSelectProps) => {
     },
   });
 
-  const mutation = useMutation(addFolderApi, {
-    onSuccess() {
-      queryClient.invalidateQueries(['folders']);
-    },
-  });
-
   const [selectedFolder, setSelectedFolder] = useState<FolderType[] | undefined>(undefined);
   const [selectOpen, setSelectOpen] = useState<boolean>(false);
-  const [inputMode, setinputMode] = useState<boolean>(false);
-  const [newFolderTitle, setNewFolderTitle] = useState<string>('');
 
   const onClickOpenSelect = useCallback(() => {
     setSelectOpen((prev) => !prev);
-    setinputMode(false);
+    setInputMode(false);
   }, []);
 
   const onClickSelectFolder = useCallback(
@@ -79,27 +70,13 @@ const FolderSelect = ({ place }: FolderSelectProps) => {
   );
 
   const onClickConvertInputMode = useCallback(() => {
-    setinputMode(true);
+    setInputMode(true);
   }, []);
 
   const onClickBackdrop = useCallback(() => {
-    setinputMode(false);
+    setInputMode(false);
     setSelectOpen(false);
   }, []);
-
-  const onChangeNewTitle = useCallback(({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-    setNewFolderTitle(value);
-  }, []);
-
-  const onClickNewFolderInfo = useCallback(
-    (icon: IconKeySet, color: IconColorKeyType) => {
-      dispatch(addFolder({ icon, color, title: newFolderTitle }));
-      mutation.mutate({ icon, color, title: newFolderTitle, places: [] });
-      setNewFolderTitle('');
-      setinputMode(false);
-    },
-    [newFolderTitle],
-  );
 
   return (
     <S.Container>

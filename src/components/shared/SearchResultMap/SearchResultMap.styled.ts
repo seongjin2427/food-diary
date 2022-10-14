@@ -1,3 +1,4 @@
+import { IconColorKeyType } from '@/styles/theme';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -77,12 +78,12 @@ export const PlaceKind = styled.div`
   display: flex;
   align-items: center;
 `;
-export const FolderIcon = styled.div<{ selectedColor: string }>`
+export const FolderIcon = styled.div<{ selectedColor: IconColorKeyType }>`
   display: flex;
   align-items: center;
-  ${({ selectedColor }) => css`
+  ${({ theme, selectedColor }) => css`
     svg {
-      fill: ${selectedColor};
+      fill: ${theme.iconColor[selectedColor]};
     }
   `}
 `;

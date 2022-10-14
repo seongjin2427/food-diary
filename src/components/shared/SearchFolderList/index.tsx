@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react';
 import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
 
+import useMakeFolder from '@/hooks/useMakeFolder';
 import SVGIcon from '@/components/shared/SVGIcon';
+import MakeFolder from '@/components/shared/MakeFolder';
 import * as S from './SearchFolderList.styled';
 
 interface SearchResultMapProps {
@@ -12,6 +14,10 @@ interface SearchResultMapProps {
 const SearchFolderList = ({ searchMapsStates, searchMapsActions }: SearchResultMapProps) => {
   const { currentFolder, folderResults } = searchMapsStates;
   const { changeCurrentFolder } = searchMapsActions;
+  const [{ inputMode, newFolderTitle }, { setInputMode, onChangeNewTitle, onClickNewFolderInfo }] =
+    useMakeFolder();
+
+  const toggleNewFolder = useCallback(() => setInputMode(!inputMode), [inputMode]);
 
   const onClickChangeCurrentFolder = useCallback(
     (fid: number | undefined) => {
@@ -23,7 +29,15 @@ const SearchFolderList = ({ searchMapsStates, searchMapsActions }: SearchResultM
   return (
     <S.Container>
       <S.AddFolderButton>
-        <SVGIcon icon='CirclePlusIcon' width='2rem' height='2rem' />
+        <SVGIcon icon='CirclePlusIcon' width='2rem' height='2rem' onClick={toggleNewFolder} />
+        <S.Backdrop open={inputMode} onClick={toggleNewFolder} />
+        <S.NewFolderList open={inputMode}>
+          <MakeFolder
+            newFolderTitle={newFolderTitle}
+            onChangeNewTitle={onChangeNewTitle}
+            onClickNewFolderInfo={onClickNewFolderInfo}
+          />
+        </S.NewFolderList>
       </S.AddFolderButton>
       <S.FolderIconList>
         {folderResults?.map(({ fid, icon, color }) => (
