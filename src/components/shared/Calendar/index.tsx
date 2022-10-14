@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect } from 'react';
 
@@ -64,7 +63,7 @@ function Calendar() {
               startDay={startDay}
             >
               {image ? (
-                <Image src={image} layout='fill' />
+                <S.Image src={image} />
               ) : (
                 <S.Date today={dayjs(today).format('YYYY-MM-DD') === date}>
                   {date.split('-')[2]}
