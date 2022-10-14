@@ -31,7 +31,7 @@ const DiaryPage: NextPage = () => {
 
   return (
     <>
-      <Header>
+      <Header title='음식일기 일기 작성'>
         <CommonHeader type='both' nextDisabled={nextPageToggle} nextUrl='/write/folder' />
       </Header>
       {places.length === 0 && <MainLayout>선택된 장소가 없습니다.</MainLayout>}

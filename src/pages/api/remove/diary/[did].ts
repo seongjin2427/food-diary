@@ -1,5 +1,6 @@
 import { removeTempImage } from '@/db/utils/image';
 import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
+import { ImageFileType } from '@/store/diary/diarySlice';
 import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 
