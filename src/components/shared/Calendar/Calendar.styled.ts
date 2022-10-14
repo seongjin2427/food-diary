@@ -41,7 +41,8 @@ export const Day = styled.div<DayProps>`
   height: 5rem;
   padding: 0.25rem;
   position: relative;
-  object-fit: contain;
+  object-fit: cover;
+  overflow: hidden;
 
   ${({ startDay }) => css`
     :first-of-type {
@@ -51,7 +52,7 @@ export const Day = styled.div<DayProps>`
 `;
 
 export const Image = styled.img`
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
   position: absolute;
   left: 0;
