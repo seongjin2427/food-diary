@@ -20,10 +20,8 @@ handler.use(authToken).delete(async (req: NextApiExpanededRequest, res: NextApiR
   try {
     if (foundDiary) {
       const foundImages = await foundDiary[0].getImages();
-      const removeImages: ImageFileType[] = foundImages.map(({ img_id, src }) => ({
-        img_id: img_id + '',
-        src,
-      }));
+      const removeImages = foundImages.map(({ img_id, src }) => ({ img_id: img_id + '', src }));
+
       await removeTempImage(removeImages);
       await foundDiary[0].destroy();
     }

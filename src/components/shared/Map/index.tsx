@@ -95,11 +95,7 @@ const Map = ({ searchMapsStates, searchMapsActions }: MapProps) => {
     });
   }, [searchPlaceResults, currentPlace]);
 
-  return (
-    <>
-      <div id='kakaoMap' style={{ width: '100%', height: '30rem', marginBottom: '1rem' }} />
-    </>
-  );
+  return <div id='kakaoMap' style={{ width: '100%', height: '30rem', marginBottom: '1rem' }} />;
 };
 
 export default Map;
