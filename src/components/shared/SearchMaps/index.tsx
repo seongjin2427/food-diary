@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import useSearchMaps from '@/hooks/useSearchMaps';
-import Map from '@/components/shared/PlaceMap';
+import Map from '@/components/shared/Map';
 import SVGIcon from '@/components/shared/SVGIcon';
 import SearchInput from '@/components/shared/SearchInput';
 import SearchResultMap from '@/components/shared/SearchResultMap';
