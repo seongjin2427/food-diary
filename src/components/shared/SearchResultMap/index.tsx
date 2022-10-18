@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
 import SVGIcon from '@/components/shared/SVGIcon';
@@ -15,12 +16,18 @@ const SearchResultMap = ({
   searchMapsStates,
   searchMapsActions,
 }: SearchResultMapProps) => {
+  const router = useRouter();
   const { searchPlaceResults, currentPlace, folderResults } = searchMapsStates;
   const { setNextPlace, setPrevPlace } = searchMapsActions;
+
   const [placeWidth, setPlaceWidth] = useState<number>(0);
 
   useEffect(() => {
     setPlaceWidth(window.innerWidth);
+  }, []);
+
+  const moveToPlacePageByPid = useCallback((id: string) => {
+    router.push(`/place/${id}`);
   }, []);
 
   return (
@@ -35,7 +42,11 @@ const SearchResultMap = ({
               <S.SliderArea placeNumber={currentPlace}>
                 {searchPlaceResults.map(
                   ({ id, address_name, place_name, phone, distance }, idx) => (
-                    <S.PlaceContainer key={idx} placeWidth={placeWidth}>
+                    <S.PlaceContainer
+                      key={idx}
+                      placeWidth={placeWidth}
+                      onClick={() => moveToPlacePageByPid(id)}
+                    >
                       <S.PlaceTitleBox>
                         <S.PlaceName>{place_name}</S.PlaceName>
                         <S.PlaceKind>
