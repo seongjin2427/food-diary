@@ -1,7 +1,8 @@
-import { userLoginApi } from '@/api/auth';
+import { userLoginApi, userLogoutApi, userWithDraw } from '@/api/auth';
 import { kakaoInit } from '@/utils/kakaoInit';
 import { useAppDispatch } from '@/store/index';
-import { userLogin } from '@/store/global';
+import { userLogin, userLogout } from '@/store/global';
+import { useRouter } from 'next/router';
 
 export interface TokenType {
   access_token: string;
@@ -31,10 +32,12 @@ interface UserInformationType {
 interface useUserInformationActions {
   login: () => void;
   logout: () => void;
+  withdraw: () => void;
 }
 
 const useUserInformation = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const login = async () => {
     // 카카오 초기화
@@ -76,13 +79,31 @@ const useUserInformation = () => {
 
   const logout = async () => {
     // 카카오 초기화
-    const kakao = kakaoInit();
-    kakao.Auth.logout();
+    if (confirm('로그아웃 하시겠습니까?')) {
+      const kakao = kakaoInit();
+      kakao.Auth.logout();
+      localStorage.removeItem('Authorization');
+      dispatch(userLogout());
+      router.push('/');
+      await userLogoutApi();
+    }
+  };
+  
+  const withdraw = async () => {
+    if (confirm('정말 회원을 탈퇴하시겠습니까?')) {
+      const kakao = kakaoInit();
+      kakao.Auth.logout();
+      localStorage.removeItem('Authorization');
+      dispatch(userLogout());
+      router.push('/');
+      await userWithDraw();
+    }
   };
 
   const actions: useUserInformationActions = {
     login,
     logout,
+    withdraw
   };
 
   return [actions];

@@ -10,11 +10,14 @@ import UserPlace from '@/db/models/user-place.model';
 User.hasMany(Folder, {
   sourceKey: 'id',
   foreignKey: 'userId',
+  onDelete: 'CASCADE',
   as: 'folder',
 });
+
 User.hasMany(Diary, {
   sourceKey: 'id',
   foreignKey: 'userId',
+  onDelete: 'CASCADE',
   as: 'diary',
 });
 

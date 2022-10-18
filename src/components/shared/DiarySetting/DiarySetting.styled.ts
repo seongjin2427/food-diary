@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
@@ -20,8 +21,37 @@ export const CardContentContainer = styled.div`
   display: flex;
   margin-bottom: 1.25rem;
 `;
+
 export const CardSubject = styled.p`
   width: 7rem;
 `;
 
 export const CardContent = styled.p``;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+`;
+
+interface ButtonProps {
+  withDraw?: boolean;
+}
+
+export const Button = styled.button<ButtonProps>`
+  padding: 1rem 2rem;
+  background: white;
+  border: none;
+  outline: none;
+  border: 1px solid red;
+  border-radius: 0.5rem;
+  color: red;
+
+  ${({ withDraw }) =>
+    withDraw &&
+    css`
+      background: red;
+      color: white;
+    `}
+`;

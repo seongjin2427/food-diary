@@ -36,3 +36,21 @@ export const userLoginApi = async (userData: UserInformationType, token: TokenTy
     return null;
   }
 };
+
+export const userLogoutApi = async () => {
+  try {
+    const { data } = await instance.get('/api/auth/logout');
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const userWithDraw = async () => {
+  try {
+    const { data } = await instance.get('/api/auth/withdraw');
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
+};

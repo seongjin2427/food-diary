@@ -1,10 +1,20 @@
+import useUserInformation from '@/hooks/useUserInformation';
 import { useAppSelector } from '@/store/index';
 import React from 'react';
 
 import * as S from './DiarySetting.styled';
 
 const DiarySetting = () => {
+  const [{ logout, withdraw }] = useUserInformation();
   const { nickname, email } = useAppSelector(({ user }) => user);
+
+  const onClickLogout = () => {
+    logout();
+  };
+
+  const onClickWithdraw = () => {
+    withdraw();
+  };
 
   return (
     <S.Container>
@@ -34,6 +44,12 @@ const DiarySetting = () => {
           <S.CardContent>v 0.1.0</S.CardContent>
         </S.CardContentContainer>
       </S.Card>
+      <S.ButtonContainer>
+        <S.Button onClick={onClickLogout}>로그아웃</S.Button>
+        <S.Button withDraw onClick={onClickWithdraw}>
+          탈퇴하기
+        </S.Button>
+      </S.ButtonContainer>
     </S.Container>
   );
 };
