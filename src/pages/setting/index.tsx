@@ -9,7 +9,7 @@ import DiarySetting from '@/components/shared/DiarySetting';
 const SettingPage: NextPage = () => {
   return (
     <>
-      <Header>
+      <Header title="음식일기 : 설정">
         <CommonHeader type='prev' />
       </Header>
       <MainLayout>
