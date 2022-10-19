@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import { useAppSelector } from '@/store/index';
 import Editor from '@/components/shared/Editor';
@@ -7,8 +8,13 @@ import AdditinalInfo from '@/components/shared/AdditionalInfo';
 import * as S from './ReadDiary.styled';
 
 const ReadDiary = () => {
+  const router = useRouter();
   const state = useAppSelector((state) => state);
   const { places, title } = state.diary;
+
+  const movePlacePage = (pid: string) => {
+    router.push(`/place/${pid}`);
+  };
 
   return (
     <S.Container>
@@ -17,10 +23,10 @@ const ReadDiary = () => {
         저장된 위치
       </S.TagTitle>
       <S.TagContainer>
-        {places.map((place) => (
-          <S.TagBox key={place.address_name}>
+        {places.map(({ id, place_name, address_name }) => (
+          <S.TagBox key={address_name} onClick={() => movePlacePage(id)}>
             <SVGIcon icon='MapPinIcon' width='1rem' height='1rem' />
-            <S.Tag>{place.place_name}</S.Tag>
+            <S.Tag>{place_name}</S.Tag>
           </S.TagBox>
         ))}
       </S.TagContainer>

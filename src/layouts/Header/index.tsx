@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React, { ReactNode } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
@@ -8,6 +9,7 @@ import * as S from './Header.styled';
 
 interface HeaderProps {
   children?: ReactNode;
+  title: string;
 }
 
 const Header = ({ children }: HeaderProps) => {

@@ -38,11 +38,14 @@ const folderSlice = createSlice({
     ) => {
       const { index, place } = action.payload;
       const foundIndex = state.folders[index].places.findIndex((p) => p.id === place.id);
+
       if (foundIndex < 0) {
-        state.folders.forEach((f, idx) => {
-          if (idx !== index) f.places = f.places.filter((p) => p.id !== place.id);
-        });
+        // state.folders.forEach((f, idx) => {
+        //   if (idx !== index) f.places = f.places.filter((p) => p.id !== place.id);
+        // });
         state.folders[index].places.push(place);
+      } else {
+        state.folders[index].places = state.folders[index].places.filter((p) => p.id !== place.id);
       }
     },
     removePlaceInFolder: (state, action: PayloadAction<string>) => {

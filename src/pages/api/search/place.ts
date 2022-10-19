@@ -1,17 +1,17 @@
-import { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { Op } from 'sequelize';
+import { NextApiResponse } from 'next';
 
+import models from '@/db/index';
 import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
 
 const handler = nc();
 
 handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResponse) => {
-  const user = req.user;
-  const searchedQuery = req.query;
-  const { searchWord, prevDate, nextDate } = searchedQuery;
+  const { user } = req;
+  const { searchWord } = req.query;
 
-  const results = await user?.getPlace({
+  const places = await models.Place.findAll({
     where: {
       [Op.or]: {
         place_name: {
@@ -24,20 +24,23 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
           [Op.like]: `%${searchWord}%`,
         },
       },
-      createdAt: {
-        [Op.and]: [
-          {
-            [Op.gte]: `${prevDate}`,
-            [Op.lte]: `${nextDate}`,
-          },
-        ],
-      },
+    },
+    include: {
+      model: models.Folder,
+      as: 'folder',
+      attributes: ['fid', 'title', 'color', 'icon'],
     },
   });
 
-  console.log('places', results);
+  const folder = await user?.getFolder({
+    attributes: ['fid', 'color', 'icon', 'title'],
+    include: {
+      model: models.Place,
+      as: 'places',
+    },
+  });
 
-  res.status(200).json({ results });
+  res.status(200).json({ places, folder });
 });
 
 export default handler;

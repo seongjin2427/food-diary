@@ -37,7 +37,7 @@ const FolderPage: NextPage = () => {
 
   return (
     <>
-      <Header>
+      <Header title='음식일기 폴더 찾기'>
         <CommonHeader
           type='both'
           nextUrl='/'

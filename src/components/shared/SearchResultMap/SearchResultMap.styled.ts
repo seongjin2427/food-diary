@@ -1,9 +1,8 @@
+import { IconColorKeyType } from '@/styles/theme';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-export const Container = styled.div`
-  height: 10rem;
-`;
+export const Container = styled.div``;
 
 export const Slider = styled.div`
   display: flex;
@@ -24,7 +23,7 @@ export const SliderArea = styled.div<SliderAreaProps>`
 
   ${({ placeNumber }) => css`
     transition: all 0.5s;
-    transform: translateX(${placeNumber * -20}rem);
+    margin-left: ${placeNumber * -100}%;
   `}
 `;
 
@@ -34,8 +33,22 @@ export const ArrowButton = styled.button`
   outline: none;
 `;
 
-export const PlaceContainer = styled.div`
-  width: 19rem;
+export const PlaceListContainer = styled.div`
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid black;
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+`;
+
+interface PlaceContainerProps {
+  placeWidth: number;
+}
+
+export const PlaceContainer = styled.div<PlaceContainerProps>`
+  ${({ placeWidth }) => css`
+    width: calc(${placeWidth}px - 7rem);
+  `}
   padding: 0.75rem;
   border: 1px solid black;
   margin: 0 0.5rem;
@@ -45,6 +58,7 @@ export const PlaceContainer = styled.div`
 export const PlaceTitleBox = styled.div`
   display: flex;
   align-items: flex-end;
+  justify-content: space-between;
   margin-bottom: 0.5rem;
   gap: 0.5rem;
 `;
@@ -56,11 +70,23 @@ export const PlaceContentBox = styled.div`
 `;
 
 export const PlaceName = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
 `;
 
-export const PlaceKind = styled.p``;
+export const PlaceKind = styled.div`
+  display: flex;
+  align-items: center;
+`;
+export const FolderIcon = styled.div<{ selectedColor: IconColorKeyType }>`
+  display: flex;
+  align-items: center;
+  ${({ theme, selectedColor }) => css`
+    svg {
+      fill: ${theme.iconColor[selectedColor]};
+    }
+  `}
+`;
 export const PlaceAddress = styled.p``;
 export const PlacePhone = styled.p``;
 

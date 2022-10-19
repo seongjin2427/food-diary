@@ -56,7 +56,7 @@ Folder.belongsToMany(Place, {
 Place.belongsToMany(Folder, {
   through: 'FolderPlace',
   foreignKey: 'fid',
-  as: 'Folder',
+  as: 'folder',
 });
 
 User.sync();

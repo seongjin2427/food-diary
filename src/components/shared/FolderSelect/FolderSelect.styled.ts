@@ -46,9 +46,11 @@ export const SelectTitle = styled.button<IsOpenProps>`
   border: 1px solid black;
   border-radius: 0.25rem;
 
-  ${({isOpen}) => isOpen && css`
-    background: #ffbbaa;
-  `}
+  ${({ isOpen }) =>
+    isOpen &&
+    css`
+      background: #ffbbaa;
+    `}
 `;
 
 interface SelectListTitleProps {
@@ -80,10 +82,6 @@ export const SelectListLi = styled.li<SelectListTitleProps>`
 
   :not(:first-of-type) {
     border-top: 0.5px solid #fff;
-  }
-
-  :hover {
-    background: lightskyblue;
   }
 
   ${({ isPlus }) =>
