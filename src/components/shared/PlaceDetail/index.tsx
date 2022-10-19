@@ -1,35 +1,77 @@
-import React from 'react';
+import dayjs from 'dayjs';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useQuery } from '@tanstack/react-query';
 
-import { SearchResultType } from '@/hooks/useSearchPlace';
-import { FolderSliceFolderType } from '@/store/diary/folderSlice';
+import { getPlaceById } from '@/api/place';
+import { useAppSelector } from '@/store/index';
+import PlaceMap from '@/components/shared/PlaceMap';
+import Spinner from '@/components/shared/Spinner';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './PlaceDetail.styled';
-import PlaceMap from '@/components/shared/PlaceMap';
 
-interface PlaceDetailProps {
-  placeInformation: SearchResultType & {
-    folder: FolderSliceFolderType[];
+const PlaceDetail = () => {
+  const router = useRouter();
+  const { place: pi } = useAppSelector(({ place }) => place);
+  const [toggle, setToggle] = useState<boolean>(false);
+
+  const onClickOnToggle = () => {
+    setToggle(!toggle);
   };
-}
 
-const PlaceDetail = ({ placeInformation: pi }: PlaceDetailProps) => {
+  const onClickMoveDiary = (did: number) => {
+    router.push(`/diary/${did}`);
+  };
+
+  if (!pi) {
+    return <S.Container>해당 장소가 존재하지 않습니다.</S.Container>;
+  }
+
+  const { data, isFetching } = useQuery(['folder', pi.id], () => getPlaceById(pi.id), {
+    refetchOnWindowFocus: false,
+  });
+
+  if (isFetching) {
+    return <Spinner color='lightcoral' size='2rem' speed='1' />;
+  }
+
   return (
     <S.Container>
       <S.PlaceName>{pi.place_name}</S.PlaceName>
       <S.FolderIconList>
-        {pi.folder.map(({ fid, icon, color }) => (
-          <S.FolderIconItem key={fid} selectedColor={color}>
-            <SVGIcon icon={icon} width='2rem' height='2rem' />
-          </S.FolderIconItem>
-        ))}
+        {data &&
+          data.folders.map(({ fid, icon, color, places }) => {
+            const existed = places.find((p) => p.id === pi.id);
+            if (existed)
+              return (
+                <S.FolderIconItem key={fid} selectedColor={color}>
+                  <SVGIcon icon={icon} width='2rem' height='2rem' />
+                </S.FolderIconItem>
+              );
+          })}
       </S.FolderIconList>
       <S.InformationBox>
         <S.InformationParagraph>{pi.address_name}</S.InformationParagraph>
         <S.InformationParagraph>{pi.category_name}</S.InformationParagraph>
-        {/* <S.InformationParagraph>{pi.category_group_name}</S.InformationParagraph> */}
         <S.InformationParagraph>{pi.phone}</S.InformationParagraph>
-        {/* <S.InformationParagraph>{pi.place_name}</S.InformationParagraph> */}
       </S.InformationBox>
+
+      <S.ArcodianBox>
+        <S.InformationBox>
+          <S.ArcodianTitle onClick={onClickOnToggle}>
+            방문 기록
+            <SVGIcon icon='ChevronDownIcon' width='1.25rem' height='1.25rem' />
+          </S.ArcodianTitle>
+        </S.InformationBox>
+        <S.VistiedList toggle={toggle}>
+          {data?.diaries.map(({ did, title, date }) => (
+            <S.VisitedItem key={date} onClick={() => onClickMoveDiary(did)}>
+              {title}
+              <S.SmallText>{dayjs(date).format('YYYY/MM/DD')}</S.SmallText>
+            </S.VisitedItem>
+          ))}
+        </S.VistiedList>
+      </S.ArcodianBox>
 
       <PlaceMap x={pi.x} y={pi.y} />
 

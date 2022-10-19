@@ -20,8 +20,8 @@ const SearchFolderList = ({ searchMapsStates, searchMapsActions }: SearchResultM
   const toggleNewFolder = useCallback(() => setInputMode(!inputMode), [inputMode]);
 
   const onClickChangeCurrentFolder = useCallback(
-    (fid: number | undefined) => {
-      if (fid) changeCurrentFolder(fid);
+    (idx: number) => {
+      changeCurrentFolder(idx);
     },
     [folderResults],
   );
@@ -40,14 +40,14 @@ const SearchFolderList = ({ searchMapsStates, searchMapsActions }: SearchResultM
         </S.NewFolderList>
       </S.AddFolderButton>
       <S.FolderIconList>
-        {folderResults?.map(({ fid, icon, color }) => (
+        {folderResults?.map(({ fid, icon, color }, idx) => (
           <S.FolderIconItem
             key={fid}
             selectedColor={color}
-            onClick={() => onClickChangeCurrentFolder(fid)}
+            onClick={() => onClickChangeCurrentFolder(idx)}
           >
             <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
-            {currentFolder === fid && (
+            {currentFolder === idx && (
               <S.CheckIcon>
                 <SVGIcon icon='CheckIcon' width='1.75rem' height='1.75rem' />
               </S.CheckIcon>

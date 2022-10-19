@@ -33,10 +33,12 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
   const [searchedPlaces, , { search }] = useSearchPlace();
 
   useQuery(['searchPlaceResult', searchWord], () => getSearchPlacesBySearchWord(searchWord), {
-    enabled: searchOption === 'folder',
     refetchOnWindowFocus: false,
     onSuccess: (searchedData) => {
-      setSearchPlaceResults(searchedData?.places);
+      console.log('gg', searchedData);
+      if (searchOption === 'folder') {
+        setSearchPlaceResults(searchedData?.places);
+      }
       setFolderResults(searchedData?.folder);
     },
   });
@@ -71,8 +73,9 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
       (n: number) => {
         setCurrentPlace(0);
         setCurrentFolder(n);
+
         if (folderResults && folderResults.length > 0) {
-          const places = folderResults[n - 1].places;
+          const places = folderResults[n].places;
           setSearchPlaceResults(places);
         }
       },
