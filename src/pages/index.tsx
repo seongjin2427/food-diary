@@ -1,8 +1,8 @@
-import type { NextPage } from 'next';
 import { useEffect } from 'react';
+import type { NextPage } from 'next';
 
-import { useAppDispatch, useAppSelector } from '@/store/index';
 import { userLogin } from '@/store/global';
+import { useAppDispatch, useAppSelector } from '@/store/index';
 import useReduxReset from '@/hooks/useReduxReset';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';

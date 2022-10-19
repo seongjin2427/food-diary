@@ -5,6 +5,7 @@ import HomeDropdown from '@/components/shared/HomeDropdown';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './HomeHeader.styled';
 import { HOME_HEADER_DROPDOWN } from '@/constants/dropdown';
+import Link from 'next/link';
 
 interface HomeHeaderProps {
   type: 'home' | 'map';
@@ -26,8 +27,16 @@ const HomeHeader = ({ type }: HomeHeaderProps) => {
         <S.RightButtonArea>
           {type === 'home' && (
             <>
-              <SVGIcon icon='SearchIcon' width='2rem' onClick={moveSearchPage} />
-              <SVGIcon icon='SettingsIcon' width='2rem' />
+              <Link href='/search/diary'>
+                <a>
+                  <SVGIcon icon='SearchIcon' width='2rem' onClick={moveSearchPage} />
+                </a>
+              </Link>
+              <Link href='/setting'>
+                <a>
+                  <SVGIcon icon='SettingsIcon' width='2rem' />
+                </a>
+              </Link>
             </>
           )}
         </S.RightButtonArea>
