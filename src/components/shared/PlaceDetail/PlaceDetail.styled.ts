@@ -16,6 +16,7 @@ export const PlaceName = styled.h1`
 
 export const FolderIconList = styled.ul`
   display: flex;
+  align-items: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
 `;

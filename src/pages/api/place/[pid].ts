@@ -11,14 +11,6 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
   const { pid } = req.query;
 
   try {
-    const folders = await user?.getFolder({
-      attributes: ['fid', 'title', 'color', 'icon'],
-      include: {
-        model: models.Place,
-        as: 'places',
-      },
-    });
-
     const diaries = await user?.getDiary({
       attributes: ['did', 'title', 'date'],
       include: {
@@ -27,13 +19,13 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
         where: {
           id: pid,
         },
-        attributes: ['pid']
+        attributes: ['pid'],
       },
     });
 
     console.log('diaries', diaries);
 
-    res.status(200).json({ folders, diaries });
+    res.status(200).json({ diaries });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Fail!' });

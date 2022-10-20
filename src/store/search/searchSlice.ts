@@ -6,6 +6,7 @@ interface ISearchState {
   searchOption: 'map' | 'folder';
   prevDate: string;
   nextDate: string;
+  showList: boolean;
 }
 
 const initialState: ISearchState = {
@@ -13,6 +14,7 @@ const initialState: ISearchState = {
   searchOption: 'folder',
   prevDate: getToday()[0].toString(),
   nextDate: getToday()[1].toString(),
+  showList: false,
 };
 
 const searchSlice = createSlice({
@@ -37,10 +39,18 @@ const searchSlice = createSlice({
       state.prevDate = getToday()[0].toString();
       state.nextDate = getToday()[1].toString();
     },
+    toggleShowList: (state) => {
+      state.showList = !state.showList;
+    },
   },
 });
 
-export const { searchBySearchWord, selectSearchOption, selectSearchDate, clearSearchStates } =
-  searchSlice.actions;
+export const {
+  searchBySearchWord,
+  selectSearchOption,
+  selectSearchDate,
+  clearSearchStates,
+  toggleShowList,
+} = searchSlice.actions;
 
 export default searchSlice.reducer;

@@ -11,7 +11,7 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
   const { user } = req;
   const { searchWord } = req.query;
 
-  const places = await models.Place.findAll({
+  const places = await user?.getPlace({
     where: {
       [Op.or]: {
         place_name: {
@@ -24,11 +24,6 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
           [Op.like]: `%${searchWord}%`,
         },
       },
-    },
-    include: {
-      model: models.Folder,
-      as: 'folder',
-      attributes: ['fid', 'title', 'color', 'icon'],
     },
   });
 

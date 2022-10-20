@@ -35,7 +35,6 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
   useQuery(['searchPlaceResult', searchWord], () => getSearchPlacesBySearchWord(searchWord), {
     refetchOnWindowFocus: false,
     onSuccess: (searchedData) => {
-      console.log('gg', searchedData);
       if (searchOption === 'folder') {
         setSearchPlaceResults(searchedData?.places);
       }

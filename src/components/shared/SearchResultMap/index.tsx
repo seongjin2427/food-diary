@@ -53,22 +53,22 @@ const SearchResultMap = ({
                   >
                     <S.PlaceTitleBox>
                       <S.PlaceName>{place.place_name}</S.PlaceName>
-                      <S.PlaceKind>
-                        {folderResults?.map(
-                          ({ fid, icon, color, places }) =>
-                            places.find((p) => p.id === place.id) && (
-                              <S.FolderIcon key={fid} selectedColor={color}>
-                                <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
-                              </S.FolderIcon>
-                            ),
-                        )}
-                      </S.PlaceKind>
                     </S.PlaceTitleBox>
                     <S.PlaceContentBox>
                       <S.PlaceAddress>{place.address_name}</S.PlaceAddress>
                       <S.PlacePhone>{place.phone}</S.PlacePhone>
                       <S.PlaceDistance>{+place.distance / 1000}km</S.PlaceDistance>
                     </S.PlaceContentBox>
+                    <S.PlaceKind>
+                      {folderResults?.map(
+                        ({ fid, icon, color, places }) =>
+                          places.find((p) => p.id === place.id) && (
+                            <S.FolderIcon key={fid} selectedColor={color}>
+                              <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
+                            </S.FolderIcon>
+                          ),
+                      )}
+                    </S.PlaceKind>
                   </S.PlaceContainer>
                 ))}
               </S.SliderArea>
@@ -93,7 +93,7 @@ const SearchResultMap = ({
         <>
           {searchPlaceResults &&
             searchPlaceResults.map((place, idx) => (
-              <S.PlaceListContainer key={idx}>
+              <S.PlaceListContainer key={idx} onClick={() => moveToPlacePageByPid(place)}>
                 <S.PlaceTitleBox>
                   <S.PlaceName>{place.place_name}</S.PlaceName>
                   <S.PlaceKind>

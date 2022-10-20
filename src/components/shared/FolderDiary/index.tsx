@@ -21,7 +21,7 @@ const FolderDiary = () => {
                 <S.Tag>{place.place_name}</S.Tag>
               </S.TagBox>
               <S.FolderSelectArea>
-                <FolderSelect place={place} />
+                <FolderSelect place={place} right />
               </S.FolderSelectArea>
             </S.FolderArea>
           ))}

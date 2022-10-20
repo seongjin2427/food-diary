@@ -9,7 +9,6 @@ interface IsOpenProps {
 
 export const Container = styled.div`
   width: 100%;
-  margin-left: 0.5rem;
 `;
 
 export const Backdrop = styled.div<IsOpenProps>`
@@ -30,27 +29,16 @@ export const Backdrop = styled.div<IsOpenProps>`
 `;
 
 export const SelectContainer = styled.div`
-  width: 2.25rem;
+  display: flex;
   position: relative;
   background: white;
-  /* z-index: 10; */
 `;
 
-export const SelectTitle = styled.button<IsOpenProps>`
+export const SelectTitle = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: white;
-  padding: 0.5rem;
-  border: 1px solid black;
-  border-radius: 0.25rem;
-
-  ${({ isOpen }) =>
-    isOpen &&
-    css`
-      background: #ffbbaa;
-    `}
+  border: none;
 `;
 
 interface SelectListTitleProps {

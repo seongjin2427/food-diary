@@ -8,6 +8,7 @@ import { useAppSelector } from '@/store/index';
 import PlaceMap from '@/components/shared/PlaceMap';
 import Spinner from '@/components/shared/Spinner';
 import SVGIcon from '@/components/shared/SVGIcon';
+import PlaceFolderSelect from '@/components/shared/PlaceFolderSelect';
 import * as S from './PlaceDetail.styled';
 
 const PlaceDetail = () => {
@@ -39,16 +40,7 @@ const PlaceDetail = () => {
     <S.Container>
       <S.PlaceName>{pi.place_name}</S.PlaceName>
       <S.FolderIconList>
-        {data &&
-          data.folders.map(({ fid, icon, color, places }) => {
-            const existed = places.find((p) => p.id === pi.id);
-            if (existed)
-              return (
-                <S.FolderIconItem key={fid} selectedColor={color}>
-                  <SVGIcon icon={icon} width='2rem' height='2rem' />
-                </S.FolderIconItem>
-              );
-          })}
+        <PlaceFolderSelect place={pi} />
       </S.FolderIconList>
       <S.InformationBox>
         <S.InformationParagraph>{pi.address_name}</S.InformationParagraph>
