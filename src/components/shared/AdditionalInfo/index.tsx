@@ -46,7 +46,7 @@ const AdditinalInfo = ({ readOnly }: AdditionalInfoProps) => {
         <S.Description>작성했던 메모</S.Description>
       ) : (
         <S.Description>
-          추가 정보에 대해서는 <br /> 아래에 작성해주세요.
+          추가 정보에 대해서 <br /> 아래에 작성해주세요.
         </S.Description>
       )}
       <S.InfoContainer>

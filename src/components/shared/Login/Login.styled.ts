@@ -10,10 +10,10 @@ export const Title = styled.h1`
 
 export const Description = styled.h1`
   font-size: 1.5rem;
-  margin: 7.5rem 0;
+  margin: 2rem 0;
 
   em {
-    color: red;
+    color: ${({ theme }) => theme.color.primary};
     font-weight: 800;
   }
 `;

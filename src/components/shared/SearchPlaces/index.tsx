@@ -47,8 +47,8 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
   return (
     <S.Container>
       <S.LetMeknowThePlaceTitle>
-        {year}년 {month}월 {day}일에 <br />
-        방문하신 장소를 알려주세요!
+        <em>{year}년 {month}월 {day}일</em>에 <br />
+        <em>방문하신 장소</em>를 알려주세요!
       </S.LetMeknowThePlaceTitle>
 
       <S.PlaceTags>

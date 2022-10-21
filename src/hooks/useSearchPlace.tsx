@@ -47,9 +47,7 @@ const useSearchPlace = (): [
   const searchHistoryRef = useRef<string[]>([]);
 
   const search = useCallback(async (searchWord: string) => {
-    console.log('searchWord', searchWord);
     navigator.geolocation.getCurrentPosition(({ coords }: GeolocationType) => {
-      // console.log(coords);
       const kakao = window.kakao;
       const places = new kakao.maps.services.Places();
 
@@ -60,7 +58,6 @@ const useSearchPlace = (): [
           status: 'OK' | 'ZERO_RESULT',
           pagination: SearchResultPaginationType,
         ) => {
-          console.log(data, status, pagination);
 
           if (status === kakao.maps.services.Status.OK) {
             searchHistoryRef.current.push(searchWord);

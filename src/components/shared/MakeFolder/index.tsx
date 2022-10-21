@@ -30,12 +30,16 @@ const MakeFolder = ({
   return (
     <>
       <S.NewFolderLi>
-        <S.NewFolderInput onChange={onChangeNewTitle} value={newFolderTitle} />
+        <S.NewFolderInput
+          onChange={onChangeNewTitle}
+          value={newFolderTitle}
+          placeholder='폴더 이름'
+        />
         <S.SelectButton
           onClick={() => onClickNewFolderInfo(selectedIcon, selectedColor)}
           disabled={!newFolderTitle}
         >
-          확인
+          <SVGIcon icon='CheckIcon' width='1.25rem' height='1.25rem' />
         </S.SelectButton>
       </S.NewFolderLi>
       <S.NewFolderLi>

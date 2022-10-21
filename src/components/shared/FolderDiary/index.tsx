@@ -12,7 +12,9 @@ const FolderDiary = () => {
   return (
     <S.Container>
       <S.FolderContainer>
-        <S.Title>어디에 저장할까요?</S.Title>
+        <S.Title>
+          <em>어디에 저장할까요?</em>
+        </S.Title>
         <S.FolderTagArea>
           {places.map((place) => (
             <S.FolderArea key={place.address_name}>

@@ -1,9 +1,9 @@
-import { useState, useCallback, ChangeEvent, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useState, useCallback, useEffect } from 'react';
 
 import { getSearchDiaryBySearchWord, SearchedDiaryType } from '@/api/diary';
 import { useAppDispatch, useAppSelector } from '@/store/index';
-import { searchBySearchWord, selectSearchDate } from '@/store/search/searchSlice';
+import { selectSearchDate } from '@/store/search/searchSlice';
 export interface SearchDiaryType {
   prevDate: string;
   nextDate: string;
@@ -17,7 +17,7 @@ export interface SearchDiaryActionType {
 const useSearchDiary = (): [SearchDiaryType, SearchDiaryActionType] => {
   const dispatch = useAppDispatch();
   const { searchWord, prevDate, nextDate } = useAppSelector(({ search }) => search);
-  
+
   const [searchDiaryResults, setSearchDiaryResults] = useState<SearchedDiaryType[] | undefined>([]);
 
   useQuery(

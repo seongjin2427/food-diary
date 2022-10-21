@@ -29,7 +29,9 @@ const SelectPeriod = ({ searchDiaryStates, searchDiaryActions }: SerachPeriodPro
               setSelectDate={setSelectDate}
             />
           </S.Period>
-          <SVGIcon icon='SubstractIcon' width='1.25rem' height='1.25rem' />
+          <S.SubstractIcon>
+            <SVGIcon icon='SubstractIcon' width='1.25rem' height='1.25rem' />
+          </S.SubstractIcon>
           <S.Period>
             <SVGIcon icon='CalendarIcon' width='1.25rem' height='1.25rem' />
             <SelectCalendar

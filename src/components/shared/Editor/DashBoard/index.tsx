@@ -31,7 +31,7 @@ const DashBoard = ({ editor }: DashBoardProps) => {
               key={iconName}
               icon={iconName}
               onClick={() => editor.chain().focus()[method](level).run()}
-              style={{ background: editor?.isActive(style, level) ? 'red' : '' }}
+              style={{ background: editor?.isActive(style, level) ? '#ed2220' : '' }}
             />
           ))}
           <S.Divider />
@@ -42,7 +42,7 @@ const DashBoard = ({ editor }: DashBoardProps) => {
               width='1.675rem'
               height='1.675rem'
               onClick={() => editor.chain().focus()[method]().run()}
-              style={{ background: editor?.isActive(style) ? 'red' : '' }}
+              style={{ background: editor?.isActive(style) ? '#ed2220' : '' }}
             />
           ))}
           <S.Divider />
@@ -72,7 +72,7 @@ const DashBoard = ({ editor }: DashBoardProps) => {
               height='1.75rem'
               onClick={() => editor.chain().focus().setTextAlign(method).run()}
               style={{
-                background: editor?.isActive({ textAlign: method }) ? 'red' : '',
+                background: editor?.isActive({ textAlign: method }) ? '#ed2220' : '',
               }}
             />
           ))}
@@ -85,7 +85,7 @@ const DashBoard = ({ editor }: DashBoardProps) => {
               height='1.75rem'
               onClick={() => editor.chain().focus()[method]().run()}
               style={{
-                background: editor?.isActive(style) ? 'red' : '',
+                background: editor?.isActive(style) ? '#ed2220' : '',
               }}
             />
           ))}

@@ -21,11 +21,12 @@ interface NewFolderListProps {
 export const NewFolderList = styled.ul<NewFolderListProps>`
   width: 12.5rem;
   display: none;
-  background: lightcoral;
+  background: ${({ theme }) => theme.color.third};
   position: absolute;
   top: 1.5rem;
   left: 2rem;
   border-radius: 0.5rem;
+  padding: 0.25rem 0;
   z-index: 10;
   ${({ open }) =>
     open &&
@@ -55,7 +56,7 @@ export const FolderIconList = styled.ul`
   overflow: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  
+
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }

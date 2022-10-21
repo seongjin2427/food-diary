@@ -1,7 +1,7 @@
-import useUserInformation from '@/hooks/useUserInformation';
-import { useAppSelector } from '@/store/index';
 import React from 'react';
 
+import { useAppSelector } from '@/store/index';
+import useUserInformation from '@/hooks/useUserInformation';
 import * as S from './DiarySetting.styled';
 
 const DiarySetting = () => {
