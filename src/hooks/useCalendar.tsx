@@ -18,13 +18,13 @@ const useCalendar = (): [CalendarDate[], number] => {
   const [calendar, setCalendar] = useState<CalendarDate[]>([]);
   const [fetchedDiary, setFetchedDiary] = useState<CalendarDate[]>([]);
 
-  const { data } = useQuery(
+  useQuery(
     ['useCalendar', currentMonth],
     () => getDiaryByMonth(dayjs(currentMonth).format('YYYY-MM')),
     {
       refetchOnWindowFocus: false,
       onSuccess: (fetched) => {
-        setFetchedDiary(fetched);
+        if (fetched) setFetchedDiary(fetched);
       },
     },
   );

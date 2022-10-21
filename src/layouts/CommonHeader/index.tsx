@@ -33,7 +33,6 @@ const CommonHeader = ({
 
   const moveNextPage = useCallback(() => {
     if (nextUrl && nextDisabled) {
-      console.log('next');
       nextFn && nextFn();
       router.push(nextUrl);
     }

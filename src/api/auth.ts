@@ -1,6 +1,6 @@
+import instance from './instance';
 import { UserAttributes } from '@/db/models/user.model';
 import { TokenType } from '@/hooks/useUserInformation';
-import instance from './instance';
 
 interface UserInformationType {
   nickname: string;
@@ -16,10 +16,9 @@ interface UserCheckResponseType {
 export const userCheck = async (token: string | null) => {
   try {
     const { data } = await instance.get<UserCheckResponseType>(`/api/auth/check?token=${token}`);
-    console.log(data);
     return data.result;
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    console.log(err);
     return null;
   }
 };
@@ -31,8 +30,8 @@ export const userLoginApi = async (userData: UserInformationType, token: TokenTy
       token,
     });
     return data.result;
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    console.log(err);
     return null;
   }
 };
@@ -40,7 +39,6 @@ export const userLoginApi = async (userData: UserInformationType, token: TokenTy
 export const userLogoutApi = async () => {
   try {
     const { data } = await instance.get('/api/auth/logout');
-    console.log(data);
   } catch (err) {
     console.log(err);
   }
@@ -49,7 +47,6 @@ export const userLogoutApi = async () => {
 export const userWithDraw = async () => {
   try {
     const { data } = await instance.get('/api/auth/withdraw');
-    console.log(data);
   } catch (err) {
     console.log(err);
   }

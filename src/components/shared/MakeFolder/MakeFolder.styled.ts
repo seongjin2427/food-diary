@@ -14,26 +14,32 @@ export const NewFolderInput = styled.input`
   font-size: 1rem;
   outline: none;
   border: none;
-  border-bottom: 1px solid black;
+
+  ::placeholder {
+    color: ${({ theme }) => theme.color.black};
+    opacity: 0.4;
+  }
 `;
 
 export const NewFolderLi = styled.li`
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 1rem;
-  border-top: 0.5px solid #fff;
+  :not(:first-child) {
+    border-top: 0.5px solid #fff;
+  }
 `;
 
 export const SelectButton = styled.button`
-  width: 3.5rem;
-  background: white;
+  display: flex;
+  align-items: center;
   margin-left: 0.5rem;
-  border: 1px solid black;
-  border-radius: 0.25rem;
-  padding: 0.125rem 0.25rem;
+  border: 1px solid ${({ theme }) => theme.color.black};
+  border-radius: 0.125rem;
+  background: ${({ theme }) => theme.color.white};
 
   :disabled {
-    opacity: 0.8;
+    opacity: 0.7;
   }
 `;
 

@@ -30,14 +30,14 @@ export const TagBox = styled.div`
   display: flex;
   padding: 0.5rem 1rem;
   border-radius: 9999px;
-  background: lightblue;
+  background: ${({ theme }) => theme.color.third};
 `;
 
 export const Tag = styled.p``;
 
 export const DiaryTitle = styled.p`
   width: 100%;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
   font-size: 1.375rem;
   font-weight: 800;
   background: lightcoral;

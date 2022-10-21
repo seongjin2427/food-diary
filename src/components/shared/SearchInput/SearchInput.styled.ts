@@ -5,9 +5,27 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   background: white;
-  border: 1px solid black;
-  border-radius: 0.25rem;
+  border-bottom: 5px solid ${({ theme }) => theme.color.primary};
   font-size: 1.25rem;
+`;
+
+interface BackdropProps {
+  toggle: boolean;
+}
+
+export const Backdrop = styled.div<BackdropProps>`
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  ${({ toggle }) =>
+    toggle &&
+    css`
+      display: block;
+    `}
 `;
 
 export const SelectSearchOption = styled.div``;
@@ -19,7 +37,8 @@ export const SearchInputSelectArea = styled.div`
   position: relative;
   padding: 0.5rem;
   margin: 0.125rem;
-  border-right: 1px solid black;
+  border: 1px solid black;
+  border-radius: 0.25rem;
 `;
 
 interface OpenProps {
@@ -32,11 +51,11 @@ export const SearchInputSelectUl = styled.ul<OpenProps>`
   flex-direction: column;
   width: 5.125rem;
   position: absolute;
-  top: 2.5rem;
+  top: 2.75rem;
   left: -2px;
   background: white;
   border: 1px solid black;
-  border-radius: 0 0 0.25rem 0.25rem;
+  border-radius: 0.25rem;
   z-index: 10;
 
   ${({ isOpen }) =>
@@ -72,6 +91,8 @@ export const SearchInput = styled.input`
 `;
 
 export const SearchButton = styled.button`
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
   outline: none;

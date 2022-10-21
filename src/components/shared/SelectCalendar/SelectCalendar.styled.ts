@@ -30,8 +30,10 @@ export const PeriodInput = styled.input`
   width: 7rem;
   height: 2rem;
   text-align: center;
+  border: none;
   font-size: 1.125rem;
   :focus {
+    color: ${({ theme }) => theme.color.primary};
     outline: none;
   }
 `;
@@ -56,9 +58,16 @@ export const Calendar = styled.div<CalendarType>`
     }
 
     .react-calendar__tile--now {
-      background: lightskyblue;
+      background: ${({ theme }) => theme.color.third};
       :enabled:hover {
-        background: lightblue;
+        background: ${({ theme }) => theme.color.secondary};
+      }
+    }
+
+    .react-calendar__tile--active {
+      background: ${({ theme }) => theme.color.secondary};
+      :enabled:hover {
+        background: ${({ theme }) => theme.color.primary};
       }
     }
   }

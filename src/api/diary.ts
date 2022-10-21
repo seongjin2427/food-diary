@@ -15,9 +15,12 @@ interface getDiaryByMonthType {
 }
 
 export const getDiaryByMonth = async (date: string) => {
-  const { data } = await instance.get<getDiaryByMonthType>(`/api/diary/month/${date}`);
-  // console.log(data);
-  return data.diary;
+  try {
+    const { data } = await instance.get<getDiaryByMonthType>(`/api/diary/month/${date}`);
+    return data.diary;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 interface ImageFileType {
@@ -50,10 +53,8 @@ interface uploadDiaryType {
 }
 
 export const uploadDiary = async (sendData: uploadDiaryType) => {
-  console.log(sendData);
   try {
     const { data } = await instance.post('/api/upload/diary', sendData);
-    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -63,7 +64,6 @@ export const uploadDiary = async (sendData: uploadDiaryType) => {
 export const addFolderApi = async (folder: FolderSliceFolderType) => {
   try {
     const { data } = await instance.post('/api/upload/folder', { folder });
-    console.log(data);
   } catch (err) {
     console.log(err);
   }
@@ -136,7 +136,6 @@ export const getSearchDiaryBySearchWord = async (searchOptions: SearchOptionsTyp
       );
       results = data.results;
     }
-    console.log(results);
     return results;
   } catch (err) {
     console.log(err);
@@ -151,7 +150,6 @@ export const getSearchPlacesBySearchWord = async (searchWord: string) => {
     const { data } = await instance.get<SearchedPlaceApiData>(
       `/api/search/place?searchWord=${searchWord}`,
     );
-    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -165,7 +163,6 @@ export interface GetDiaryType {
 export const getDiaryByDid = async (did: string) => {
   try {
     const { data } = await instance.get<GetDiaryType>(`/api/diary/${did}`);
-    console.log(data);
     return data.diary[0];
   } catch (err) {
     console.log(err);
@@ -175,8 +172,6 @@ export const getDiaryByDid = async (did: string) => {
 export const removeDiaryBydid = async (did: string) => {
   try {
     const { data } = await instance.delete(`/api/remove/diary/${did}`);
-    console.log(data);
-
     return data;
   } catch (err) {
     console.log(err);

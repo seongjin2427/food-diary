@@ -1,5 +1,5 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 export const Container = styled.div`
   padding: 0 1rem;
@@ -44,14 +44,14 @@ export const Button = styled.button<ButtonProps>`
   background: white;
   border: none;
   outline: none;
-  border: 1px solid red;
+  border: 1px solid ${({ theme }) => theme.color.primary};
   border-radius: 0.5rem;
   color: red;
 
-  ${({ withDraw }) =>
+  ${({ theme, withDraw }) =>
     withDraw &&
     css`
-      background: red;
+      background: ${theme.color.primary};
       color: white;
     `}
 `;

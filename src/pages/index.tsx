@@ -41,6 +41,7 @@ const Home: NextPage = () => {
       )}
       {!isLogin && (
         <>
+          <Header title={'음식일기 : 어디서 먹었지?'} />
           <MainLayout>
             <Login />
           </MainLayout>

@@ -27,7 +27,7 @@ export const InfoDescriptionAreaInput = styled.input`
 
   :read-only {
     color: #555;
-    background: #eee;
+    background: ${({ theme }) => theme.color.grey};
   }
 `;
 
@@ -44,10 +44,10 @@ export const InfoCostArea = styled.div<ReadOnlyProps>`
   border: 1px solid black;
   border-radius: 0.25rem;
 
-  ${({ readOnly }) =>
+  ${({ theme, readOnly }) =>
     readOnly &&
     css`
-      background: #eee;
+      background: ${theme.color.grey};
     `}
 `;
 

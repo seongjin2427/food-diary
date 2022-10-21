@@ -32,6 +32,7 @@ const HomeDropdown = ({ menus }: HomeDropdownProps) => {
 
   return (
     <S.Container>
+      <S.Backdrop toggle={open} onClick={onClickToggle} />
       <S.Selected onClick={onClickToggle}>
         {selected}
         <SVGIcon icon='ChevronDownIcon' width='1rem' height='1rem' />

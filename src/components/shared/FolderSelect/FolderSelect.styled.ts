@@ -33,10 +33,9 @@ export const SelectContainer = styled.div`
   width: 2.25rem;
   position: relative;
   background: white;
-  /* z-index: 10; */
 `;
 
-export const SelectTitle = styled.button<IsOpenProps>`
+export const SelectButton = styled.button<IsOpenProps>`
   width: 100%;
   display: flex;
   align-items: center;
@@ -46,10 +45,10 @@ export const SelectTitle = styled.button<IsOpenProps>`
   border: 1px solid black;
   border-radius: 0.25rem;
 
-  ${({ isOpen }) =>
+  ${({ theme, isOpen }) =>
     isOpen &&
     css`
-      background: #ffbbaa;
+      background: ${theme.color.third};
     `}
 `;
 
@@ -60,12 +59,18 @@ interface SelectListTitleProps {
 export const SelectListUl = styled.ul<IsOpenProps & { right?: boolean }>`
   display: none;
   width: 12rem;
+  height: 20rem;
   position: absolute;
-  background: lightsalmon;
+  background: ${({ theme }) => theme.color.third};
   top: 2.25rem;
   border-radius: 0.25rem;
-  overflow: hidden;
+  overflow: scroll;
   z-index: 10;
+
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   ${({ isOpen }) =>
     isOpen &&

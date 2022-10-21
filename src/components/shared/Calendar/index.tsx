@@ -54,6 +54,16 @@ function Calendar() {
         </S.CalendarButton>
       </S.MonthArea>
 
+      <S.Weekend>
+        <S.WeekDay red>sun</S.WeekDay>
+        <S.WeekDay>mon</S.WeekDay>
+        <S.WeekDay>tue</S.WeekDay>
+        <S.WeekDay>wes</S.WeekDay>
+        <S.WeekDay>thu</S.WeekDay>
+        <S.WeekDay>fri</S.WeekDay>
+        <S.WeekDay blue>sat</S.WeekDay>
+      </S.Weekend>
+
       <S.DayArea>
         {currentCalendar.map(({ did, date, image }) => {
           return (

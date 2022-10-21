@@ -67,11 +67,13 @@ const useUserInformation = () => {
             }
           },
           fail: (error: Error) => {
+            localStorage.remove('Authorization');
             console.log(error);
           },
         });
       },
       fail: (error: Error) => {
+        localStorage.remove('Authorization');
         console.log(error);
       },
     });
@@ -88,7 +90,7 @@ const useUserInformation = () => {
       await userLogoutApi();
     }
   };
-  
+
   const withdraw = async () => {
     if (confirm('정말 회원을 탈퇴하시겠습니까?')) {
       const kakao = kakaoInit();
@@ -103,7 +105,7 @@ const useUserInformation = () => {
   const actions: useUserInformationActions = {
     login,
     logout,
-    withdraw
+    withdraw,
   };
 
   return [actions];

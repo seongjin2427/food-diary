@@ -1,20 +1,22 @@
 import Image from 'next/image';
 import React from 'react';
-import loginImage from '@/assets/login/kakao_login_medium_narrow.png';
 
-import * as S from './Login.styled';
+import loginImage from '@/assets/login/kakao_login_medium_narrow.png';
 import useUserInformation from '@/hooks/useUserInformation';
+import * as S from './Login.styled';
 
 const Login = () => {
   const [{ login }] = useUserInformation();
 
   return (
     <S.Container>
-      <S.Description>간편하게 로그인하고</S.Description>
+      <Image src={require('../../../assets/img/1.png')} />
       <S.Description>
-        <em>음식일기 : 어디서 먹었지</em>
+        간편하게 <em>로그인</em>하고
       </S.Description>
-      <S.Description>이용하기</S.Description>
+      <S.Description>
+        <em>이용하기</em>
+      </S.Description>
       <S.LoginButton onClick={login}>
         <Image src={loginImage} width='200px' height='50px' />
       </S.LoginButton>

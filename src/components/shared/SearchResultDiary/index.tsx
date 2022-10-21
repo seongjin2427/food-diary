@@ -1,6 +1,6 @@
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
-import dayjs from 'dayjs';
 
 import { SearchDiaryType } from '@/hooks/useSearchDiary';
 import * as S from './SearchResultDiary.styled';

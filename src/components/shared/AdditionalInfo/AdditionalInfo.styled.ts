@@ -54,6 +54,6 @@ export const InfoTextarea = styled.textarea`
 
   :read-only {
     color: #555;
-    background: #eee;
+    background: ${({theme}) => theme.color.grey};
   }
 `;

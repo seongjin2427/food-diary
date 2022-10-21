@@ -36,7 +36,7 @@ export const ArrowButton = styled.button`
 export const PlaceListContainer = styled.div`
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.color.black};
   margin: 0.5rem 0;
   border-radius: 0.5rem;
 `;
@@ -50,7 +50,7 @@ export const PlaceContainer = styled.div<PlaceContainerProps>`
     width: calc(${placeWidth}px - 7rem);
   `}
   padding: 0.75rem;
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.color.black};
   margin: 0 0.5rem;
   border-radius: 0.5rem;
 `;
@@ -106,12 +106,12 @@ export const SliderPagination = styled.div`
 export const BlankCircle = styled.div`
   width: 0.5rem;
   height: 0.5rem;
-  border: 1px solid black;
+  border: 1px solid ${({ theme }) => theme.color.primary};
   border-radius: 50%;
 `;
 
 export const FillCircle = styled(BlankCircle)`
-  background: black;
+  background: ${({ theme }) => theme.color.primary};
 `;
 
 export const NoPlaces = styled.div``;
