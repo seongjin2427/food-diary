@@ -12,6 +12,10 @@ export const TagTitle = styled.h1`
   font-size: 1.75em;
   font-weight: 900;
 
+  em {
+    border-bottom: 5px solid ${({ theme }) => theme.color.primary};
+  }
+
   svg {
     margin-right: 0.5rem;
   }
@@ -30,7 +34,11 @@ export const TagBox = styled.div`
   display: flex;
   padding: 0.5rem 1rem;
   border-radius: 9999px;
-  background: lightblue;
+  background: ${({ theme }) => theme.color.third};
+
+  svg {
+    margin-right: 0.125rem;
+  }
 `;
 
 export const Tag = styled.p``;

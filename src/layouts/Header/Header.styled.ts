@@ -5,5 +5,4 @@ export const Container = styled.header`
   align-items: center;
   height: 5rem;
   padding: 0.75rem;
-  border-bottom: 1px solid #000;
 `;

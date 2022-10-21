@@ -12,16 +12,18 @@ const FolderDiary = () => {
   return (
     <S.Container>
       <S.FolderContainer>
-        <S.Title>어디에 저장할까요?</S.Title>
+        <S.Title>
+          <em>어디에 저장할까요?</em>
+        </S.Title>
         <S.FolderTagArea>
           {places.map((place) => (
-            <S.FolderArea key={place.id}>
+            <S.FolderArea key={place.address_name}>
               <S.TagBox>
                 <SVGIcon icon='MapPinIcon' width='1rem' height='1rem' />
                 <S.Tag>{place.place_name}</S.Tag>
               </S.TagBox>
               <S.FolderSelectArea>
-                <FolderSelect place={place} />
+                <FolderSelect place={place} right />
               </S.FolderSelectArea>
             </S.FolderArea>
           ))}

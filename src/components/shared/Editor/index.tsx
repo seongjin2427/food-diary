@@ -12,7 +12,13 @@ import TaskItem from '@tiptap/extension-task-item';
 import Image from '@tiptap/extension-image';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
-import { addImage, addTempImage, removeImage, removeTempImage } from '@/store/diary/diarySlice';
+import {
+  addImage,
+  addTempImage,
+  removeImage,
+  removeTempImage,
+  setDiaryByName,
+} from '@/store/diary/diarySlice';
 import DashBoard from '@/components/shared/Editor/DashBoard';
 import EditorBody from '@/components/shared/Editor/EditorBody';
 import CustomImage from '@/components/shared/Editor/CustomImage';
@@ -20,37 +26,43 @@ import Portal from '@/components/shared/Portal';
 import EditorFooter from '@/components/shared/Editor/EditorFooter';
 import * as S from './Editor.styled';
 
-const Editor = () => {
+interface EditorProps {
+  editable?: boolean;
+}
+
+const Editor = ({ editable }: EditorProps) => {
   const dispatch = useAppDispatch();
   const { content, images, tempImages } = useAppSelector(({ diary }) => diary);
   const [editorContent, setEditorContent] = useState<string>('');
 
   useEffect(() => {
     if (!editorContent) return;
+    dispatch(setDiaryByName({ name: 'content', value: editorContent }));
 
     if (images.length > 0) {
-      images.forEach(({ id, src }) => {
+      images.forEach(({ img_id, src }) => {
         const watchImg = editorContent.includes(src);
+
         if (!watchImg) {
-          const removedImg = images.find(({ id: nid }) => nid === id);
+          const removedImg = images.find(({ img_id: wid }) => wid === img_id);
 
           if (removedImg) {
             dispatch(addTempImage(removedImg));
-            dispatch(removeImage(id));
+            dispatch(removeImage(img_id));
           }
         }
       });
     }
     if (tempImages.length > 0) {
-      tempImages.forEach(({ id, src }) => {
+      tempImages.forEach(({ img_id, src }) => {
         const watchImg = editorContent.includes(src);
 
         if (watchImg) {
-          const toRestoreImg = tempImages.find(({ id: nid }) => nid === id);
+          const toRestoreImg = tempImages.find(({ img_id: nid }) => nid === img_id);
 
           if (toRestoreImg) {
             dispatch(addImage(toRestoreImg));
-            dispatch(removeTempImage(id));
+            dispatch(removeTempImage(img_id));
           }
         }
       });
@@ -77,6 +89,7 @@ const Editor = () => {
         autolink: true,
       }),
     ],
+    editable: editable,
     content:
       content ||
       `
@@ -92,11 +105,13 @@ const Editor = () => {
 
   return (
     <S.Container>
-      <DashBoard editor={editor!}></DashBoard>
+      {editable && <DashBoard editor={editor!}></DashBoard>}
       <EditorBody editor={editor!}></EditorBody>
-      <Portal>
-        <EditorFooter editor={editor!} />
-      </Portal>
+      {editable && (
+        <Portal>
+          <EditorFooter editor={editor!} />
+        </Portal>
+      )}
     </S.Container>
   );
 };

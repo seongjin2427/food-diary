@@ -3,18 +3,30 @@ import {
   DataTypes,
   CreationOptional,
   ForeignKey,
-  NonAttribute,
   InferAttributes,
   InferCreationAttributes,
+  HasManyGetAssociationsMixin,
+  HasManyAddAssociationMixin,
+  HasManyAddAssociationsMixin,
+  HasManySetAssociationsMixin,
+  HasManyRemoveAssociationMixin,
+  HasManyRemoveAssociationsMixin,
+  HasManyHasAssociationMixin,
+  HasManyHasAssociationsMixin,
+  HasManyCountAssociationsMixin,
+  HasManyCreateAssociationMixin,
+  NonAttribute,
+  Association,
 } from 'sequelize';
 
 import sequelize from '../connection';
 import Diary from '@/db/models/diary.model';
 import Folder from '@/db/models/folder.models';
+import User from '@/db/models/user.model';
 
 class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>> {
   declare pid: CreationOptional<number>;
-  declare place_id: string;
+  declare id: string;
   declare address_name: string;
   declare category_group_code: string;
   declare category_group_name: string;
@@ -30,11 +42,26 @@ class Place extends Model<InferAttributes<Place>, InferCreationAttributes<Place>
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
-  declare diaryId: ForeignKey<Diary['did']>;
-  declare diary?: NonAttribute<Diary>;
+  declare getFolder: HasManyGetAssociationsMixin<Folder>; // Note the null assertions!
+  declare addFolder: HasManyAddAssociationMixin<Folder, number>;
+  declare addFolders: HasManyAddAssociationsMixin<Folder, number>;
+  declare setFolders: HasManySetAssociationsMixin<Folder, number>;
+  declare removeFolder: HasManyRemoveAssociationMixin<Folder, number>;
+  declare removeFolders: HasManyRemoveAssociationsMixin<Folder, number>;
+  declare hasFolder: HasManyHasAssociationMixin<Folder, number>;
+  declare hasFolders: HasManyHasAssociationsMixin<Folder, number>;
+  declare countFolders: HasManyCountAssociationsMixin;
+  declare createFolder: HasManyCreateAssociationMixin<Folder, 'fid'>;
 
+  declare diaryId: ForeignKey<Diary['did']>;
   declare folderId: ForeignKey<Folder['fid']>;
-  declare folder?: NonAttribute<Folder>;
+  declare userId: ForeignKey<User['id']>;
+
+  declare folder?: NonAttribute<Folder[]>;
+
+  declare static associations: {
+    folder: Association<Place, Folder>;
+  };
 }
 
 Place.init(
@@ -44,7 +71,7 @@ Place.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    place_id: DataTypes.STRING(128),
+    id: DataTypes.STRING(128),
     address_name: DataTypes.STRING(128),
     category_group_code: DataTypes.STRING(),
     category_group_name: DataTypes.STRING(128),

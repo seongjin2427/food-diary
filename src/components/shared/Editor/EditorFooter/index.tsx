@@ -34,7 +34,7 @@ const EditorFooter = ({ editor }: EditorFooterProps) => {
             .createParagraphNear()
             .run();
 
-          dispatch(addImage({ id: img_id, src }));
+          dispatch(addImage({ img_id, src }));
         }
       }
     },

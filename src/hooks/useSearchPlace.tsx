@@ -38,13 +38,16 @@ interface SearchPlaceActions {
   search: (s: string) => void;
 }
 
-const useSearchPlace = (): [SearchResultType[] | undefined, RefObject<string[]>,  SearchPlaceActions] => {
+const useSearchPlace = (): [
+  SearchResultType[] | undefined,
+  RefObject<string[]>,
+  SearchPlaceActions,
+] => {
   const [searchedPlaces, setSearchedPlaces] = useState<SearchResultType[]>([]);
   const searchHistoryRef = useRef<string[]>([]);
 
   const search = useCallback(async (searchWord: string) => {
     navigator.geolocation.getCurrentPosition(({ coords }: GeolocationType) => {
-      // console.log(coords);
       const kakao = window.kakao;
       const places = new kakao.maps.services.Places();
 
@@ -55,7 +58,6 @@ const useSearchPlace = (): [SearchResultType[] | undefined, RefObject<string[]>,
           status: 'OK' | 'ZERO_RESULT',
           pagination: SearchResultPaginationType,
         ) => {
-          console.log(data, status, pagination);
 
           if (status === kakao.maps.services.Status.OK) {
             searchHistoryRef.current.push(searchWord);
@@ -76,6 +78,7 @@ const useSearchPlace = (): [SearchResultType[] | undefined, RefObject<string[]>,
 
           // 다음 버튼 눌렀을 때, 다음 목록 불러오기
           const nextBtn = document.getElementById('place_next_button') as HTMLButtonElement;
+          if (!nextBtn) return;
           if (!pagination.hasNextPage) {
             nextBtn.style.display = 'none';
           } else {

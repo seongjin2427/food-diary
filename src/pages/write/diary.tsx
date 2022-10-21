@@ -1,9 +1,8 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useAppSelector } from '@/store/index';
-import { EditorContext } from '@/components/shared/Editor/context/editorContext';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
 import CommonHeader from '@/layouts/CommonHeader';
@@ -12,7 +11,6 @@ import WriteDiary from '@/components/shared/WriteDiary';
 const DiaryPage: NextPage = () => {
   const router = useRouter();
   const { places, title, images } = useAppSelector(({ diary }) => diary);
-  const { storeDiary } = useContext(EditorContext);
 
   const [nextPageToggle, setNextPageToggle] = useState<boolean>(false);
 
@@ -33,13 +31,8 @@ const DiaryPage: NextPage = () => {
 
   return (
     <>
-      <Header>
-        <CommonHeader
-          type='both'
-          nextDisabled={nextPageToggle}
-          nextUrl='/write/folder'
-          nextFn={storeDiary}
-        />
+      <Header title='음식일기 일기 작성'>
+        <CommonHeader type='both' nextDisabled={nextPageToggle} nextUrl='/write/folder' />
       </Header>
       {places.length === 0 && <MainLayout>선택된 장소가 없습니다.</MainLayout>}
       {places.length > 0 && (

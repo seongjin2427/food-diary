@@ -3,9 +3,10 @@ import styled from '@emotion/styled';
 export const Container = styled.div`
   .ProseMirror {
     padding: 1.5rem;
-    background: lightpink;
+    background: #ffdddd;
     min-height: 20rem;
     line-height: 1.75;
+    border-radius: 0 0 0.5rem 0.5rem;
 
     :focus {
       outline: none;

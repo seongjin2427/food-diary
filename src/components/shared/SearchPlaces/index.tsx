@@ -47,14 +47,14 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
   return (
     <S.Container>
       <S.LetMeknowThePlaceTitle>
-        {year}년 {month}월 {day}일에 <br />
-        방문하신 장소를 알려주세요!
+        <em>{year}년 {month}월 {day}일</em>에 <br />
+        <em>방문하신 장소</em>를 알려주세요!
       </S.LetMeknowThePlaceTitle>
 
       <S.PlaceTags>
         {pickedPlaces.length > 0 &&
           pickedPlaces.map((place) => (
-            <S.PlaceTag key={place.id}>
+            <S.PlaceTag key={place.address_name}>
               <SVGIcon icon='XMark' width='1rem' onClick={() => deletePlace(place)} />
               <S.Tag>{place.place_name}</S.Tag>
             </S.PlaceTag>

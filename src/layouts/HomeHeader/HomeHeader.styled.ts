@@ -1,5 +1,5 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 export const Container = styled.div`
   width: 100%;
@@ -7,6 +7,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: all 1s ease-in-out;
 `;
 
 export const LeftButtonArea = styled.div`
@@ -15,7 +16,7 @@ export const LeftButtonArea = styled.div`
   margin-left: 0.5rem;
 
   svg {
-    margin-right: 0.25rem;
+    margin: 0.25rem;
   }
 `;
 
@@ -31,12 +32,14 @@ export const RightButtonArea = styled.div<ButtonDisabledProps>`
     margin-left: 0.75rem;
   }
 
-  ${({disabled}) => disabled && css`
+  ${({ disabled }) =>
+    disabled &&
+    css`
       color: rgba(10, 10, 10, 0.3);
-  `}
+    `}
 `;
 
 export const ButtonSpan = styled.span`
   font-size: 1.5rem;
   font-weight: 500;
-`
+`;

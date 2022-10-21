@@ -1,17 +1,13 @@
-import { memo, useState, useCallback, ChangeEvent } from 'react';
-import { useQuery, QueryClient } from '@tanstack/react-query';
+import { memo, useState, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { useAppDispatch, useAppSelector } from '@/store/index';
-import {
-  addFolder,
-  addPlaceInFolder,
-  FolderSliceFolderType,
-  replaceFolders,
-} from '@/store/diary/folderSlice';
 import { getFolderApi } from '@/api/diary';
+import useMakeFolder from '@/hooks/useMakeFolder';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 import MakeFolder from '@/components/shared/MakeFolder';
 import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
+import { useAppDispatch, useAppSelector } from '@/store/index';
+import { addPlaceInFolder, FolderSliceFolderType, replaceFolders } from '@/store/diary/folderSlice';
 import { IconColorKeyType } from '@/styles/theme';
 import * as S from './FolderSelect.styled';
 
@@ -24,28 +20,24 @@ interface FolderType {
 
 interface FolderSelectProps {
   place: SearchResultType;
+  right?: boolean;
 }
 
-const FolderSelect = ({ place }: FolderSelectProps) => {
-  const queryClient = new QueryClient();
+const FolderSelect = ({ place, right }: FolderSelectProps) => {
   const dispatch = useAppDispatch();
   const folders = useAppSelector(({ folder }) => folder.folders);
+  const [
+    { inputMode, newFolderTitle },
+    { onChangeNewTitle, onClickNewFolderInfo, setNewFolderTitle, setInputMode },
+  ] = useMakeFolder();
 
-  const getSelectedFolder = useCallback(() => {
-    const index = folders.findIndex(({ places }) => !!places.find((p) => p.id === place.id));
-    if (index >= 0) {
-      return {
-        index,
-        ...folders[index],
-      };
-    }
-    return;
-  }, [folders]);
-
-  const { data } = useQuery(['folders'], getFolderApi, {
+  useQuery(['folders'], getFolderApi, {
+    refetchOnWindowFocus: false,
     onSuccess: (fetchedFolders: FolderSliceFolderType[]) => {
+      const mapped = fetchedFolders.map((p, index) => ({ index, ...p }));
+      const filtered = mapped.filter((m) => m.places.find((p) => p.id === place.id));
+      setSelectedFolder(filtered);
       dispatch(replaceFolders(fetchedFolders));
-      queryClient.invalidateQueries(['folders']);
     },
     onError: (err) => {
       console.log(err);
@@ -53,58 +45,52 @@ const FolderSelect = ({ place }: FolderSelectProps) => {
     },
   });
 
-  const [selectedFolder, setSelectedFolder] = useState<FolderType | undefined>(getSelectedFolder());
+  const [selectedFolder, setSelectedFolder] = useState<FolderType[] | undefined>(undefined);
   const [selectOpen, setSelectOpen] = useState<boolean>(false);
-  const [inputMode, setinputMode] = useState<boolean>(false);
-  const [newFolderTitle, setNewFolderTitle] = useState<string>('');
 
   const onClickOpenSelect = useCallback(() => {
     setSelectOpen((prev) => !prev);
-    setinputMode(false);
+    setInputMode(false);
   }, []);
 
-  const onClickSelectFolder = useCallback((folder: FolderType) => {
-    const { index } = folder;
-    setSelectedFolder(folder);
-    dispatch(addPlaceInFolder({ index, place }));
-    onReset();
-    setNewFolderTitle('');
-  }, []);
+  const onClickSelectFolder = useCallback(
+    (folder: FolderType) => {
+      const { index } = folder;
+
+      setSelectedFolder((prev) => {
+        if (prev) {
+          const found = prev.find((p) => p.index === index);
+          if (found) return [...prev.filter((p) => p.index !== index)];
+          else return [...prev, { ...folder }];
+        }
+      });
+      dispatch(addPlaceInFolder({ index, place }));
+      setNewFolderTitle('');
+    },
+    [selectedFolder, folders],
+  );
 
   const onClickConvertInputMode = useCallback(() => {
-    setinputMode(true);
+    setInputMode(true);
   }, []);
 
   const onClickBackdrop = useCallback(() => {
-    onReset();
-  }, []);
-
-  const onReset = useCallback(() => {
-    setinputMode(false);
+    setInputMode(false);
     setSelectOpen(false);
   }, []);
-
-  const onChangeNewTitle = useCallback(({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-    setNewFolderTitle(value);
-  }, []);
-
-  const onClickNewFolderInfo = useCallback(
-    (icon: IconKeySet, color: IconColorKeyType) => {
-      dispatch(addFolder({ icon, color, title: newFolderTitle }));
-      setinputMode(false);
-      setNewFolderTitle('');
-    },
-    [newFolderTitle],
-  );
 
   return (
     <S.Container>
       <S.Backdrop onClick={onClickBackdrop} isOpen={selectOpen} />
       <S.SelectContainer>
-        <S.SelectTitle onClick={onClickOpenSelect} isOpen={selectOpen}>
-          {selectedFolder ? (
-            <S.SelectListIcon selectColor={selectedFolder.color}>
-              <SVGIcon icon={selectedFolder?.icon} width='1rem' height='1rem' />
+        <S.SelectButton onClick={onClickOpenSelect} isOpen={selectOpen}>
+          {selectedFolder && selectedFolder.length > 0 ? (
+            <S.SelectListIcon selectColor={selectedFolder[selectedFolder.length - 1].color}>
+              <SVGIcon
+                icon={selectedFolder[selectedFolder.length - 1].icon}
+                width='1rem'
+                height='1rem'
+              />
             </S.SelectListIcon>
           ) : (
             <S.SelectListTitle>
@@ -112,8 +98,8 @@ const FolderSelect = ({ place }: FolderSelectProps) => {
             </S.SelectListTitle>
           )}
           <SVGIcon icon='ChevronDownIcon' width='1rem' height='1rem' />
-        </S.SelectTitle>
-        <S.SelectListUl isOpen={selectOpen}>
+        </S.SelectButton>
+        <S.SelectListUl isOpen={selectOpen} right={right}>
           {folders.map(({ color, icon, title }, index) => (
             <S.SelectListLi
               key={index}
@@ -124,7 +110,7 @@ const FolderSelect = ({ place }: FolderSelectProps) => {
                 <SVGIcon icon={icon} width='1rem' height='1rem' />
               </S.SelectListIcon>
               <S.SelectListTitle>{title}</S.SelectListTitle>
-              {selectedFolder?.index === index && (
+              {selectedFolder && !!selectedFolder.find((s) => s.index === index) && (
                 <SVGIcon icon='CheckIcon' width='1rem' height='1rem' />
               )}
             </S.SelectListLi>

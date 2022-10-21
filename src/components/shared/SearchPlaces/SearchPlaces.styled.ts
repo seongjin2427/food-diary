@@ -8,9 +8,13 @@ export const Container = styled.div`
 
 export const LetMeknowThePlaceTitle = styled.div`
   font-size: 1.5rem;
-  font-weight: bold;
-  line-height: 1.5;
+  font-weight: 800;
+  line-height: 2;
   margin-bottom: 1rem;
+
+  em {
+    border-bottom: 5px solid ${({ theme }) => theme.color.primary};
+  }
 `;
 
 export const PlaceTags = styled.div`
@@ -25,9 +29,11 @@ export const PlaceTag = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0.5rem 1rem;
-  background: lightblue;
+  background: ${({ theme }) => theme.color.third};
   border-radius: 9999px;
   animation: ${PopUp} 0.5s ease-in-out;
+
+  color: ${({ theme }) => theme.color.black};
 
   svg {
     margin-left: -0.25rem;
@@ -43,23 +49,24 @@ export const WriteDiarySearchPlaceForm = styled.form`
   display: flex;
   width: 100%;
   padding: 1rem;
-  background: lightpink;
-  border-radius: 0.5rem;
+  background: ${({ theme }) => theme.color.third};
+  border-radius: 0.25rem;
   margin-bottom: 1rem;
 `;
 
 export const WriteDiarySearchPlaceInput = styled.input`
   width: 100%;
   height: 100%;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
   background: none;
   border: none;
   margin-right: 0.5rem;
   font-size: 1.25rem;
+  border-bottom: 2px solid transparent;
 
   :focus {
     outline: none;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid ${({ theme }) => theme.color.primary};
   }
 `;
 

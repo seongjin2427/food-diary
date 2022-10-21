@@ -33,10 +33,9 @@ export const SelectContainer = styled.div`
   width: 2.25rem;
   position: relative;
   background: white;
-  /* z-index: 10; */
 `;
 
-export const SelectTitle = styled.button<IsOpenProps>`
+export const SelectButton = styled.button<IsOpenProps>`
   width: 100%;
   display: flex;
   align-items: center;
@@ -46,31 +45,47 @@ export const SelectTitle = styled.button<IsOpenProps>`
   border: 1px solid black;
   border-radius: 0.25rem;
 
-  ${({isOpen}) => isOpen && css`
-    background: #ffbbaa;
-  `}
+  ${({ theme, isOpen }) =>
+    isOpen &&
+    css`
+      background: ${theme.color.third};
+    `}
 `;
 
 interface SelectListTitleProps {
   isPlus?: boolean;
 }
 
-export const SelectListUl = styled.ul<IsOpenProps>`
+export const SelectListUl = styled.ul<IsOpenProps & { right?: boolean }>`
   display: none;
   width: 12rem;
+  height: 20rem;
   position: absolute;
-  background: lightsalmon;
+  background: ${({ theme }) => theme.color.third};
   top: 2.25rem;
-  right: 0;
   border-radius: 0.25rem;
-  overflow: hidden;
+  overflow: scroll;
   z-index: 10;
+
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   ${({ isOpen }) =>
     isOpen &&
     css`
       display: block;
     `}
+
+  ${({ right }) =>
+    right
+      ? css`
+          right: 0;
+        `
+      : css`
+          left: 0;
+        `}
 `;
 
 export const SelectListLi = styled.li<SelectListTitleProps>`
@@ -80,10 +95,6 @@ export const SelectListLi = styled.li<SelectListTitleProps>`
 
   :not(:first-of-type) {
     border-top: 0.5px solid #fff;
-  }
-
-  :hover {
-    background: lightskyblue;
   }
 
   ${({ isPlus }) =>

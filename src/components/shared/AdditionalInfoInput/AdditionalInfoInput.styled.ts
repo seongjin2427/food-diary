@@ -1,4 +1,5 @@
 import { PopUp } from '@/styles/keyframes';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const InfoInputsArea = styled.div`
@@ -13,6 +14,7 @@ export const InfoDescriptionArea = styled.div`
   background: white;
   border: 1px solid black;
   border-radius: 0.25rem;
+  overflow: hidden;
 `;
 
 export const InfoDescriptionAreaInput = styled.input`
@@ -22,9 +24,18 @@ export const InfoDescriptionAreaInput = styled.input`
   background: none;
   border: none;
   outline: none;
+
+  :read-only {
+    color: #555;
+    background: ${({ theme }) => theme.color.grey};
+  }
 `;
 
-export const InfoCostArea = styled.div`
+interface ReadOnlyProps {
+  readOnly?: boolean;
+}
+
+export const InfoCostArea = styled.div<ReadOnlyProps>`
   width: 5rem;
   display: flex;
   align-items: center;
@@ -32,6 +43,12 @@ export const InfoCostArea = styled.div`
   background: white;
   border: 1px solid black;
   border-radius: 0.25rem;
+
+  ${({ theme, readOnly }) =>
+    readOnly &&
+    css`
+      background: ${theme.color.grey};
+    `}
 `;
 
 export const InfoCostInput = styled.input`
@@ -46,6 +63,9 @@ export const InfoCostInput = styled.input`
   ::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
+  :read-only {
+    color: #555;
+  }
 `;
 
 export const InfoCostWon = styled.p`
@@ -57,20 +77,4 @@ export const IconArea = styled.div`
   width: 1.75rem;
   display: flex;
   align-items: center;
-`;
-
-export const InfoMemoArea = styled.div`
-  width: 100%;
-`;
-
-export const InfoTextarea = styled.textarea`
-  width: calc(100% - 2.5rem);
-  height: 6rem;
-  margin-left: 0.5rem;
-  padding: 0.5rem;
-  border: 1px solid black;
-  border-radius: 0.25rem;
-  line-height: 1.5;
-  outline: none;
-  resize: none;
 `;

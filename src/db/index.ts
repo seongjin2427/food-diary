@@ -3,17 +3,21 @@ import Folder from '@/db/models/folder.models';
 import ImageFile from '@/db/models/imageFile.model';
 import Place from '@/db/models/place.model.';
 import Diary from '@/db/models/diary.model';
-import DiaryPlace from '@/db/models/diary-place';
+import DiaryPlace from '@/db/models/diary-place.model';
 import FolderPlace from '@/db/models/folder-place.model';
+import UserPlace from '@/db/models/user-place.model';
 
 User.hasMany(Folder, {
   sourceKey: 'id',
   foreignKey: 'userId',
+  onDelete: 'CASCADE',
   as: 'folder',
 });
+
 User.hasMany(Diary, {
   sourceKey: 'id',
   foreignKey: 'userId',
+  onDelete: 'CASCADE',
   as: 'diary',
 });
 
@@ -21,9 +25,19 @@ Diary.hasMany(ImageFile, {
   sourceKey: 'did',
   foreignKey: 'diaryId',
   onDelete: 'CASCADE',
-  as: 'ImageFile',
+  as: 'images',
 });
 
+User.belongsToMany(Place, {
+  through: 'UserPlace',
+  foreignKey: 'pid',
+  as: 'place',
+});
+Place.belongsToMany(User, {
+  through: 'UserPlace',
+  foreignKey: 'id',
+  as: 'user',
+});
 Diary.belongsToMany(Place, {
   through: 'DiaryPlace',
   foreignKey: 'pid',
@@ -42,13 +56,14 @@ Folder.belongsToMany(Place, {
 Place.belongsToMany(Folder, {
   through: 'FolderPlace',
   foreignKey: 'fid',
-  as: 'Folder',
+  as: 'folder',
 });
 
 User.sync();
 Folder.sync();
 Diary.sync();
 Place.sync();
+UserPlace.sync();
 ImageFile.sync();
 DiaryPlace.sync();
 FolderPlace.sync();

@@ -16,8 +16,7 @@ const FolderPage: NextPage = () => {
   const [moveAbled, setMoveAbled] = useState<boolean>(false);
 
   const completeDiary = useCallback(async () => {
-    const message = await uploadDiary({ diary, folders, additionalInfo });
-    console.log('folder message', message);
+    await uploadDiary({ diary, folders, additionalInfo });
     alert('정상적으로 완료되었습니다');
   }, [diary, folder, additionalInfo]);
 
@@ -37,7 +36,7 @@ const FolderPage: NextPage = () => {
 
   return (
     <>
-      <Header>
+      <Header title='음식일기 폴더 찾기'>
         <CommonHeader
           type='both'
           nextUrl='/'

@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export const Container = styled.div`
   background: white;
-  padding: 0.25rem 0rem;
   margin-top: 10px;
+  padding: 0.25rem 0rem;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -15,9 +15,10 @@ export const ButtonBox = styled.div`
   width: 100%;
   height: 3rem;
   margin-top: 0.75rem;
-  background: lightcoral;
+  background: ${({ theme }) => theme.color.third};
   overflow-y: scroll;
   position: relative;
+  border-radius: 0.25rem 0.25rem 0 0;
 
   ::-webkit-scrollbar {
     display: none;
@@ -43,7 +44,7 @@ export const ButtonArea = styled.div`
 export const Divider = styled.div`
   width: 0.125rem;
   height: 1.5rem;
-  background: red;
+  background: ${({ theme }) => theme.color.secondary};
   margin: 0 0.375rem;
 `;
 

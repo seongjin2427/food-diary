@@ -5,9 +5,13 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   font-size: 1.5rem;
   font-weight: bold;
+
+  em {
+    border-bottom: 5px solid ${({ theme }) => theme.color.primary};
+  }
 `;
 
 export const FolderContainer = styled.div`
@@ -40,7 +44,7 @@ export const TagBox = styled.div`
   display: flex;
   gap: 0.25rem;
   padding: 0.5rem 1rem;
-  background: lightblue;
+  background: ${({ theme }) => theme.color.third};
   border-radius: 9999px;
 `;
 

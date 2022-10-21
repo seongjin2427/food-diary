@@ -1,8 +1,8 @@
 import { useState, useCallback, ChangeEvent } from 'react';
 
-import { FOLDER_COLOR_SET, FOLDER_ICON_SET } from '@/constants/folder';
-import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
 import { IconColorKeyType } from '@/styles/theme';
+import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
+import { FOLDER_COLOR_SET, FOLDER_ICON_SET } from '@/constants/folder';
 import * as S from './MakeFolder.styled';
 
 interface MakeFolderProps {
@@ -30,12 +30,16 @@ const MakeFolder = ({
   return (
     <>
       <S.NewFolderLi>
-        <S.NewFolderInput onChange={onChangeNewTitle} />
+        <S.NewFolderInput
+          onChange={onChangeNewTitle}
+          value={newFolderTitle}
+          placeholder='폴더 이름'
+        />
         <S.SelectButton
           onClick={() => onClickNewFolderInfo(selectedIcon, selectedColor)}
           disabled={!newFolderTitle}
         >
-          확인
+          <SVGIcon icon='CheckIcon' width='1.25rem' height='1.25rem' />
         </S.SelectButton>
       </S.NewFolderLi>
       <S.NewFolderLi>
