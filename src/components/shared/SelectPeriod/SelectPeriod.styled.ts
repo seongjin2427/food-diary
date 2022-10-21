@@ -27,3 +27,7 @@ export const Period = styled.div`
   align-items: center;
   position: relative;
 `;
+
+export const SubstractIcon = styled.div`
+  margin-right: 0.675rem;
+`;

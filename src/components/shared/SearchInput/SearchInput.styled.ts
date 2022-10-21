@@ -5,8 +5,7 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   background: white;
-  border: 1px solid black;
-  border-radius: 0.25rem;
+  border-bottom: 5px solid ${({ theme }) => theme.color.primary};
   font-size: 1.25rem;
 `;
 
@@ -72,6 +71,8 @@ export const SearchInput = styled.input`
 `;
 
 export const SearchButton = styled.button`
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
   outline: none;

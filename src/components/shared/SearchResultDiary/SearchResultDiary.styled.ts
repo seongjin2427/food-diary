@@ -15,7 +15,8 @@ export const DiaryImageArea = styled.div`
 export const DiaryImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: cover;
+  border-radius: 0.5rem;
 `;
 
 export const DiaryContentArea = styled.div`
