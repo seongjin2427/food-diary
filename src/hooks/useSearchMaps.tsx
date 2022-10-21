@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState, useCallback, useEffect } from 'react';
 
-import useSearchPlace, { SearchResultType } from '@/hooks/useSearchPlace';
 import { useAppSelector } from '@/store/index';
 import { FolderSliceFolderType } from '@/store/diary/folderSlice';
-import { getSearchPlacesBySearchWord } from '@/api/diary';
+import { getFolderApi, getSearchPlacesBySearchWord } from '@/api/diary';
+import useSearchPlace, { SearchResultType } from '@/hooks/useSearchPlace';
 
 export interface SearchMapsType {
   currentPlace: number;
@@ -37,8 +37,16 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
     onSuccess: (searchedData) => {
       if (searchOption === 'folder') {
         setSearchPlaceResults(searchedData?.places);
+        setCurrentFolder(undefined);
       }
-      setFolderResults(searchedData?.folder);
+    },
+  });
+
+  useQuery(['folders'], getFolderApi, {
+    refetchOnWindowFocus: false,
+    onSuccess: (fetchedFolders: FolderSliceFolderType[]) => {
+      setFolderResults(fetchedFolders);
+      setCurrentFolder(undefined);
     },
   });
 

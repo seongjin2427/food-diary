@@ -2,7 +2,6 @@ import nc from 'next-connect';
 import { Op } from 'sequelize';
 import { NextApiResponse } from 'next';
 
-import models from '@/db/index';
 import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
 
 const handler = nc();
@@ -27,15 +26,7 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
     },
   });
 
-  const folder = await user?.getFolder({
-    attributes: ['fid', 'color', 'icon', 'title'],
-    include: {
-      model: models.Place,
-      as: 'places',
-    },
-  });
-
-  res.status(200).json({ places, folder });
+  res.status(200).json({ places });
 });
 
 export default handler;

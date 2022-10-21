@@ -1,8 +1,8 @@
 import { useState, useCallback, ChangeEvent } from 'react';
 
-import { FOLDER_COLOR_SET, FOLDER_ICON_SET } from '@/constants/folder';
-import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
 import { IconColorKeyType } from '@/styles/theme';
+import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
+import { FOLDER_COLOR_SET, FOLDER_ICON_SET } from '@/constants/folder';
 import * as S from './MakeFolder.styled';
 
 interface MakeFolderProps {
@@ -30,7 +30,7 @@ const MakeFolder = ({
   return (
     <>
       <S.NewFolderLi>
-        <S.NewFolderInput onChange={onChangeNewTitle} />
+        <S.NewFolderInput onChange={onChangeNewTitle} value={newFolderTitle} />
         <S.SelectButton
           onClick={() => onClickNewFolderInfo(selectedIcon, selectedColor)}
           disabled={!newFolderTitle}

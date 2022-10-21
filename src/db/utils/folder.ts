@@ -37,41 +37,16 @@ export const updateFolder = async (folder: FolderSliceFolderType, user?: User | 
 
       deleteArr.forEach(async (d) => {
         await foundFolder?.removePlace(d);
-        await user?.removePlace(d);
       });
-      
+
       addArr.forEach(async (a) => {
-        if (a.id) {
-          const foundPlace = await findPlace(a.id);
-          if (foundPlace) {
-            await foundFolder?.addPlace(foundPlace);
-
-            const userPlace = await user?.hasPlace(foundPlace);
-            if (!userPlace) await user?.addPlace(foundPlace);
-          } else {
-            const createdPlace = await models.Place.create(a);
-            await foundFolder?.addPlace(createdPlace);
-
-            const userPlace = await user?.hasPlace(createdPlace);
-            if (!userPlace) await user?.addPlace(createdPlace);
-          }
-        }
+        const foundPlace = await findPlace(a.id);
+        if (foundPlace) await foundFolder?.addPlace(foundPlace);
       });
     } else {
       places.forEach(async (p) => {
         const foundPlace = await findPlace(p.id);
-        if (foundPlace) {
-          await foundFolder?.addPlace(foundPlace);
-
-          const userPlace = await user?.hasPlace(foundPlace);
-          if (!userPlace) await user?.addPlace(foundPlace);
-        } else {
-          const createdPlace = await models.Place.create(p);
-          await foundFolder?.addPlace(createdPlace);
-
-          const userPlace = await user?.hasPlace(createdPlace);
-          if (!userPlace) await user?.addPlace(createdPlace);
-        }
+        if (foundPlace) await foundFolder?.addPlace(foundPlace);
       });
     }
 

@@ -7,8 +7,9 @@ import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-tok
 const handler = nc();
 
 handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResponse) => {
+  const { user } = req;
   try {
-    const foundFolders = await models.Folder.findAll({
+    const foundFolders = await user?.getFolder({
       include: [models.Folder.associations.places],
     });
 

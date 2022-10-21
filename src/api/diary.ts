@@ -144,7 +144,6 @@ export const getSearchDiaryBySearchWord = async (searchOptions: SearchOptionsTyp
 };
 export interface SearchedPlaceApiData {
   places: SearchResultType[] | undefined;
-  folder: FolderSliceFolderType[];
 }
 
 export const getSearchPlacesBySearchWord = async (searchWord: string) => {

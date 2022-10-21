@@ -1,6 +1,5 @@
-import { IconColorKeyType } from '@/styles/theme';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 export const Container = styled.div`
   display: flex;
@@ -53,33 +52,4 @@ export const Backdrop = styled.div<NewFolderListProps>`
 export const FolderIconList = styled.ul`
   display: flex;
   gap: 0.5rem;
-`;
-
-export const FolderIconItem = styled.li<{ selectedColor: IconColorKeyType }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* border: 1px solid black; */
-  padding: 0.5rem;
-  border-radius: 50%;
-  position: relative;
-
-  ${({ theme, selectedColor }) => css`
-    svg {
-      fill: ${theme.iconColor[selectedColor]};
-    }
-  `}
-`;
-
-export const CheckIcon = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem;
-  border-radius: 50%;
-  position: absolute;
-  background: rgba(0, 0, 0, 0.5);
-  svg {
-    fill: #ffffff;
-  }
 `;

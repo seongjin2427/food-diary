@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '@/store/index';
 import { addPlaceInFolder, FolderSliceFolderType, replaceFolders } from '@/store/diary/folderSlice';
 import { IconColorKeyType } from '@/styles/theme';
 import * as S from './PlaceFolderSelect.styled';
-import { updateFolder } from '@/api/place';
+import { createPlace, updateFolder } from '@/api/place';
 
 interface PlaceFolderType {
   index: number;
@@ -46,7 +46,8 @@ const PlaceFolderSelect = ({ place, right }: PlaceFolderSelectProps) => {
     },
   });
 
-  const mutation = useMutation(updateFolder);
+  const createMutation = useMutation(createPlace);
+  const updateFolderMutation = useMutation(updateFolder);
 
   const [selectedFolder, setSelectedFolder] = useState<PlaceFolderType[] | undefined>(undefined);
   const [selectOpen, setSelectOpen] = useState<boolean>(false);
@@ -73,15 +74,14 @@ const PlaceFolderSelect = ({ place, right }: PlaceFolderSelectProps) => {
     [selectedFolder, folders],
   );
 
-  const onClickConvertInputMode = useCallback(() => {
-    setInputMode(true);
-  }, []);
+  const onClickConvertInputMode = () => setInputMode(true);
 
-  const onClickBackdrop = useCallback(() => {
+  const onClickBackdrop = () => {
     setInputMode(false);
     setSelectOpen(false);
-    mutation.mutate(folders)
-  }, [folders]);
+    createMutation.mutate(place);
+    updateFolderMutation.mutate({folders, id: place.id});
+  };
 
   return (
     <S.Container>
