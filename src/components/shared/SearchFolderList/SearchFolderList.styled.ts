@@ -52,4 +52,11 @@ export const Backdrop = styled.div<NewFolderListProps>`
 export const FolderIconList = styled.ul`
   display: flex;
   gap: 0.5rem;
+  overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;

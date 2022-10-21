@@ -3,7 +3,11 @@ import { css } from '@emotion/react';
 
 import { IconColorKeyType } from '@/styles/theme';
 
-export const FolderIconItem = styled.li<{ selectedColor: IconColorKeyType }>`
+interface FolderIconItemProps {
+  selectedColor: IconColorKeyType;
+}
+
+export const FolderIconItem = styled.li<FolderIconItemProps>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +22,10 @@ export const FolderIconItem = styled.li<{ selectedColor: IconColorKeyType }>`
   `}
 `;
 
-export const Backdrop = styled.div<SmallModalProps>`
+interface BackdropProps {
+  open: boolean;
+}
+export const Backdrop = styled.div<BackdropProps>`
   display: none;
   position: fixed;
   top: 0;
@@ -48,16 +55,20 @@ export const CheckIcon = styled.div`
 
 interface SmallModalProps {
   open: boolean;
+  x: number;
+  y: number;
 }
 
 export const SmallModalWrapper = styled.div<SmallModalProps>`
   display: none;
-  position: absolute;
+  position: fixed;
   padding: 1rem;
-  left: 0.5rem;
-  top: -3rem;
   z-index: 10;
 
+  ${({ x, y }) => css`
+    left: ${x < 340 ? x - 10 : x - 140}px;
+    top: ${y - 60}px;
+  `}
   ${({ open }) =>
     open &&
     css`

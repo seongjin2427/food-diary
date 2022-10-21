@@ -20,6 +20,7 @@ const RemoveWindow = ({ currentFolder, folder, fn, idx }: RemoveWindow) => {
   const queryClient = useQueryClient();
   const { icon, color, fid, title } = folder;
   const [toggle, setToggle] = useState<boolean>(false);
+  const [point, setPoint] = useState({ x: 0, y: 0 });
 
   const mutation = useMutation(removeFolderApi, {
     onSuccess: () => {
@@ -30,7 +31,9 @@ const RemoveWindow = ({ currentFolder, folder, fn, idx }: RemoveWindow) => {
 
   const closeBackdrop = () => setToggle(false);
 
-  const longPress = useLongPress(() => {
+  const longPress = useLongPress((e: any) => {
+    console.log(e);
+    setPoint({ x: e.pageX, y: e.pageY });
     setToggle(true);
   });
 
@@ -55,7 +58,7 @@ const RemoveWindow = ({ currentFolder, folder, fn, idx }: RemoveWindow) => {
     >
       <S.Backdrop open={toggle} onClick={closeBackdrop} />
       <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
-      <S.SmallModalWrapper open={toggle}>
+      <S.SmallModalWrapper open={toggle} x={point.x} y={point.y}>
         <S.SmallModal onClick={removeFolderById}>삭제하기</S.SmallModal>
       </S.SmallModalWrapper>
       {currentFolder === idx && (
