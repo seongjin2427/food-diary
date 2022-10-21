@@ -29,9 +29,9 @@ export const Selected = styled.div`
   align-items: center;
 
   svg {
-    :first-child {
+    :first-of-type {
       border: 1px solid black;
-      padding: 0.125rem;
+      padding: 0.25rem;
       border-radius: 0.25rem;
     }
   }
@@ -44,7 +44,7 @@ interface OpenProps {
 export const DropdownList = styled.ul<OpenProps>`
   display: none;
   position: absolute;
-  top: 2.5rem;
+  top: 2.75rem;
   z-index: 10;
 
   ${({ isOpen }) =>
@@ -55,11 +55,10 @@ export const DropdownList = styled.ul<OpenProps>`
 `;
 
 export const DropdownItem = styled.li`
-  background: ${({ theme }) => theme.color.white};
-  
   svg {
-    border: 1px solid black;
-    padding: 0.125rem;
+    background: ${({ theme }) => theme.color.white};
+    padding: 0.25rem;
+    border: 1px solid ${({ theme }) => theme.color.black};
     border-radius: 0.25rem;
   }
 `;

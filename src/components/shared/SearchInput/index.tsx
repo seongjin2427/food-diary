@@ -45,22 +45,24 @@ const SearchInput = ({ searchMap }: SerachInputProps) => {
     }
   }, [searchOption]);
 
-  const onKeyupChangeSearchWord = useCallback((e: KeyboardEvent) => {
-    if (e.code === 'Enter' && searchWordInputRef.current) {
-      dispatch(searchBySearchWord(searchWordInputRef.current.value));
-    }
-  }, [searchOption]);
+  const onKeyupChangeSearchWord = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.code === 'Enter' && searchWordInputRef.current) {
+        dispatch(searchBySearchWord(searchWordInputRef.current.value));
+      }
+    },
+    [searchOption],
+  );
 
   return (
     <S.Container>
+      <S.Backdrop toggle={open} onClick={() => setOpen(false)} />
       {searchMap && (
-        <S.SearchInputSelectArea>
+        <S.SearchInputSelectArea onClick={() => setOpen(!open)}>
           {SEARCH_OPTIONS.map(
             ({ name, value }) =>
               value === searchOption && (
-                <S.SelectSearchOption key={value} onClick={() => setOpen(!open)}>
-                  {name}
-                </S.SelectSearchOption>
+                <S.SelectSearchOption key={value}>{name}</S.SelectSearchOption>
               ),
           )}
           <SVGIcon icon='ChevronDownIcon' width='1rem' />

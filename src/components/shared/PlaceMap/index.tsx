@@ -50,7 +50,12 @@ const PlaceMap = ({ x, y }: PlaceMapProps) => {
     }
   }, []);
 
-  return <div id='placeMap' style={{ width: '100%', height: '22.5rem', marginBottom: '1rem' }} />;
+  return (
+    <div
+      id='placeMap'
+      style={{ width: '100%', height: '22.5rem', marginBottom: '1rem', borderRadius: '0.5rem' }}
+    />
+  );
 };
 
 export default PlaceMap;
