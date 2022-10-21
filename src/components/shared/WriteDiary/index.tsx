@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { setDiaryByName } from '@/store/diary/diarySlice';
@@ -9,12 +9,7 @@ import * as S from './WriteDiary.styled';
 const WriteDiary = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state);
-  const { places, title, images, tempImages } = state.diary;
-
-  useEffect(() => {
-    console.log('images', images);
-    console.log('tempImages', tempImages);
-  }, [images, tempImages]);
+  const { places, title } = state.diary;
 
   const onChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
     dispatch(setDiaryByName({ name: 'title', value }));

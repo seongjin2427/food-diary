@@ -9,7 +9,6 @@ interface GetPlaceByIdData {
 export const getPlaceById = async (pid: string) => {
   try {
     const { data } = await instance.get<GetPlaceByIdData>(`/api/place/${pid}`);
-    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
