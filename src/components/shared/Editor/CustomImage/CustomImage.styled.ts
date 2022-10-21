@@ -21,7 +21,7 @@ export const CheckBox = styled.input`
     background-size: 100% 100%;
     background-position: 50%;
     background-repeat: no-repeat;
-    background-color: lightpink;
+    background-color: ${({theme}) => theme.color.third};
     border: 1px solid black;
   }
 
@@ -33,4 +33,5 @@ export const CheckBox = styled.input`
 
 export const Image = styled.img`
   object-fit: contain;
+  border-radius: 0.25rem;
 `;

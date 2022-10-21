@@ -83,7 +83,7 @@ const FolderSelect = ({ place, right }: FolderSelectProps) => {
     <S.Container>
       <S.Backdrop onClick={onClickBackdrop} isOpen={selectOpen} />
       <S.SelectContainer>
-        <S.SelectTitle onClick={onClickOpenSelect} isOpen={selectOpen}>
+        <S.SelectButton onClick={onClickOpenSelect} isOpen={selectOpen}>
           {selectedFolder && selectedFolder.length > 0 ? (
             <S.SelectListIcon selectColor={selectedFolder[selectedFolder.length - 1].color}>
               <SVGIcon
@@ -98,7 +98,7 @@ const FolderSelect = ({ place, right }: FolderSelectProps) => {
             </S.SelectListTitle>
           )}
           <SVGIcon icon='ChevronDownIcon' width='1rem' height='1rem' />
-        </S.SelectTitle>
+        </S.SelectButton>
         <S.SelectListUl isOpen={selectOpen} right={right}>
           {folders.map(({ color, icon, title }, index) => (
             <S.SelectListLi
