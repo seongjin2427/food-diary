@@ -72,11 +72,15 @@ export const PlaceContentBox = styled.div`
 export const PlaceName = styled.h2`
   font-size: 1.25rem;
   font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 export const PlaceKind = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 `;
 export const FolderIcon = styled.div<{ selectedColor: IconColorKeyType }>`
   display: flex;

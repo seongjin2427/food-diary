@@ -1,5 +1,6 @@
 import models from '@/db/index';
 import Place from '@/db/models/place.model.';
+import User from '@/db/models/user.model';
 import { findPlace } from '@/db/utils/place';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 import { FolderSliceFolderType } from '@/store/diary/folderSlice';
@@ -11,7 +12,7 @@ export const saveFolder = async (folderArr: FolderSliceFolderType[]) => {
   return result;
 };
 
-export const updateFolder = async (folder: FolderSliceFolderType) => {
+export const updateFolder = async (folder: FolderSliceFolderType, user?: User | null) => {
   const { fid, places } = folder;
 
   try {
@@ -34,12 +35,13 @@ export const updateFolder = async (folder: FolderSliceFolderType) => {
       console.log('deleteArr', deleteArr);
       console.log('addArr', addArr);
 
-      deleteArr.forEach(async (d) => await foundFolder?.removePlace(d));
+      deleteArr.forEach(async (d) => {
+        await foundFolder?.removePlace(d);
+      });
+
       addArr.forEach(async (a) => {
-        if (a.id) {
-          const foundPlace = await findPlace(a.id);
-          if (foundPlace) await foundFolder?.addPlace(foundPlace);
-        }
+        const foundPlace = await findPlace(a.id);
+        if (foundPlace) await foundFolder?.addPlace(foundPlace);
       });
     } else {
       places.forEach(async (p) => {

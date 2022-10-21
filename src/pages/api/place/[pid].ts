@@ -1,28 +1,31 @@
-import models from '@/db/index';
-import Folder from '@/db/models/folder.models';
-import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
-import { NextApiResponse } from 'next';
 import nc from 'next-connect';
+import { NextApiResponse } from 'next';
+
+import models from '@/db/index';
+import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
 
 const handler = nc();
 
 handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResponse) => {
+  const { user } = req;
   const { pid } = req.query;
 
-  console.log('pid', pid);
   try {
-    const places = await models.Place.findOne({
-      where: {
-        $id$: pid,
-      },
+    const diaries = await user?.getDiary({
+      attributes: ['did', 'title', 'date'],
       include: {
-        model: models.Folder,
-        as: 'folder',
-        attributes: ['fid', 'title', 'color', 'icon'],
+        model: models.Place,
+        as: 'places',
+        where: {
+          id: pid,
+        },
+        attributes: ['pid'],
       },
     });
 
-    res.status(200).json({ places });
+    console.log('diaries', diaries);
+
+    res.status(200).json({ diaries });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Fail!' });

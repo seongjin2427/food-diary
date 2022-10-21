@@ -1,5 +1,5 @@
 import { memo, useState, useCallback } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { getFolderApi } from '@/api/diary';
 import useMakeFolder from '@/hooks/useMakeFolder';
@@ -9,21 +9,22 @@ import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { addPlaceInFolder, FolderSliceFolderType, replaceFolders } from '@/store/diary/folderSlice';
 import { IconColorKeyType } from '@/styles/theme';
-import * as S from './FolderSelect.styled';
+import * as S from './PlaceFolderSelect.styled';
+import { createPlace, updateFolder } from '@/api/place';
 
-interface FolderType {
+interface PlaceFolderType {
   index: number;
   title: string;
   color: IconColorKeyType;
   icon: IconKeySet;
 }
 
-interface FolderSelectProps {
+interface PlaceFolderSelectProps {
   place: SearchResultType;
   right?: boolean;
 }
 
-const FolderSelect = ({ place, right }: FolderSelectProps) => {
+const PlaceFolderSelect = ({ place, right }: PlaceFolderSelectProps) => {
   const dispatch = useAppDispatch();
   const folders = useAppSelector(({ folder }) => folder.folders);
   const [
@@ -45,7 +46,10 @@ const FolderSelect = ({ place, right }: FolderSelectProps) => {
     },
   });
 
-  const [selectedFolder, setSelectedFolder] = useState<FolderType[] | undefined>(undefined);
+  const createMutation = useMutation(createPlace);
+  const updateFolderMutation = useMutation(updateFolder);
+
+  const [selectedFolder, setSelectedFolder] = useState<PlaceFolderType[] | undefined>(undefined);
   const [selectOpen, setSelectOpen] = useState<boolean>(false);
 
   const onClickOpenSelect = useCallback(() => {
@@ -54,7 +58,7 @@ const FolderSelect = ({ place, right }: FolderSelectProps) => {
   }, []);
 
   const onClickSelectFolder = useCallback(
-    (folder: FolderType) => {
+    (folder: PlaceFolderType) => {
       const { index } = folder;
 
       setSelectedFolder((prev) => {
@@ -70,34 +74,28 @@ const FolderSelect = ({ place, right }: FolderSelectProps) => {
     [selectedFolder, folders],
   );
 
-  const onClickConvertInputMode = useCallback(() => {
-    setInputMode(true);
-  }, []);
+  const onClickConvertInputMode = () => setInputMode(true);
 
-  const onClickBackdrop = useCallback(() => {
+  const onClickBackdrop = () => {
     setInputMode(false);
     setSelectOpen(false);
-  }, []);
+    createMutation.mutate(place);
+    updateFolderMutation.mutate({folders, id: place.id});
+  };
 
   return (
     <S.Container>
       <S.Backdrop onClick={onClickBackdrop} isOpen={selectOpen} />
       <S.SelectContainer>
-        <S.SelectTitle onClick={onClickOpenSelect} isOpen={selectOpen}>
-          {selectedFolder && selectedFolder.length > 0 ? (
-            <S.SelectListIcon selectColor={selectedFolder[selectedFolder.length - 1].color}>
-              <SVGIcon
-                icon={selectedFolder[selectedFolder.length - 1].icon}
-                width='1rem'
-                height='1rem'
-              />
-            </S.SelectListIcon>
-          ) : (
-            <S.SelectListTitle>
-              <SVGIcon icon='FolderIcon' width='1.5rem' height='1rem' />
-            </S.SelectListTitle>
-          )}
-          <SVGIcon icon='ChevronDownIcon' width='1rem' height='1rem' />
+        <SVGIcon icon='CirclePlusIcon' width='2rem' height='2rem' onClick={onClickOpenSelect} />
+        <S.SelectTitle>
+          {selectedFolder &&
+            selectedFolder.length > 0 &&
+            selectedFolder.map(({ index, icon, color }) => (
+              <S.SelectListIcon key={index} selectColor={color}>
+                <SVGIcon icon={icon} width='2rem' height='2rem' />
+              </S.SelectListIcon>
+            ))}
         </S.SelectTitle>
         <S.SelectListUl isOpen={selectOpen} right={right}>
           {folders.map(({ color, icon, title }, index) => (
@@ -135,4 +133,4 @@ const FolderSelect = ({ place, right }: FolderSelectProps) => {
   );
 };
 
-export default memo(FolderSelect);
+export default memo(PlaceFolderSelect);

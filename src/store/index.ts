@@ -6,6 +6,7 @@ import UserReducer from '@/store/user/userSlice';
 import DiaryReducer from '@/store/diary/diarySlice';
 import FolderReducer from '@/store/diary/folderSlice';
 import AdditinoalInfoReducer from '@/store/diary/additionalInfoSlice';
+import PlaceReducer from '@/store/place/placeSlice';
 import SearchReducer from '@/store/search/searchSlice';
 
 export const store = configureStore({
@@ -16,6 +17,7 @@ export const store = configureStore({
     folder: FolderReducer,
     additionalInfo: AdditinoalInfoReducer,
     search: SearchReducer,
+    place: PlaceReducer,
   },
 });
 

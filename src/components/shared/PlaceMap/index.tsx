@@ -20,6 +20,7 @@ const PlaceMap = ({ x, y }: PlaceMapProps) => {
       center: new kakao.maps.LatLng(y, x), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨
     };
+
     const map = new kakao.maps.Map(mapContainer, mapOption);
     const mapTypeControl = new kakao.maps.MapTypeControl();
 

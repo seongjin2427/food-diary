@@ -2,7 +2,6 @@ import nc from 'next-connect';
 import { Op } from 'sequelize';
 import { NextApiResponse } from 'next';
 
-import models from '@/db/index';
 import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
 
 const handler = nc();
@@ -11,7 +10,7 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
   const { user } = req;
   const { searchWord } = req.query;
 
-  const places = await models.Place.findAll({
+  const places = await user?.getPlace({
     where: {
       [Op.or]: {
         place_name: {
@@ -25,22 +24,9 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
         },
       },
     },
-    include: {
-      model: models.Folder,
-      as: 'folder',
-      attributes: ['fid', 'title', 'color', 'icon'],
-    },
   });
 
-  const folder = await user?.getFolder({
-    attributes: ['fid', 'color', 'icon', 'title'],
-    include: {
-      model: models.Place,
-      as: 'places',
-    },
-  });
-
-  res.status(200).json({ places, folder });
+  res.status(200).json({ places });
 });
 
 export default handler;
