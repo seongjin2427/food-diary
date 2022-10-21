@@ -1,5 +1,5 @@
 import { useLongPress } from 'use-long-press';
-import React, { useState, MouseEvent } from 'react';
+import React, { MouseEvent } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { removeFolderApi } from '@/api/folder';
@@ -19,8 +19,6 @@ const RemoveWindow = ({ currentFolder, folder, fn, idx }: RemoveWindow) => {
 
   const queryClient = useQueryClient();
   const { icon, color, fid, title } = folder;
-  const [toggle, setToggle] = useState<boolean>(false);
-  const [point, setPoint] = useState({ x: 0, y: 0 });
 
   const mutation = useMutation(removeFolderApi, {
     onSuccess: () => {
@@ -29,23 +27,14 @@ const RemoveWindow = ({ currentFolder, folder, fn, idx }: RemoveWindow) => {
     },
   });
 
-  const closeBackdrop = () => setToggle(false);
-
-  const longPress = useLongPress((e: any) => {
-    console.log(e);
-    setPoint({ x: e.pageX, y: e.pageY });
-    setToggle(true);
+  const longPress = useLongPress(() => {
+    if (confirm(`${title} 폴더를 삭제하시겠습니까?`) && fid) {
+      mutation.mutate(fid);
+    }
   });
 
   const onContextMenu = (e: MouseEvent) => {
     e.preventDefault();
-  };
-
-  const removeFolderById = () => {
-    if (confirm(`정말 ${title} 폴더를 삭제하시겠습니까?`) && fid) {
-      mutation.mutate(fid);
-    }
-    closeBackdrop();
   };
 
   return (
@@ -56,11 +45,7 @@ const RemoveWindow = ({ currentFolder, folder, fn, idx }: RemoveWindow) => {
       onContextMenu={onContextMenu}
       {...longPress()}
     >
-      <S.Backdrop open={toggle} onClick={closeBackdrop} />
       <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
-      <S.SmallModalWrapper open={toggle} x={point.x} y={point.y}>
-        <S.SmallModal onClick={removeFolderById}>삭제하기</S.SmallModal>
-      </S.SmallModalWrapper>
       {currentFolder === idx && (
         <S.CheckIcon>
           <SVGIcon icon='CheckIcon' width='1.75rem' height='1.75rem' />

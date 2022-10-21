@@ -12,7 +12,7 @@ interface HeaderProps {
   title: string;
 }
 
-const Header = ({ children }: HeaderProps) => {
+const Header = ({ children, title }: HeaderProps) => {
   const dispatch = useAppDispatch();
   const { email } = useAppSelector(({ user }) => user);
 
@@ -27,7 +27,14 @@ const Header = ({ children }: HeaderProps) => {
     },
   });
 
-  return <S.Container>{children}</S.Container>;
+  return (
+    <>
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <S.Container>{children}</S.Container>
+    </>
+  );
 };
 
 export type HeaderType = typeof Header;

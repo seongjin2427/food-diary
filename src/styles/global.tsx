@@ -12,12 +12,27 @@ const GlobalStyle = () => {
         }
 
         body {
-          font-family: 'noto sans';
+          font-family: 'Pretendard';
         }
 
         a {
           color: black;
           -webkit-tap-highlight-color: transparent;
+        }
+
+        @font-face {
+          font-family: 'Pretendard';
+          src: url('/fonts/Pretendard-Bold.otf') format('opentype'),
+            url('/font/Pretendard-Bold.ttf') format('ttf');
+          font-weight: 700;
+          font-display: swap;
+        }
+        @font-face {
+          font-family: 'Pretendard';
+          src: url('/fonts/Pretendard-Regular.otf') format('opentype'),
+            url('/font/Pretendard-Regular.ttf') format('ttf');
+          font-weight: 400;
+          font-display: swap;
         }
       `}
     />
