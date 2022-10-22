@@ -29,7 +29,9 @@ export type UserAttributes = {
   birthday?: string;
   gender: string;
   access_token: string;
+  access_token_expired_date: Date;
   refresh_token: string;
+  refresh_token_expired_date: Date;
 };
 
 class User extends Model<
@@ -43,6 +45,8 @@ class User extends Model<
   declare gender: string;
   declare access_token: string;
   declare refresh_token: string;
+  declare refresh_token_expired_date: Date;
+  declare access_token_expired_date: Date;
 
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -117,6 +121,8 @@ User.init(
     },
     access_token: DataTypes.STRING(256),
     refresh_token: DataTypes.STRING(256),
+    access_token_expired_date: DataTypes.DATE,
+    refresh_token_expired_date: DataTypes.DATE,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   },

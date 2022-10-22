@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { userCheck } from '@/api/auth';
+import { userLogin } from '@/store/global';
 import { setUser } from '@/store/user/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import * as S from './Header.styled';
@@ -14,16 +15,16 @@ interface HeaderProps {
 
 const Header = ({ children, title }: HeaderProps) => {
   const dispatch = useAppDispatch();
-  const { email } = useAppSelector(({ user }) => user);
   const { isLogin } = useAppSelector(({ global }) => global);
 
-  useQuery(['getUser'], () => userCheck(localStorage.getItem('Authorization')), {
-    enabled: isLogin && !email,
+  useQuery(['getUser'], () => userCheck(), {
+    enabled: !isLogin,
     refetchOnWindowFocus: false,
     onSuccess(data) {
       if (data) {
         const { nickname, email, birthday, gender } = data;
         dispatch(setUser({ nickname, email, birthday, gender }));
+        dispatch(userLogin());
       }
     },
   });

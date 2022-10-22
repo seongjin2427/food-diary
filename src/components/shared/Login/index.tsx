@@ -10,7 +10,7 @@ const Login = () => {
 
   return (
     <S.Container>
-      <Image src={require('../../../assets/img/1.png')} />
+      <Image src={require('../../../assets/img/1.png')} width='500' height='500' layout='intrinsic' />
       <S.Description>
         간편하게 <em>로그인</em>하고
       </S.Description>

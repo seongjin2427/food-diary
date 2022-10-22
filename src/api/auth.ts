@@ -1,43 +1,28 @@
 import instance from './instance';
 import { UserAttributes } from '@/db/models/user.model';
-import { TokenType } from '@/hooks/useUserInformation';
-
-interface UserInformationType {
-  nickname: string;
-  email: string;
-  birthday: string;
-  gender: string;
-}
 
 interface UserCheckResponseType {
   result: UserAttributes;
 }
 
-export const userCheck = async (token: string | null) => {
+export const userCheck = async () => {
   try {
-    const { data } = await instance.get<UserCheckResponseType>(`/api/auth/check?token=${token}`);
+    const { data, headers } = await instance.get<UserCheckResponseType>(`/api/auth/check`);
+
+    const token = headers['authorization'].split(' ')[1];
+    localStorage.setItem('Authorization', token);
+
     return data.result;
   } catch (err) {
     console.log(err);
-    return null;
-  }
-};
-
-export const userLoginApi = async (userData: UserInformationType, token: TokenType) => {
-  try {
-    const { data } = await instance.post<UserCheckResponseType>('/api/auth/login', {
-      userData,
-      token,
-    });
-    return data.result;
-  } catch (err) {
-    return null;
+    alert('다시 로그인이 필요합니다!');
+    return '';
   }
 };
 
 export const userLogoutApi = async () => {
   try {
-    const { data } = await instance.get('/api/auth/logout');
+    await instance.get('/api/auth/logout');
   } catch (err) {
     console.log(err);
   }
@@ -45,7 +30,7 @@ export const userLogoutApi = async () => {
 
 export const userWithDraw = async () => {
   try {
-    const { data } = await instance.get('/api/auth/withdraw');
+    await instance.get('/api/auth/withdraw');
   } catch (err) {
     console.log(err);
   }
