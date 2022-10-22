@@ -15,9 +15,10 @@ interface HeaderProps {
 const Header = ({ children, title }: HeaderProps) => {
   const dispatch = useAppDispatch();
   const { email } = useAppSelector(({ user }) => user);
+  const { isLogin } = useAppSelector(({ global }) => global);
 
   useQuery(['getUser'], () => userCheck(localStorage.getItem('Authorization')), {
-    enabled: !email,
+    enabled: isLogin && !email,
     refetchOnWindowFocus: false,
     onSuccess(data) {
       if (data) {

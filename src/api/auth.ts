@@ -31,7 +31,6 @@ export const userLoginApi = async (userData: UserInformationType, token: TokenTy
     });
     return data.result;
   } catch (err) {
-    console.log(err);
     return null;
   }
 };

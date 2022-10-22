@@ -67,13 +67,11 @@ const useUserInformation = () => {
             }
           },
           fail: (error: Error) => {
-            localStorage.remove('Authorization');
             console.log(error);
           },
         });
       },
       fail: (error: Error) => {
-        localStorage.remove('Authorization');
         console.log(error);
       },
     });

@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getDiaryByMonth } from '@/api/diary';
-import { useAppSelector } from '@/store/index';
+import { useAppDispatch, useAppSelector } from '@/store/index';
+import { userLogout } from '@/store/global';
 
 interface CalendarDate {
   did: number | null | undefined;
@@ -12,6 +13,7 @@ interface CalendarDate {
 }
 
 const useCalendar = (): [CalendarDate[], number] => {
+  const dispatch = useAppDispatch();
   const { currentMonth } = useAppSelector(({ global }) => global);
 
   const [day, setDay] = useState<number>(1);
@@ -25,6 +27,11 @@ const useCalendar = (): [CalendarDate[], number] => {
       refetchOnWindowFocus: false,
       onSuccess: (fetched) => {
         if (fetched) setFetchedDiary(fetched);
+      },
+      onError: (err) => {
+        // alert('다시 로그인이 필요합니다.');
+        localStorage.removeItem('Authorization');
+        dispatch(userLogout());
       },
     },
   );

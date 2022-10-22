@@ -58,7 +58,7 @@ const Editor = ({ editable }: EditorProps) => {
         const watchImg = editorContent.includes(src);
 
         if (watchImg) {
-          const toRestoreImg = tempImages.find(({ img_id: nid }) => nid === img_id);
+          const toRestoreImg = tempImages.find(({ img_id: rid }) => rid === img_id);
 
           if (toRestoreImg) {
             dispatch(addImage(toRestoreImg));
@@ -95,13 +95,13 @@ const Editor = ({ editable }: EditorProps) => {
       `
       <p>일기를 써주세요!</p>
     `,
-    onCreate: ({ editor }) => {
-      setEditorContent(editor.getHTML());
-    },
-    onUpdate: ({ editor }) => {
-      setEditorContent(editor.getHTML());
+    onUpdate: (ctx: any) => {
+      const updateContent = ctx.editor.getHTML();
+      setEditorContent(() => updateContent);
     },
   });
+
+  if (!editor) return null;
 
   return (
     <S.Container>
