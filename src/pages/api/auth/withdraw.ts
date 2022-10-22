@@ -19,6 +19,7 @@ export default handler
           as: 'images',
         },
       });
+
       if (diaries)
         await Promise.all(
           diaries?.map(async (diary) => {
@@ -32,6 +33,7 @@ export default handler
         );
       await user?.destroy();
 
+      res.setHeader('Set-Cookie', `fd_refresh_token=0; path=/; Max-Age=0;`);
       res.status(200).json({ message: '탈퇴 완료' });
     } catch (err) {
       res.status(500).json({ message: 'Fail!' });

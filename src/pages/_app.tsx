@@ -14,8 +14,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
         <GlobalStyle />
         <Head>
           <script src='https://developers.kakao.com/sdk/js/kakao.js'></script>
@@ -27,8 +27,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Provider store={store}>
           <Component {...pageProps} />
         </Provider>
-      </ThemeProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
