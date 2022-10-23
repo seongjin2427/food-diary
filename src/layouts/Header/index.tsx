@@ -22,13 +22,14 @@ const Header = ({ children, title }: HeaderProps) => {
   useQuery(['getUser'], () => userCheck(), {
     refetchOnWindowFocus: false,
     onSuccess(data) {
+      const token = localStorage.getItem('Authorization');
       if (isLogin && data === 401) {
         alert('재 로그인이 필요합니다');
         reLogin();
       } else if (data === 403) {
         alert('토큰이 만료되어 재 로그인이 필요합니다');
         reLogin();
-      } else if (typeof data === 'object') {
+      } else if (token && typeof data === 'object') {
         const { nickname, email, birthday, gender } = data;
         dispatch(setUser({ nickname, email, birthday, gender }));
         dispatch(userLogin());

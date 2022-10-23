@@ -26,6 +26,7 @@ const useUserInformation = () => {
       await userLogoutApi().then(() => {
         router.push('/');
       });
+      alert('정상적으로 로그아웃 되었습니다!');
     }
   };
 
