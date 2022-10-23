@@ -1,13 +1,13 @@
 import Head from 'next/head';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 
 import { userCheck } from '@/api/auth';
-import { userLogin, userLogout } from '@/store/global';
 import { setUser } from '@/store/user/userSlice';
+import { userLogin, userLogout } from '@/store/global';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import * as S from './Header.styled';
-import { useRouter } from 'next/router';
 
 interface HeaderProps {
   children?: ReactNode;
@@ -20,16 +20,16 @@ const Header = ({ children, title }: HeaderProps) => {
   const { isLogin } = useAppSelector(({ global }) => global);
 
   useQuery(['getUser'], () => userCheck(), {
+    enabled: !isLogin,
     refetchOnWindowFocus: false,
     onSuccess(data) {
-      const token = localStorage.getItem('Authorization');
       if (isLogin && data === 401) {
-        alert('재 로그인이 필요합니다');
+        alert('로그인이 필요합니다');
         reLogin();
       } else if (data === 403) {
         alert('토큰이 만료되어 재 로그인이 필요합니다');
         reLogin();
-      } else if (token && typeof data === 'object') {
+      } else if (typeof data === 'object') {
         const { nickname, email, birthday, gender } = data;
         dispatch(setUser({ nickname, email, birthday, gender }));
         dispatch(userLogin());

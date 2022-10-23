@@ -27,6 +27,6 @@ export default handler
       res.status(200).json({ message: 'logout!' });
     } catch (err) {
       console.log(err);
-      res.status(500).json({ message: 'Fail!' });
+      res.status(500).json({ message: 'Logout Fail!' });
     }
   });

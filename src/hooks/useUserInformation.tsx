@@ -1,7 +1,8 @@
-import { userLogoutApi, userWithDraw } from '@/api/auth';
-import { useAppDispatch } from '@/store/index';
-import { userLogout } from '@/store/global';
 import { useRouter } from 'next/router';
+
+import { userLogout } from '@/store/global';
+import { useAppDispatch } from '@/store/index';
+import { userLogoutApi, userWithDraw } from '@/api/auth';
 
 interface useUserInformationActions {
   login: () => void;
@@ -21,11 +22,10 @@ const useUserInformation = () => {
 
   const logout = async () => {
     if (confirm('로그아웃 하시겠습니까?')) {
+      await userLogoutApi();
       localStorage.removeItem('Authorization');
       dispatch(userLogout());
-      await userLogoutApi().then(() => {
-        router.push('/');
-      });
+      setTimeout(() => router.push('/'), 1000);
       alert('정상적으로 로그아웃 되었습니다!');
     }
   };
@@ -35,7 +35,7 @@ const useUserInformation = () => {
       await userWithDraw();
       localStorage.removeItem('Authorization');
       dispatch(userLogout());
-      router.push('/');
+      setTimeout(() => router.push('/'), 1000);
     }
   };
 
