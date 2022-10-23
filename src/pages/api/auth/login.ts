@@ -65,7 +65,7 @@ export default handler.get<NextApiRequest, NextApiResponse>(async (req, res) => 
 
     let result = await models.User.findOne({
       where: {
-        email,
+        email: email || '',
       },
     });
 
