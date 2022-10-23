@@ -17,6 +17,7 @@ export default handler
         {},
         {
           headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
             Authorization: `Bearer ${user?.access_token}`,
           },
         },
@@ -26,6 +27,6 @@ export default handler
       res.status(200).json({ message: 'logout!' });
     } catch (err) {
       console.log(err);
-      res.status(500).json({ message: '서버 오류' });
+      res.status(500).json({ message: 'Fail!' });
     }
   });

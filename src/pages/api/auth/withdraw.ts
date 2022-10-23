@@ -1,5 +1,6 @@
-import { NextApiResponse } from 'next';
+import axios from 'axios';
 import nc from 'next-connect';
+import { NextApiResponse } from 'next';
 
 import models from '@/db/index';
 import { removeTempImage } from '@/db/utils/image';
@@ -13,6 +14,17 @@ export default handler
     const { user } = req;
 
     try {
+      await axios.post(
+        'https://kapi.kakao.com/v1/user/unlink',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${user?.access_token}`,
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      );
+
       const diaries = await user?.getDiary({
         include: {
           model: models.ImageFile,
