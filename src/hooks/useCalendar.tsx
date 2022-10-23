@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useCallback, useEffect, useState } from 'react';
 
 import { getDiaryByMonth } from '@/api/diary';
 import { useAppSelector } from '@/store/index';
@@ -23,7 +23,7 @@ const useCalendar = (): [CalendarDate[], number] => {
     () => getDiaryByMonth(dayjs(currentMonth).format('YYYY-MM')),
     {
       refetchOnWindowFocus: false,
-      onSuccess: (fetched) => {
+      onSuccess(fetched) {
         if (fetched) setFetchedDiary(fetched);
       },
     },

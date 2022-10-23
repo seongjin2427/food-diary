@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+
 import instance from '@/api/instance';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 import { IAdditionalInfoState } from '@/store/diary/additionalInfoSlice';
@@ -20,6 +22,7 @@ export const getDiaryByMonth = async (date: string) => {
     return data.diary;
   } catch (err) {
     console.log(err);
+    return null;
   }
 };
 

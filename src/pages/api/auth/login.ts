@@ -81,7 +81,12 @@ export default handler.get<NextApiRequest, NextApiResponse>(async (req, res) => 
         refresh_token_expired_date,
       });
     } else {
-      await result.update({ access_token, refresh_token });
+      await result.update({
+        access_token,
+        refresh_token,
+        access_token_expired_date,
+        refresh_token_expired_date,
+      });
     }
 
     res.setHeader('Authorization', `Bearer ${access_token}`);
