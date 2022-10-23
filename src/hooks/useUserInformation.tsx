@@ -25,9 +25,7 @@ const useUserInformation = () => {
       await userLogoutApi();
       localStorage.removeItem('Authorization');
       dispatch(userLogout());
-      console.log('로그아웃');
-      setTimeout(() => router.push('/'), 1000);
-      alert('정상적으로 로그아웃 되었습니다!');
+      alert('로그아웃 되었습니다!');
     }
   };
 
@@ -36,7 +34,6 @@ const useUserInformation = () => {
       await userWithDraw();
       localStorage.removeItem('Authorization');
       dispatch(userLogout());
-      setTimeout(() => router.push('/'), 1000);
     }
   };
 

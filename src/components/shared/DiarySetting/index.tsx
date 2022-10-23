@@ -1,19 +1,23 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import { useAppSelector } from '@/store/index';
 import useUserInformation from '@/hooks/useUserInformation';
 import * as S from './DiarySetting.styled';
 
 const DiarySetting = () => {
+  const router = useRouter();
   const [{ logout, withdraw }] = useUserInformation();
   const { nickname, email } = useAppSelector(({ user }) => user);
 
   const onClickLogout = () => {
     logout();
+    router.push('/');
   };
 
   const onClickWithdraw = () => {
     withdraw();
+    router.push('/');
   };
 
   return (
