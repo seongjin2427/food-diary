@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 
@@ -20,6 +20,7 @@ const Header = ({ children, title }: HeaderProps) => {
   const { isLogin } = useAppSelector(({ global }) => global);
 
   useQuery(['getUser'], () => userCheck(), {
+    cacheTime: 0,
     refetchOnWindowFocus: false,
     onSuccess(data) {
       if (isLogin && data === 401) {
@@ -35,13 +36,6 @@ const Header = ({ children, title }: HeaderProps) => {
       }
     },
   });
-
-  useEffect(() => {
-    if (!isLogin) {
-      const authKey = localStorage.getItem('Authorization');
-      if (authKey) dispatch(userLogin());
-    }
-  }, [isLogin]);
 
   const reLogin = () => {
     localStorage.removeItem('Authorization');

@@ -12,12 +12,12 @@ const DiarySetting = () => {
 
   const onClickLogout = () => {
     logout();
-    // router.push('/');
+    router.push('/');
   };
 
   const onClickWithdraw = () => {
     withdraw();
-    // router.push('/');
+    router.push('/');
   };
 
   return (

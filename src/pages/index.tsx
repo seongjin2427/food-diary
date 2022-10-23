@@ -2,7 +2,8 @@ import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import type { NextPage } from 'next';
 
-import { useAppSelector } from '@/store/index';
+import { userLogin } from '@/store/global';
+import { useAppDispatch, useAppSelector } from '@/store/index';
 import useReduxReset from '@/hooks/useReduxReset';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
@@ -11,12 +12,20 @@ import Login from '@/components/shared/Login';
 import Calendar from '@/components/shared/Calendar';
 
 const Home: NextPage = () => {
+  const dispatch = useAppDispatch();
   const { isLogin, currentMonth } = useAppSelector(({ global }) => global);
   const reset = useReduxReset();
 
   useEffect(() => {
     reset();
   });
+
+  useEffect(() => {
+    if (!isLogin) {
+      const authKey = localStorage.getItem('Authorization');
+      if (authKey) dispatch(userLogin());
+    }
+  }, [isLogin]);
 
   return (
     <>

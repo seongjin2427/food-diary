@@ -89,7 +89,6 @@ export default handler.get<NextApiRequest, NextApiResponse>(async (req, res) => 
       });
     }
 
-    res.setHeader('Authorization', `Bearer ${access_token}`);
     res.setHeader(
       'Set-Cookie',
       `fd_refresh_token=${refresh_token}; path=/; Max-Age=${refresh_token_expires_in}`,
