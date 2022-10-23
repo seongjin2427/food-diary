@@ -20,7 +20,6 @@ const Header = ({ children, title }: HeaderProps) => {
   const { isLogin } = useAppSelector(({ global }) => global);
 
   useQuery(['getUser'], () => userCheck(), {
-    enabled: !isLogin,
     refetchOnWindowFocus: false,
     onSuccess(data) {
       if (isLogin && data === 401) {
@@ -37,7 +36,15 @@ const Header = ({ children, title }: HeaderProps) => {
     },
   });
 
+  useEffect(() => {
+    if (!isLogin) {
+      const authKey = localStorage.getItem('Authorization');
+      if (authKey) dispatch(userLogin());
+    }
+  }, [isLogin]);
+
   const reLogin = () => {
+    localStorage.removeItem('Authorization');
     dispatch(userLogout());
     router.push('/');
   };

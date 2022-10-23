@@ -11,7 +11,7 @@ export const userCheck = async () => {
   try {
     const { data, headers } = await instance.get<UserCheckResponseType>(`/api/auth/check`);
 
-    const token = headers['authorization'].split(' ')[1];
+    const token = headers['authorization'].split(' ')[1] || '';
     localStorage.setItem('Authorization', token);
 
     return data.result;
