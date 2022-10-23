@@ -10,8 +10,8 @@ export interface NextApiExpanededRequest extends NextApiRequest {
 }
 
 const authToken = async (req: NextApiExpanededRequest, res: NextApiResponse, next: NextHandler) => {
-  const access_token = req.headers['authorization']?.split(' ')[1];
-  const refresh_token = req.headers.cookie?.split('=')[1];
+  const access_token = req.headers['authorization']?.split(' ')[1] || '';
+  const refresh_token = req.headers.cookie?.split('=')[1] || '';
 
   try {
     const foundUser = await models.User.findOne({
@@ -24,13 +24,15 @@ const authToken = async (req: NextApiExpanededRequest, res: NextApiResponse, nex
         ],
       },
     });
-    console.log('headers', foundUser);
+
+    console.log('foundUser', foundUser);
 
     if (foundUser) {
       const nowday = new Date();
-      const { access_token_expired_date, refresh_token_expired_date } = foundUser;
-      if (access_token_expired_date < nowday || refresh_token_expired_date < nowday) {
-        throw new Error('token is expired');
+      const { refresh_token_expired_date } = foundUser;
+
+      if (refresh_token_expired_date < nowday) {
+        res.status(403).json({ message: 'Refresh Token is expired' });
       }
 
       req.user = foundUser;
@@ -40,7 +42,7 @@ const authToken = async (req: NextApiExpanededRequest, res: NextApiResponse, nex
       res.status(401).json({ message: 'Unauthorized User!' });
     }
   } catch (err) {
-    res.status(401).json({ message: 'Unauthorized User!' });
+    res.status(500).json({ message: 'Server has a problem!' });
   }
 };
 

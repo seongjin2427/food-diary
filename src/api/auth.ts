@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+
 import instance from './instance';
 import { UserAttributes } from '@/db/models/user.model';
 
@@ -14,9 +16,8 @@ export const userCheck = async () => {
 
     return data.result;
   } catch (err) {
-    console.log(err);
-    alert('다시 로그인이 필요합니다!');
-    return '';
+    const error = err as AxiosError;
+    return error.response?.status;
   }
 };
 

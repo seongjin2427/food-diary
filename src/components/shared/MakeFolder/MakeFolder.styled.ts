@@ -25,7 +25,7 @@ export const NewFolderLi = styled.li`
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 1rem;
-  :not(:first-child) {
+  :not(:first-of-type) {
     border-top: 0.5px solid #fff;
   }
 `;

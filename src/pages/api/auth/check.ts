@@ -1,40 +1,19 @@
-import { Op } from 'sequelize';
-import { NextApiRequest, NextApiResponse } from 'next';
+import nc from 'next-connect';
+import { NextApiResponse } from 'next';
 
-import models from '@/db/index';
+import authToken, { NextApiExpanededRequest } from '@/server/middlewares/use-token';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const access_token = req.headers['authorization']?.split(' ')[1] || '';
-  const refresh_token = req.headers['cookie']?.split('=')[1] || '';
+const handler = nc();
 
-  console.log('access_token, refresh_token', access_token, refresh_token);
-
+handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResponse) => {
+  const { user } = req;
   try {
-    const result = await models.User.findOne({
-      where: {
-        [Op.or]: [
-          {
-            access_token,
-          },
-          {
-            refresh_token,
-          },
-        ],
-      },
-    });
-
-    console.log('result', result);
-
-    if (result?.access_token) {
-      res.setHeader('Authorization', `Bearer ${result?.access_token}`);
-      res.status(200).json({ result });
-    } else {
-      res.status(401).json({ message: 'Unauthorized User!' });
-    }
+    res.setHeader('Authorization', `Bearer ${user?.access_token}`);
+    res.status(200).json({ result: user });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: 'Fail!' });
   }
-};
+});
 
 export default handler;
