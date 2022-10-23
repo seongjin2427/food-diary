@@ -7,6 +7,7 @@ import { userLogin, userLogout } from '@/store/global';
 import { setUser } from '@/store/user/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import * as S from './Header.styled';
+import { useRouter } from 'next/router';
 
 interface HeaderProps {
   children?: ReactNode;
@@ -14,17 +15,19 @@ interface HeaderProps {
 }
 
 const Header = ({ children, title }: HeaderProps) => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
-  const { email } = useAppSelector(({ user }) => user);
   const { isLogin } = useAppSelector(({ global }) => global);
 
   useQuery(['getUser'], () => userCheck(), {
-    enabled: !isLogin && !email,
     refetchOnWindowFocus: false,
     onSuccess(data) {
-      if (data === 403) {
+      if (isLogin && data === 401) {
+        alert('재 로그인이 필요합니다');
+        reLogin();
+      } else if (data === 403) {
         alert('토큰이 만료되어 재 로그인이 필요합니다');
-        dispatch(userLogout());
+        reLogin();
       } else if (typeof data === 'object') {
         const { nickname, email, birthday, gender } = data;
         dispatch(setUser({ nickname, email, birthday, gender }));
@@ -32,6 +35,11 @@ const Header = ({ children, title }: HeaderProps) => {
       }
     },
   });
+
+  const reLogin = () => {
+    dispatch(userLogout());
+    router.push('/');
+  };
 
   return (
     <>

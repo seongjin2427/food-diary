@@ -37,7 +37,6 @@ const authToken = async (req: NextApiExpanededRequest, res: NextApiResponse, nex
 
       req.user = foundUser;
       next();
-      return;
     } else {
       res.status(401).json({ message: 'Unauthorized User!' });
     }
