@@ -15,16 +15,17 @@ const useUserInformation = () => {
 
   const login = async () => {
     router.push(
-      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code&scope=profile_nickname,account_email,birthday,gender`
+      `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&response_type=code&scope=profile_nickname,account_email,birthday,gender`,
     );
   };
 
   const logout = async () => {
     if (confirm('로그아웃 하시겠습니까?')) {
-      await userLogoutApi();
       localStorage.removeItem('Authorization');
       dispatch(userLogout());
-      router.push('/');
+      await userLogoutApi().then(() => {
+        router.push('/');
+      });
     }
   };
 
