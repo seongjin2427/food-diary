@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
-  "dependencies": {    
+  "dependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@reduxjs/toolkit": "^1.8.5",
@@ -41,9 +41,11 @@
     "react-calendar": "^3.9.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.2",
+    "react-slick": "^0.29.0",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.21.6",
     "sequelize-typescript": "^2.1.3",
+    "slick-carousel": "^1.8.1",
     "use-long-press": "^2.0.2"
   },
   "devDependencies": {
@@ -55,6 +57,7 @@
     "@types/react-calendar": "^3.5.3",
     "@types/react-dom": "18.0.6",
     "@types/react-redux": "^7.1.24",
+    "@types/react-slick": "^0.23.10",
     "@types/validator": "^13.7.6",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",

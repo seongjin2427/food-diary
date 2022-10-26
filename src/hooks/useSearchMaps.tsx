@@ -30,7 +30,7 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
   const [currentFolder, setCurrentFolder] = useState<number>();
   const [folderResults, setFolderResults] = useState<FolderSliceFolderType[] | undefined>([]);
 
-  const [searchedPlaces, , { search }] = useSearchPlace();
+  const [searchedPlaces, { search }] = useSearchPlace();
 
   useQuery(['searchPlaceResult', searchWord], () => getSearchPlacesBySearchWord(searchWord), {
     cacheTime: 0,

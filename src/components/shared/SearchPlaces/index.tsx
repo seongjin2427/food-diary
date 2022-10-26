@@ -16,18 +16,15 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
   const dispatch = useAppDispatch();
   const pickedPlaces = useAppSelector(({ diary }) => diary.places);
 
-  const [searchedPlaces, searchHistoryRef, { search }] = useSearchPlace();
+  const [searchedPlaces, { search }] = useSearchPlace();
   const searchWordRef = useRef<HTMLInputElement>(null);
 
   const searchPlaces = useCallback((e: FormEvent) => {
     e.preventDefault();
-    if (searchWordRef.current && searchWordRef.current.value !== '' && searchHistoryRef.current) {
+    if (searchWordRef.current && searchWordRef.current.value !== '') {
       const searchWord = searchWordRef.current.value;
-      const prevSearchWord = searchHistoryRef.current[0];
 
-      if (prevSearchWord !== searchWord) {
-        search(searchWord);
-      }
+      search(searchWord);
       searchWordRef.current.value = '';
     }
   }, []);
@@ -47,7 +44,10 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
   return (
     <S.Container>
       <S.LetMeknowThePlaceTitle>
-        <em>{year}년 {month}월 {day}일</em>에 <br />
+        <em>
+          {year}년 {month}월 {day}일
+        </em>
+        에 <br />
         <em>방문하신 장소</em>를 알려주세요!
       </S.LetMeknowThePlaceTitle>
 
