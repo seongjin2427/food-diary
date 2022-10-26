@@ -1,13 +1,14 @@
+import SlickSlider from 'react-slick';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
-import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
-import SVGIcon from '@/components/shared/SVGIcon';
-import * as S from './SearchResultMap.styled';
+import { setPlace } from '@/store/place/placeSlice';
 import { useAppDispatch } from '@/store/index';
 import { SearchResultType } from '@/hooks/useSearchPlace';
-import { setPlace } from '@/store/place/placeSlice';
+import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
+import SVGIcon from '@/components/shared/SVGIcon';
 import Slider from '@/components/shared/Slider';
+import * as S from './SearchResultMap.styled';
 
 interface SearchResultMapProps {
   searchMapsStates: SearchMapsType;
@@ -24,15 +25,21 @@ const SearchResultMap = ({
   const dispatch = useAppDispatch();
   const { searchPlaceResults, folderResults } = searchMapsStates;
 
+  const sliderRef = useRef<SlickSlider>(null);
+
   const moveToPlacePageByPid = useCallback((place: SearchResultType) => {
     dispatch(setPlace(place));
     router.push(`/place`);
   }, []);
 
+  useEffect(() => {
+    sliderRef.current?.slickGoTo(0);
+  }, [searchPlaceResults]);
+
   return (
     <S.Container>
       {!showList && searchPlaceResults && searchPlaceResults.length > 0 && (
-        <Slider>
+        <Slider ref={sliderRef}>
           {searchPlaceResults.map((place, idx) => (
             <S.PlaceContainer key={idx} onClick={() => moveToPlacePageByPid(place)}>
               <S.PlaceTitleBox>

@@ -1,33 +1,34 @@
-import React, { ReactNode } from 'react';
-import SlickSlider from 'react-slick';
+import React, { forwardRef, ReactNode, Ref, useRef } from 'react';
+import SlickSlider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styled from '@emotion/styled';
 
-const settings = {
+const settings: Settings = {
   dots: true,
   speed: 500,
   slidesToShow: 1,
   slidesToScroll: 1,
+  draggable: true,
+  infinite: false,
 };
 
 interface SliderProps {
   children: ReactNode;
 }
 
-const Slider = ({ children }: SliderProps) => {
+const Slider = ({ children }: SliderProps, ref: Ref<SlickSlider>) => {
   return (
     <Container>
-      <StyledSlider {...settings}>{children}</StyledSlider>
+      <SlickSlider {...settings} ref={ref}>
+        {children}
+      </SlickSlider>
     </Container>
   );
 };
 
 const Container = styled.div`
   width: 100%;
-`;
-
-const StyledSlider = styled(SlickSlider)`
   .slick-list {
     width: calc(100% - 3rem);
     margin: 0 auto;
@@ -51,4 +52,4 @@ const StyledSlider = styled(SlickSlider)`
   }
 `;
 
-export default Slider;
+export default forwardRef(Slider);

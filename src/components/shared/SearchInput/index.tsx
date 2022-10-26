@@ -42,6 +42,7 @@ const SearchInput = ({ searchMap }: SerachInputProps) => {
   const onClickChangeSearchWord = useCallback(() => {
     if (searchWordInputRef.current) {
       dispatch(searchBySearchWord(searchWordInputRef.current.value));
+      searchWordInputRef.current.value = '';
     }
   }, [searchOption]);
 
@@ -49,6 +50,7 @@ const SearchInput = ({ searchMap }: SerachInputProps) => {
     (e: KeyboardEvent) => {
       if (e.code === 'Enter' && searchWordInputRef.current) {
         dispatch(searchBySearchWord(searchWordInputRef.current.value));
+        searchWordInputRef.current.value = '';
       }
     },
     [searchOption],

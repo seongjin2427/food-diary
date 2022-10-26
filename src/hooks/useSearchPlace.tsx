@@ -54,24 +54,27 @@ const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] 
           pagination: SearchResultPaginationType,
         ) => {
           if (status === kakao.maps.services.Status.OK) {
-            setSearchedPlaces(data);
+            setSearchedPlaces((prev) => {
+              if (pagination.current === 1) return data;
+              else return [...prev, ...data];
+            });
           } else if (status === 'ZERO_RESULT') {
             setSearchedPlaces([]);
           }
 
-          // // 다음 버튼 눌렀을 때, 다음 목록 불러오기
-          // const nextBtn = document.getElementById('place_next_button') as HTMLButtonElement;
-          // if (!nextBtn) return;
-          // if (!pagination.hasNextPage) {
-          //   nextBtn.style.display = 'none';
-          // } else {
-          //   nextBtn.style.display = 'block';
-          //   nextBtn.onclick = () => {
-          //     if (pagination.hasNextPage) {
-          //       pagination.nextPage();
-          //     }
-          //   };
-          // }
+          // 다음 버튼 눌렀을 때, 다음 목록 불러오기
+          const nextBtn = document.getElementById('place_next_button') as HTMLButtonElement;
+          if (!nextBtn) return;
+          if (!pagination.hasNextPage) {
+            nextBtn.style.display = 'none';
+          } else {
+            nextBtn.style.display = 'block';
+            nextBtn.onclick = () => {
+              if (pagination.hasNextPage) {
+                pagination.nextPage();
+              }
+            };
+          }
         },
         {
           category_group_code: 'FD6, CE7',
