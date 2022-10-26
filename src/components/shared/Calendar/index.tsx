@@ -9,6 +9,7 @@ import useCalendar from '@/hooks/useCalendar';
 import SVGIcon from '@/components/shared/SVGIcon';
 import Spinner from '@/components/shared/Spinner';
 import * as S from './Calendar.styled';
+import Image from 'next/image';
 
 function Calendar() {
   const router = useRouter();
@@ -55,13 +56,13 @@ function Calendar() {
       </S.MonthArea>
 
       <S.Weekend>
-        <S.WeekDay red>sun</S.WeekDay>
-        <S.WeekDay>mon</S.WeekDay>
-        <S.WeekDay>tue</S.WeekDay>
-        <S.WeekDay>wes</S.WeekDay>
-        <S.WeekDay>thu</S.WeekDay>
-        <S.WeekDay>fri</S.WeekDay>
-        <S.WeekDay blue>sat</S.WeekDay>
+        <S.WeekDay red>Sun</S.WeekDay>
+        <S.WeekDay>Mon</S.WeekDay>
+        <S.WeekDay>Tue</S.WeekDay>
+        <S.WeekDay>Wed</S.WeekDay>
+        <S.WeekDay>Thu</S.WeekDay>
+        <S.WeekDay>Fri</S.WeekDay>
+        <S.WeekDay blue>Sat</S.WeekDay>
       </S.Weekend>
 
       <S.DayArea>
@@ -73,7 +74,10 @@ function Calendar() {
               startDay={startDay}
             >
               {image ? (
-                <S.Image src={image} />
+                // <S.Image src={image} />
+                <S.ImageWrapper>
+                  <Image src={image} width='100%' height='100%' layout='fill' />
+                </S.ImageWrapper>
               ) : (
                 <S.Date today={dayjs(today).format('YYYY-MM-DD') === date}>
                   {date.split('-')[2]}

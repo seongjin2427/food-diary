@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef, RefObject } from 'react';
+import { useState } from 'react';
 
 interface GeolocationType {
   coords: GeolocationCoordinates;
@@ -38,15 +38,10 @@ interface SearchPlaceActions {
   search: (s: string) => void;
 }
 
-const useSearchPlace = (): [
-  SearchResultType[] | undefined,
-  RefObject<string[]>,
-  SearchPlaceActions,
-] => {
+const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] => {
   const [searchedPlaces, setSearchedPlaces] = useState<SearchResultType[]>([]);
-  const searchHistoryRef = useRef<string[]>([]);
 
-  const search = useCallback(async (searchWord: string) => {
+  const search = async (searchWord: string) => {
     navigator.geolocation.getCurrentPosition(({ coords }: GeolocationType) => {
       const kakao = window.kakao;
       const places = new kakao.maps.services.Places();
@@ -58,22 +53,13 @@ const useSearchPlace = (): [
           status: 'OK' | 'ZERO_RESULT',
           pagination: SearchResultPaginationType,
         ) => {
-
           if (status === kakao.maps.services.Status.OK) {
-            searchHistoryRef.current.push(searchWord);
-            const prevSearchWord = searchHistoryRef.current[0];
-            if (prevSearchWord === searchWord) {
-              setSearchedPlaces((prev) => [...prev, ...data]);
-            } else {
-              setSearchedPlaces(data);
-            }
+            setSearchedPlaces((prev) => {
+              if (pagination.current === 1) return data;
+              else return [...prev, ...data];
+            });
           } else if (status === 'ZERO_RESULT') {
             setSearchedPlaces([]);
-          }
-
-          // 검색 기록 2칸 유지
-          if (searchHistoryRef.current.length > 1) {
-            searchHistoryRef.current.shift();
           }
 
           // 다음 버튼 눌렀을 때, 다음 목록 불러오기
@@ -91,19 +77,19 @@ const useSearchPlace = (): [
           }
         },
         {
-          category_group_code: 'FD6',
+          category_group_code: 'FD6, CE7',
           radius: 20000,
           location: new kakao.maps.LatLng(coords.latitude, coords.longitude),
         },
       );
     });
-  }, []);
+  };
 
   const actions = {
     search,
   };
 
-  return [searchedPlaces, searchHistoryRef, actions];
+  return [searchedPlaces, actions];
 };
 
 export default useSearchPlace;

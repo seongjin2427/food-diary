@@ -4,35 +4,6 @@ import styled from '@emotion/styled';
 
 export const Container = styled.div``;
 
-export const Slider = styled.div`
-  display: flex;
-`;
-
-export const SliderContainer = styled.div`
-  width: 100%;
-  display: flex;
-  overflow: hidden;
-`;
-
-interface SliderAreaProps {
-  placeNumber: number;
-}
-
-export const SliderArea = styled.div<SliderAreaProps>`
-  display: flex;
-
-  ${({ placeNumber }) => css`
-    transition: all 0.5s;
-    margin-left: ${placeNumber * -100}%;
-  `}
-`;
-
-export const ArrowButton = styled.button`
-  background: none;
-  border: none;
-  outline: none;
-`;
-
 export const PlaceListContainer = styled.div`
   width: 100%;
   padding: 0.75rem;
@@ -41,17 +12,10 @@ export const PlaceListContainer = styled.div`
   border-radius: 0.5rem;
 `;
 
-interface PlaceContainerProps {
-  placeWidth: number;
-}
-
-export const PlaceContainer = styled.div<PlaceContainerProps>`
-  ${({ placeWidth }) => css`
-    width: calc(${placeWidth}px - 7rem);
-  `}
+export const PlaceContainer = styled.div`
+  height: 7rem;
   padding: 0.75rem;
   border: 1px solid ${({ theme }) => theme.color.black};
-  margin: 0 0.5rem;
   border-radius: 0.5rem;
 `;
 

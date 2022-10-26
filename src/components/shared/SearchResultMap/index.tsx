@@ -1,12 +1,14 @@
+import SlickSlider from 'react-slick';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
-import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
-import SVGIcon from '@/components/shared/SVGIcon';
-import * as S from './SearchResultMap.styled';
+import { setPlace } from '@/store/place/placeSlice';
 import { useAppDispatch } from '@/store/index';
 import { SearchResultType } from '@/hooks/useSearchPlace';
-import { setPlace } from '@/store/place/placeSlice';
+import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
+import SVGIcon from '@/components/shared/SVGIcon';
+import Slider from '@/components/shared/Slider';
+import * as S from './SearchResultMap.styled';
 
 interface SearchResultMapProps {
   searchMapsStates: SearchMapsType;
@@ -21,73 +23,46 @@ const SearchResultMap = ({
 }: SearchResultMapProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { searchPlaceResults, currentPlace, folderResults } = searchMapsStates;
-  const { setNextPlace, setPrevPlace } = searchMapsActions;
+  const { searchPlaceResults, folderResults } = searchMapsStates;
 
-  const [placeWidth, setPlaceWidth] = useState<number>(0);
-
-  useEffect(() => {
-    setPlaceWidth(window.innerWidth);
-  }, []);
+  const sliderRef = useRef<SlickSlider>(null);
 
   const moveToPlacePageByPid = useCallback((place: SearchResultType) => {
     dispatch(setPlace(place));
     router.push(`/place`);
   }, []);
 
+  useEffect(() => {
+    sliderRef.current?.slickGoTo(0);
+  }, [searchPlaceResults]);
+
   return (
     <S.Container>
       {!showList && searchPlaceResults && searchPlaceResults.length > 0 && (
-        <>
-          <S.Slider>
-            <S.ArrowButton onClick={setPrevPlace}>
-              <SVGIcon icon='ChevronLeftIcon' width='1.5rem' />
-            </S.ArrowButton>
-            <S.SliderContainer>
-              <S.SliderArea placeNumber={currentPlace}>
-                {searchPlaceResults.map((place, idx) => (
-                  <S.PlaceContainer
-                    key={idx}
-                    placeWidth={placeWidth}
-                    onClick={() => moveToPlacePageByPid(place)}
-                  >
-                    <S.PlaceTitleBox>
-                      <S.PlaceName>{place.place_name}</S.PlaceName>
-                    </S.PlaceTitleBox>
-                    <S.PlaceContentBox>
-                      <S.PlaceAddress>{place.address_name}</S.PlaceAddress>
-                      <S.PlacePhone>{place.phone}</S.PlacePhone>
-                      <S.PlaceDistance>{+place.distance / 1000}km</S.PlaceDistance>
-                    </S.PlaceContentBox>
-                    <S.PlaceKind>
-                      {folderResults?.map(
-                        ({ fid, icon, color, places }) =>
-                          places.find((p) => p.id === place.id) && (
-                            <S.FolderIcon key={fid} selectedColor={color}>
-                              <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
-                            </S.FolderIcon>
-                          ),
-                      )}
-                    </S.PlaceKind>
-                  </S.PlaceContainer>
-                ))}
-              </S.SliderArea>
-            </S.SliderContainer>
-            <S.ArrowButton onClick={setNextPlace}>
-              <SVGIcon icon='ChevronRightIcon' width='1.5rem' />
-            </S.ArrowButton>
-          </S.Slider>
-          <S.SliderPagination>
-            {searchPlaceResults.map((_, idx) => {
-              if (idx < 10)
-                return currentPlace === idx ? (
-                  <S.FillCircle key={idx} />
-                ) : (
-                  <S.BlankCircle key={idx} />
-                );
-            })}
-          </S.SliderPagination>
-        </>
+        <Slider ref={sliderRef}>
+          {searchPlaceResults.map((place, idx) => (
+            <S.PlaceContainer key={idx} onClick={() => moveToPlacePageByPid(place)}>
+              <S.PlaceTitleBox>
+                <S.PlaceName>{place.place_name}</S.PlaceName>
+              </S.PlaceTitleBox>
+              <S.PlaceContentBox>
+                <S.PlaceAddress>{place.address_name}</S.PlaceAddress>
+                <S.PlacePhone>{place.phone}</S.PlacePhone>
+                <S.PlaceDistance>{+place.distance / 1000}km</S.PlaceDistance>
+              </S.PlaceContentBox>
+              <S.PlaceKind>
+                {folderResults?.map(
+                  ({ fid, icon, color, places }) =>
+                    places.find((p) => p.id === place.id) && (
+                      <S.FolderIcon key={fid} selectedColor={color}>
+                        <SVGIcon icon={icon} width='1.25rem' height='1.25rem' />
+                      </S.FolderIcon>
+                    ),
+                )}
+              </S.PlaceKind>
+            </S.PlaceContainer>
+          ))}
+        </Slider>
       )}
       {showList && (
         <>

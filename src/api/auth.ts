@@ -23,7 +23,9 @@ export const userCheck = async () => {
 
 export const userLogoutApi = async () => {
   try {
-    await instance.get('/api/auth/logout');
+    const { data } = await instance.get('/api/auth/logout');
+    console.log(data);
+    return data.message;
   } catch (err) {
     console.log(err);
   }
@@ -31,7 +33,9 @@ export const userLogoutApi = async () => {
 
 export const userWithDraw = async () => {
   try {
-    await instance.get('/api/auth/withdraw');
+    const { data } = await instance.get('/api/auth/withdraw');
+    console.log(data);
+    return data.message;
   } catch (err) {
     console.log(err);
   }

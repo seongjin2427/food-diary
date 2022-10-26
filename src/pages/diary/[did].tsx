@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { NextPage, NextPageContext } from 'next';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
@@ -12,6 +12,7 @@ import MainLayout from '@/layouts/MainLayout';
 import CommonHeader from '@/layouts/CommonHeader';
 import Spinner from '@/components/shared/Spinner';
 import ReadDiary from '@/components/shared/ReadDiary';
+import { offDiaryModifyMode } from '@/store/global';
 
 interface ReadDiaryPageProps {
   did: string;
@@ -20,6 +21,10 @@ interface ReadDiaryPageProps {
 const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(offDiaryModifyMode());
+  }, []);
 
   const { data, isFetching } = useQuery(['DiaryByDid', did], () => getDiaryByDid(did), {
     refetchOnWindowFocus: false,
@@ -32,11 +37,7 @@ const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
     },
   });
 
-  const removeMutation = useMutation(removeDiaryBydid, {
-    onSuccess: () => {
-      console.log('성공?');
-    },
-  });
+  const removeMutation = useMutation(removeDiaryBydid);
 
   const removeDiary = useCallback(() => {
     removeMutation.mutate(did);
