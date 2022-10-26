@@ -59,7 +59,7 @@ interface SelectListTitleProps {
 export const SelectListUl = styled.ul<IsOpenProps & { right?: boolean }>`
   display: none;
   width: 12rem;
-  height: 20rem;
+  max-height: 20rem;
   position: absolute;
   background: ${({ theme }) => theme.color.third};
   top: 2.25rem;

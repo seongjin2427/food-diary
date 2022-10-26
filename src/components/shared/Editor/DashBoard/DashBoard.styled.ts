@@ -4,8 +4,8 @@ export const Container = styled.div`
   background: white;
   margin-top: 10px;
   padding: 0.25rem 0rem;
-  position: -webkit-sticky;
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
   height: 4rem;
   z-index: 1;

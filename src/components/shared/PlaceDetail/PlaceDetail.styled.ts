@@ -50,6 +50,7 @@ export const ArcodianBox = styled.div`
   padding: 1rem 0.5rem 0.5rem 0.5rem;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
+  background: ${({ theme }) => theme.color.third};
 `;
 
 export const ArcodianTitle = styled.p`

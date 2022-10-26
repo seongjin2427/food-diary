@@ -33,6 +33,8 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
   const [searchedPlaces, , { search }] = useSearchPlace();
 
   useQuery(['searchPlaceResult', searchWord], () => getSearchPlacesBySearchWord(searchWord), {
+    cacheTime: 0,
+    staleTime: 1,
     refetchOnWindowFocus: false,
     onSuccess: (searchedData) => {
       if (searchOption === 'folder') {

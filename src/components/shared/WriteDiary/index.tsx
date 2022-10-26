@@ -1,10 +1,11 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { setDiaryByName } from '@/store/diary/diarySlice';
 import Editor from '@/components/shared/Editor';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './WriteDiary.styled';
+import { onDiaryModifyMode } from '@/store/global';
 
 const WriteDiary = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,10 @@ const WriteDiary = () => {
   const onChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
     dispatch(setDiaryByName({ name: 'title', value }));
   };
+
+  useEffect(() => {
+    dispatch(onDiaryModifyMode());
+  }, []);
 
   return (
     <S.Container>

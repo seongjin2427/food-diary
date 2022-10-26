@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef, RefObject } from 'react';
+import { useState, useRef, RefObject } from 'react';
 
 interface GeolocationType {
   coords: GeolocationCoordinates;
@@ -46,7 +46,7 @@ const useSearchPlace = (): [
   const [searchedPlaces, setSearchedPlaces] = useState<SearchResultType[]>([]);
   const searchHistoryRef = useRef<string[]>([]);
 
-  const search = useCallback(async (searchWord: string) => {
+  const search = async (searchWord: string) => {
     navigator.geolocation.getCurrentPosition(({ coords }: GeolocationType) => {
       const kakao = window.kakao;
       const places = new kakao.maps.services.Places();
@@ -58,7 +58,6 @@ const useSearchPlace = (): [
           status: 'OK' | 'ZERO_RESULT',
           pagination: SearchResultPaginationType,
         ) => {
-
           if (status === kakao.maps.services.Status.OK) {
             searchHistoryRef.current.push(searchWord);
             const prevSearchWord = searchHistoryRef.current[0];
@@ -91,13 +90,13 @@ const useSearchPlace = (): [
           }
         },
         {
-          category_group_code: 'FD6',
+          category_group_code: 'FD6, CE7',
           radius: 20000,
           location: new kakao.maps.LatLng(coords.latitude, coords.longitude),
         },
       );
     });
-  }, []);
+  };
 
   const actions = {
     search,

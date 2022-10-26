@@ -5,7 +5,7 @@ import { PopUp } from '@/styles/keyframes';
 
 export const Container = styled.div`
   width: 100%;
-  animation: ${PopUp} .5s ease-in-out;
+  animation: ${PopUp} 0.5s ease-in-out;
 `;
 
 export const MonthArea = styled.div`
@@ -92,13 +92,20 @@ export const Day = styled.div<DayProps>`
   `}
 `;
 
-export const Image = styled.img`
-  height: 100%;
+export const ImageWrapper = styled.div`
   position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
   top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
+export const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* height: 100%; */
 `;
 
 interface DateProps {
