@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode, Ref, useRef } from 'react';
+import React, { forwardRef, ReactNode, Ref } from 'react';
 import SlickSlider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -6,11 +6,12 @@ import styled from '@emotion/styled';
 
 const settings: Settings = {
   dots: true,
-  speed: 500,
+  speed: 200,
   slidesToShow: 1,
   slidesToScroll: 1,
   draggable: true,
   infinite: false,
+  arrows: false
 };
 
 interface SliderProps {
@@ -28,9 +29,8 @@ const Slider = ({ children }: SliderProps, ref: Ref<SlickSlider>) => {
 };
 
 const Container = styled.div`
-  width: 100%;
+  width: calc(100% - 4rem);
   .slick-list {
-    width: calc(100% - 3rem);
     margin: 0 auto;
   }
   .slick-prev {

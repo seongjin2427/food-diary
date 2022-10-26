@@ -1,8 +1,21 @@
-import { IconColorKeyType } from '@/styles/theme';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
+import { IconColorKeyType } from '@/styles/theme';
 
 export const Container = styled.div``;
+
+export const ResultsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const MoveButton = styled.button`
+  width: 2rem;
+  background: none;
+  border: none;
+`;
 
 export const PlaceListContainer = styled.div`
   width: 100%;
@@ -56,26 +69,9 @@ export const FolderIcon = styled.div<{ selectedColor: IconColorKeyType }>`
   `}
 `;
 export const PlaceAddress = styled.p``;
+
 export const PlacePhone = styled.p``;
 
 export const PlaceDistance = styled.p``;
-
-export const SliderPagination = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 0.5rem 0;
-  gap: 0.5rem;
-`;
-
-export const BlankCircle = styled.div`
-  width: 0.5rem;
-  height: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.color.primary};
-  border-radius: 50%;
-`;
-
-export const FillCircle = styled(BlankCircle)`
-  background: ${({ theme }) => theme.color.primary};
-`;
 
 export const NoPlaces = styled.div``;
