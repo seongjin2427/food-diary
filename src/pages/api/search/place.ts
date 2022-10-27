@@ -10,19 +10,27 @@ handler.use(authToken).get(async (req: NextApiExpanededRequest, res: NextApiResp
   const { user } = req;
   const { searchWord } = req.query;
 
+  console.log('searchWord', searchWord);
+
   const places = await user?.getPlace({
     where: {
-      [Op.or]: {
-        place_name: {
-          [Op.like]: `%${searchWord}%`,
+      [Op.or]: [
+        {
+          place_name: {
+            [Op.like]: `%${searchWord}%`,
+          },
         },
-        address_name: {
-          [Op.like]: `%${searchWord}%`,
+        {
+          address_name: {
+            [Op.like]: `%${searchWord}%`,
+          },
         },
-        road_address_name: {
-          [Op.like]: `%${searchWord}%`,
+        {
+          road_address_name: {
+            [Op.like]: `%${searchWord}%`,
+          },
         },
-      },
+      ],
     },
   });
 

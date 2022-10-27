@@ -26,7 +26,7 @@ export const PlaceListContainer = styled.div`
 `;
 
 export const PlaceContainer = styled.div`
-  height: 7rem;
+  height: 8rem;
   padding: 0.75rem;
   border: 1px solid ${({ theme }) => theme.color.black};
   border-radius: 0.5rem;

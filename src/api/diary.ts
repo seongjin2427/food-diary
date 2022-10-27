@@ -1,5 +1,3 @@
-import { AxiosError } from 'axios';
-
 import instance from '@/api/instance';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 import { IAdditionalInfoState } from '@/store/diary/additionalInfoSlice';
