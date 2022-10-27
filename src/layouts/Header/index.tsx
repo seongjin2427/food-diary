@@ -23,7 +23,8 @@ const Header = ({ children, title }: HeaderProps) => {
     cacheTime: 0,
     refetchOnWindowFocus: false,
     onSuccess(data) {
-      if (isLogin && data === 401) {
+      const token = localStorage.getItem('Authorization');
+      if (token && data === 401) {
         alert('로그인이 필요합니다');
         reLogin();
       } else if (data === 403) {

@@ -36,25 +36,19 @@ const SearchInput = ({ searchMap }: SerachInputProps) => {
     async ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       dispatch(searchBySearchWord(value));
     },
-    [searchWord],
+    [],
   );
 
   const onClickChangeSearchWord = useCallback(() => {
     if (searchWordInputRef.current) {
-      dispatch(searchBySearchWord(searchWordInputRef.current.value));
-      searchWordInputRef.current.value = '';
+      const word = searchWordInputRef.current.value;
+      dispatch(searchBySearchWord(word));
     }
-  }, [searchOption]);
+  }, []);
 
-  const onKeyupChangeSearchWord = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.code === 'Enter' && searchWordInputRef.current) {
-        dispatch(searchBySearchWord(searchWordInputRef.current.value));
-        searchWordInputRef.current.value = '';
-      }
-    },
-    [searchOption],
-  );
+  const onKeyupChangeSearchWord = useCallback((e: KeyboardEvent) => {
+    if (e.code === 'Enter') onClickChangeSearchWord();
+  }, []);
 
   return (
     <S.Container>
