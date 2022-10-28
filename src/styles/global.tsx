@@ -22,15 +22,13 @@ const GlobalStyle = () => {
 
         @font-face {
           font-family: 'Pretendard';
-          src: url('/fonts/Pretendard-Bold.otf') format('opentype'),
-            url('/font/Pretendard-Bold.ttf') format('ttf');
+          src: url('/fonts/Pretendard-Bold.subset.woff') format('woff');
           font-weight: 700;
           font-display: swap;
         }
         @font-face {
           font-family: 'Pretendard';
-          src: url('/fonts/Pretendard-Regular.otf') format('opentype'),
-            url('/font/Pretendard-Regular.ttf') format('ttf');
+          src: url('/fonts/Pretendard-Regular.subset.woff') format('woff');
           font-weight: 400;
           font-display: swap;
         }

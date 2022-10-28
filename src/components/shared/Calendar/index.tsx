@@ -76,7 +76,7 @@ function Calendar() {
               {image ? (
                 // <S.Image src={image} />
                 <S.ImageWrapper>
-                  <Image src={image} width='100%' height='100%' layout='fill' />
+                  <Image src={image} width='100%' height='100%' layout='fill' alt='thumbnail' />
                 </S.ImageWrapper>
               ) : (
                 <S.Date today={dayjs(today).format('YYYY-MM-DD') === date}>
