@@ -37,15 +37,20 @@ const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
     },
   });
 
-  const removeMutation = useMutation(removeDiaryBydid);
+  const { isLoading, mutate } = useMutation(removeDiaryBydid, {
+    onSuccess() {
+      router.replace('/');
+      alert('정상적으로 삭제되었습니다!');
+    },
+  });
 
   const removeDiary = useCallback(() => {
-    removeMutation.mutate(did);
-    router.replace('/');
-    alert('정상적으로 삭제되었습니다!');
+    if (confirm('이 다이어리를 정말 삭제하시겠습니까?')) {
+      mutate(did);
+    }
   }, []);
 
-  if (isFetching) {
+  if (isFetching || isLoading) {
     return <Spinner color='lightcoral' size='2rem' speed='1' />;
   }
 

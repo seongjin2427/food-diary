@@ -11,6 +11,7 @@ import { addPlaceInFolder, FolderSliceFolderType, replaceFolders } from '@/store
 import { IconColorKeyType } from '@/styles/theme';
 import * as S from './PlaceFolderSelect.styled';
 import { createPlace, updateFolder } from '@/api/place';
+import Spinner from '@/components/shared/Spinner';
 
 interface PlaceFolderType {
   index: number;
@@ -46,7 +47,7 @@ const PlaceFolderSelect = ({ place, right }: PlaceFolderSelectProps) => {
     },
   });
 
-  const createMutation = useMutation(createPlace);
+  const { isLoading, mutate } = useMutation(createPlace);
   const updateFolderMutation = useMutation(updateFolder);
 
   const [selectedFolder, setSelectedFolder] = useState<PlaceFolderType[] | undefined>(undefined);
@@ -79,24 +80,30 @@ const PlaceFolderSelect = ({ place, right }: PlaceFolderSelectProps) => {
   const onClickBackdrop = () => {
     setInputMode(false);
     setSelectOpen(false);
-    createMutation.mutate(place);
-    updateFolderMutation.mutate({folders, id: place.id});
+    mutate(place);
+    updateFolderMutation.mutate({ folders, id: place.id });
   };
 
   return (
     <S.Container>
       <S.Backdrop onClick={onClickBackdrop} isOpen={selectOpen} />
       <S.SelectContainer>
-        <SVGIcon icon='CirclePlusIcon' width='2rem' height='2rem' onClick={onClickOpenSelect} />
-        <S.SelectTitle>
-          {selectedFolder &&
-            selectedFolder.length > 0 &&
-            selectedFolder.map(({ index, icon, color }) => (
-              <S.SelectListIcon key={index} selectColor={color}>
-                <SVGIcon icon={icon} width='2rem' height='2rem' />
-              </S.SelectListIcon>
-            ))}
-        </S.SelectTitle>
+        {isLoading ? (
+          <Spinner color='lightcoral' size='2rem' speed='1' />
+        ) : (
+          <>
+            <SVGIcon icon='CirclePlusIcon' width='2rem' height='2rem' onClick={onClickOpenSelect} />
+            <S.SelectTitle>
+              {selectedFolder &&
+                selectedFolder.length > 0 &&
+                selectedFolder.map(({ index, icon, color }) => (
+                  <S.SelectListIcon key={index} selectColor={color}>
+                    <SVGIcon icon={icon} width='2rem' height='2rem' />
+                  </S.SelectListIcon>
+                ))}
+            </S.SelectTitle>
+          </>
+        )}
         <S.SelectListUl isOpen={selectOpen} right={right}>
           {folders.map(({ color, icon, title }, index) => (
             <S.SelectListLi
