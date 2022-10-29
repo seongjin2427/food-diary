@@ -1,12 +1,14 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useMutation } from '@tanstack/react-query';
 import { useState, useCallback, useEffect } from 'react';
 
 import { uploadDiary } from '@/api/diary';
 import { useAppSelector } from '@/store/index';
-import CommonHeader from '@/layouts/CommonHeader';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
+import CommonHeader from '@/layouts/CommonHeader';
+import Spinner from '@/components/shared/Spinner';
 import FolderDiary from '@/components/shared/FolderDiary';
 
 const FolderPage: NextPage = () => {
@@ -15,9 +17,15 @@ const FolderPage: NextPage = () => {
   const { folders } = folder;
   const [moveAbled, setMoveAbled] = useState<boolean>(false);
 
+  const { isLoading, mutate } = useMutation(uploadDiary, {
+    onSuccess() {
+      router.push('/');
+      alert('정상적으로 완료되었습니다');
+    },
+  });
+
   const completeDiary = useCallback(async () => {
-    await uploadDiary({ diary, folders, additionalInfo });
-    alert('정상적으로 완료되었습니다');
+    mutate({ diary, folders, additionalInfo });
   }, [diary, folder, additionalInfo]);
 
   useEffect(() => {
@@ -33,6 +41,10 @@ const FolderPage: NextPage = () => {
     const next = places.every((p) => !!folders.find((f) => f.places.find((pl) => pl.id === p.id)));
     setMoveAbled(next);
   });
+
+  if (isLoading) {
+    return <Spinner color='lightcoral' size='2rem' speed='1' />;
+  }
 
   return (
     <>
