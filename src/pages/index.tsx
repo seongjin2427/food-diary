@@ -31,7 +31,10 @@ const Home: NextPage = () => {
     <>
       {isLogin && (
         <>
-          <Header title={`음식일기 : 캘린더 ${dayjs(currentMonth).format('MM')}월`}>
+          <Header
+            title={`음식일기 : 캘린더 ${dayjs(currentMonth).format('MM')}월`}
+            meta='로그인 후 서비스 이용이 가능합니다.'
+          >
             <HomeHeader type='home' />
           </Header>
           <MainLayout>
@@ -41,7 +44,10 @@ const Home: NextPage = () => {
       )}
       {!isLogin && (
         <>
-          <Header title={'음식일기 : 어디서 먹었지?'} />
+          <Header
+            title={'음식일기 : 어디서 먹었지?'}
+            meta='월별로 일기를 작성하거나 이미 작성한 일기를 볼 수 있습니다.'
+          />
           <MainLayout>
             <Login />
           </MainLayout>

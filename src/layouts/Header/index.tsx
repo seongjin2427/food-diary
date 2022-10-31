@@ -12,9 +12,10 @@ import * as S from './Header.styled';
 interface HeaderProps {
   children?: ReactNode;
   title: string;
+  meta: string;
 }
 
-const Header = ({ children, title }: HeaderProps) => {
+const Header = ({ children, title, meta }: HeaderProps) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { isLogin } = useAppSelector(({ global }) => global);
@@ -48,6 +49,7 @@ const Header = ({ children, title }: HeaderProps) => {
     <>
       <Head>
         <title>{title}</title>
+        <meta name='description' content={meta} />
       </Head>
       <S.Container>{children}</S.Container>
     </>

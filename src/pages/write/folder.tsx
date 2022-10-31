@@ -48,7 +48,10 @@ const FolderPage: NextPage = () => {
 
   return (
     <>
-      <Header title='음식일기 폴더 찾기'>
+      <Header
+        title='음식일기: 장소 폴더 지정하기'
+        meta='장소를 저장할 폴더를 지정하고 메뉴와 가격에 대한 추가 정보를 입력할 수 있습니다'
+      >
         <CommonHeader
           type='both'
           nextUrl='/'

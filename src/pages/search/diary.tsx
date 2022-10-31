@@ -8,7 +8,10 @@ import React from 'react';
 const SearchDiaryPage: NextPage = () => {
   return (
     <>
-      <Header title='음식일기 : 일기 검색'>
+      <Header
+        title='음식일기 : 일기 검색'
+        meta='작성했던 일기를 지정한 날짜 내에서 타이틀, 작성 내용에 대해 검색하여 보여줍니다.'
+      >
         <CommonHeader type='prev' />
       </Header>
       <MainLayout>

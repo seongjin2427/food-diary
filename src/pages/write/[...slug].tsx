@@ -27,7 +27,10 @@ const WriteDiary: NextPage<WriteDiaryProps> = ({ slug }) => {
 
   return (
     <>
-      <Header title='음식일기 장소 찾기'>
+      <Header
+        title='음식일기 장소 찾기'
+        meta='일기를 작성하기 위해 저장하기 위한 특정 장소를 검색합니다.'
+      >
         <CommonHeader
           type='next'
           nextUrl='/write/diary'
