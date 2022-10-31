@@ -57,7 +57,7 @@ const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
   if (!data) {
     return (
       <>
-        <Header title='음식일기 : 일기 없음'>
+        <Header title='음식일기 : 일기 없음' meta='해당 일기가 존재하지 않습니다.'>
           <CommonHeader type='prev' />
         </Header>
         <MainLayout>
@@ -69,7 +69,7 @@ const ReadDiaryPage: NextPage<ReadDiaryPageProps> = ({ did }) => {
 
   return (
     <>
-      <Header title='음식일기 : 일기 읽기'>
+      <Header title='음식일기 : 일기 읽기' meta={`음식일기 - ${data.title}`}>
         <CommonHeader
           type='read-diary'
           nextUrl={`/write/diary`}
