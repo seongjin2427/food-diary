@@ -7,16 +7,25 @@
 
 기획자 또는 디자이너와 함께 프로젝트를 만들어가는 서비스 SWYG 3기로써 참여하여 기획자분과 협업하여 만든 서비스 입니다. <br />
 SWYG 홈페이지에 정식으로 배포되어 누구든지 이용할 수 있습니다.
-([링크](https://www.swygbro.com/contents))
+([링크](https://www.swygbro.com/contents/cee05571-d916-42de-811a-2e2e9e09965f))
 
 가고 싶은 곳을 지도에 저장할 수 있습니다. 또한 일기를 쓰듯이 방문한 장소와 음식에 대한 기록을 남길 수 있습니다.  <br />
 기록을 공개해 정보를 공유하는 사이트로도 활용할 수 있습니다.
 
-# 🛣️ How to Execute
+# 🛣️ How to Execute 
+
+- DB 정보를 포함한 .env 파일이 없어 정상 작동이 어렵습니다.
+- 정상 작동되는 서비스는 링크를 통해 확인 해주세요. ([링크](https://foodiary.swygbro.com))
 
 ```
 // 프로젝트 복제
 git clone https://github.com/seongjin2427/food-diary.git
+
+// 프로젝트 폴더로 이동
+cd food-diary
+
+// 패키지 설치
+npm install
 
 // 서버 실행
 npm run dev
