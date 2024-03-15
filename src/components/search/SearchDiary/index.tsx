@@ -1,8 +1,8 @@
 import React from 'react';
 
 import useSearchDiary from '@/hooks/useSearchDiary';
-import SearchInput from '@/components/maps/SearchInput';
-import SelectPeriod from '@/components/shared/SelectPeriod';
+import SearchInput from '@/components/shared/SearchInput';
+import SelectPeriod from '@/components/search/SelectPeriod';
 import SearchResultDiary from '@/components/shared/SearchResultDiary';
 import * as S from './SearchDiary.styled';
 
