@@ -7,7 +7,7 @@ import {
   setMemo,
 } from '@/store/diary/additionalInfoSlice';
 import { useAppDispatch, useAppSelector } from '@/store/index';
-import AdditionalInfoInput from '@/components/shared/AdditionalInfoInput';
+import AdditionalInfoInput from '@/components/shared/diary/AdditionalInfoInput';
 import * as S from './AdditionalInfo.styled';
 
 interface AdditionalInfoProps {

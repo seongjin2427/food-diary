@@ -11,7 +11,7 @@ import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
 import CommonHeader from '@/layouts/CommonHeader';
 import Spinner from '@/components/shared/Spinner';
-import ReadDiary from '@/components/shared/ReadDiary';
+import ReadDiary from '@/components/shared/diary/ReadDiary';
 import { offDiaryModifyMode } from '@/store/global';
 
 interface ReadDiaryPageProps {
