@@ -6,7 +6,7 @@ import { useAppSelector } from '@/store/index';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
 import CommonHeader from '@/layouts/CommonHeader';
-import WriteDiary from '@/components/shared/WriteDiary';
+import WriteDiary from '@/components/write/WriteDiary';
 
 const DiaryPage: NextPage = () => {
   const router = useRouter();

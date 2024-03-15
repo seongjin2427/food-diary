@@ -2,8 +2,8 @@ import React from 'react';
 
 import { useAppSelector } from '@/store/index';
 import SVGIcon from '@/components/shared/SVGIcon';
-import FolderSelect from '@/components/shared/FolderSelect';
-import AdditinalInfo from '@/components/diary/AdditionalInfo';
+import FolderSelect from '@/components/write/FolderSelect';
+import AdditinalInfo from '@/components/shared/AdditionalInfo';
 import * as S from './FolderDiary.styled';
 
 const FolderDiary = () => {
