@@ -7,7 +7,7 @@ import { useAppDispatch } from '@/store/index';
 import { SearchResultType } from '@/hooks/useSearchPlace';
 import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
 import SVGIcon from '@/components/shared/SVGIcon';
-import Slider from '@/components/shared/Slider';
+import Slider from '@/components/shared/maps/Slider';
 import * as S from './SearchResultMap.styled';
 
 interface SearchResultMapProps {
