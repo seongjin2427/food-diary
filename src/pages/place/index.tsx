@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
-import PlaceDetail from '@/components/shared/PlaceDetail';
+import PlaceDetail from '@/components/shared/place/PlaceDetail';
 import CommonHeader from '@/layouts/CommonHeader';
 import { useAppSelector } from '@/store/index';
 
