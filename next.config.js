@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['food-diary-s3-bucket.s3.ap-northeast-2.amazonaws.com'],
+    domains: [`${process.env.S3_B_NAME}.s3.${process.env.S3_R}.amazonaws.com`],
   },
   reactStrictMode: true,
   swcMinify: true,
