@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
 import CommonHeader from '@/layouts/CommonHeader';
-import DiarySetting from '@/components/shared/DiarySetting';
+import DiarySetting from '@/components/setting/DiarySetting';
 
 const SettingPage: NextPage = () => {
   return (
