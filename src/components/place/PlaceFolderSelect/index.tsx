@@ -4,7 +4,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getFolderApi } from '@/api/diary';
 import useMakeFolder from '@/hooks/useMakeFolder';
 import { SearchResultType } from '@/hooks/useSearchPlace';
-import MakeFolder from '@/components/shared/maps/MakeFolder';
+import MakeFolder from '@/components/maps/MakeFolder';
 import SVGIcon, { IconKeySet } from '@/components/shared/SVGIcon';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { addPlaceInFolder, FolderSliceFolderType, replaceFolders } from '@/store/diary/folderSlice';

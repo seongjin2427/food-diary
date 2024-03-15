@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { setDiaryByName } from '@/store/diary/diarySlice';
-import Editor from '@/components/shared/diary/Editor';
+import Editor from '@/components/diary/Editor';
 import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './WriteDiary.styled';
 import { onDiaryModifyMode } from '@/store/global';

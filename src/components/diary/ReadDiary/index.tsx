@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '@/store/index';
 import { setPlace } from '@/store/place/placeSlice';
 import { SearchResultType } from '@/hooks/useSearchPlace';
-import Editor from '@/components/shared/diary/Editor';
+import Editor from '@/components/diary/Editor';
 import SVGIcon from '@/components/shared/SVGIcon';
-import AdditinalInfo from '@/components/shared/diary/AdditionalInfo';
+import AdditinalInfo from '@/components/diary/AdditionalInfo';
 import * as S from './ReadDiary.styled';
 
 const ReadDiary = () => {

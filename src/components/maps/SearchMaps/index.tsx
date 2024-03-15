@@ -5,9 +5,9 @@ import { toggleShowList } from '@/store/search/searchSlice';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import Map from '@/components/shared/Map';
 import SVGIcon from '@/components/shared/SVGIcon';
-import SearchInput from '@/components/shared/maps/SearchInput';
-import SearchResultMap from '@/components/shared/maps/SearchResultMap';
-import SearchFolderList from '@/components/shared/maps/SearchFolderList';
+import SearchInput from '@/components/maps/SearchInput';
+import SearchResultMap from '@/components/maps/SearchResultMap';
+import SearchFolderList from '@/components/maps/SearchFolderList';
 import * as S from './SearchMaps.styled';
 
 const SearchMaps = () => {

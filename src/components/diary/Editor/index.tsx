@@ -19,11 +19,11 @@ import {
   removeTempImage,
   setDiaryByName,
 } from '@/store/diary/diarySlice';
-import DashBoard from '@/components/shared/diary/Editor/DashBoard';
-import EditorBody from '@/components/shared/diary/Editor/EditorBody';
-import CustomImage from '@/components/shared/diary/Editor/CustomImage';
+import DashBoard from '@/components/diary/Editor/DashBoard';
+import EditorBody from '@/components/diary/Editor/EditorBody';
+import CustomImage from '@/components/diary/Editor/CustomImage';
 import Portal from '@/components/shared/Portal';
-import EditorFooter from '@/components/shared/diary/Editor/EditorFooter';
+import EditorFooter from '@/components/diary/Editor/EditorFooter';
 import * as S from './Editor.styled';
 
 interface EditorProps {
