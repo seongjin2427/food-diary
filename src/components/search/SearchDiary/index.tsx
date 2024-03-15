@@ -3,7 +3,8 @@ import React from 'react';
 import useSearchDiary from '@/hooks/useSearchDiary';
 import SearchInput from '@/components/shared/SearchInput';
 import SelectPeriod from '@/components/search/SelectPeriod';
-import SearchResultDiary from '@/components/shared/SearchResultDiary';
+import SearchResultDiary from '@/components/search/SearchResultDiary';
+
 import * as S from './SearchDiary.styled';
 
 const SearchDiary = () => {
