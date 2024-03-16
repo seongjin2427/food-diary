@@ -4,6 +4,7 @@ import useSearchMaps from '@/hooks/useSearchMaps';
 import { toggleShowList } from '@/store/search/searchSlice';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import Map from '@/components/shared/Map';
+import Spinner from '@/components/shared/Spinner';
 import SVGIcon from '@/components/shared/SVGIcon';
 import SearchInput from '@/components/shared/SearchInput';
 import SearchResultMap from '@/components/maps/SearchResultMap';
@@ -32,13 +33,19 @@ const SearchMaps = () => {
         </S.SearchResultDisplayFilter>
       </S.SearchInputArea>
       <S.SearchResultArea>
-        {!showList && <Map searchMapsStates={states} searchMapsActions={actions} />}
-        <SearchFolderList searchMapsStates={states} searchMapsActions={actions} />
-        <SearchResultMap
-          searchMapsStates={states}
-          searchMapsActions={actions}
-          showList={showList}
-        />
+        {states.isFetching ? (
+          <Spinner color='lightcoral' size='2rem' speed='1' />
+        ) : (
+          <>
+            {!showList && <Map searchMapsStates={states} searchMapsActions={actions} />}
+            <SearchFolderList searchMapsStates={states} searchMapsActions={actions} />
+            <SearchResultMap
+              searchMapsStates={states}
+              searchMapsActions={actions}
+              showList={showList}
+            />
+          </>
+        )}
       </S.SearchResultArea>
     </S.Container>
   );

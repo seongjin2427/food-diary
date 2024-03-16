@@ -38,10 +38,17 @@ interface SearchPlaceActions {
   search: (s: string) => void;
 }
 
-const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] => {
+const useSearchPlace = (): [boolean, SearchResultType[] | undefined, SearchPlaceActions] => {
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [searchedPlaces, setSearchedPlaces] = useState<SearchResultType[]>([]);
 
   const search = async (searchWord: string) => {
+    const moreButton = document.getElementById('place_more_button') as HTMLButtonElement;
+    if (moreButton) {
+      moreButton.style.display = 'none';
+    }
+    setIsFetching(true);
+
     navigator.geolocation.getCurrentPosition(({ coords }: GeolocationType) => {
       const kakao = window.kakao;
       const places = new kakao.maps.services.Places();
@@ -61,15 +68,15 @@ const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] 
           } else if (status === 'ZERO_RESULT') {
             setSearchedPlaces([]);
           }
+          setIsFetching(false);
 
           // 다음 버튼 눌렀을 때, 다음 목록 불러오기
-          const nextBtn = document.getElementById('place_next_button') as HTMLButtonElement;
-          if (!nextBtn) return;
+          if (!moreButton) return;
           if (!pagination.hasNextPage) {
-            nextBtn.style.display = 'none';
+            moreButton.style.display = 'none';
           } else {
-            nextBtn.style.display = 'block';
-            nextBtn.onclick = () => {
+            moreButton.style.display = 'block';
+            moreButton.onclick = () => {
               if (pagination.hasNextPage) {
                 pagination.nextPage();
               }
@@ -89,7 +96,7 @@ const useSearchPlace = (): [SearchResultType[] | undefined, SearchPlaceActions] 
     search,
   };
 
-  return [searchedPlaces, actions];
+  return [isFetching, searchedPlaces, actions];
 };
 
 export default useSearchPlace;

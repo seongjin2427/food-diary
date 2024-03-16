@@ -23,6 +23,7 @@ export const SpinnerBody = styled.div<SpinnerProps>`
   ${({ size, color, speed }) => css`
     width: ${size};
     height: ${size};
+    border-radius: 50%;
     background: ${color};
     animation: ${Spinner} ${speed}s infinite linear;
   `}
