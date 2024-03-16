@@ -17,7 +17,9 @@ function Calendar() {
   const { today, currentMonth } = useAppSelector(({ global }) => global);
   const [currentCalendar, startDay] = useCalendar();
 
-  const { isFetching, refetch } = useQuery(['useCalendar', currentMonth]);
+  const { isFetching, refetch } = useQuery(['useCalendar', currentMonth], {
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     refetch();
@@ -36,7 +38,8 @@ function Calendar() {
   );
 
   const moveMonth = (n: number) => {
-    dispatch(changeCurrentMonth(dayjs(currentMonth).add(n, 'month').toString()));
+    const nextMonth = dayjs(currentMonth).add(n, 'month').toString();
+    dispatch(changeCurrentMonth(nextMonth));
   };
 
   if (isFetching) {
@@ -66,7 +69,7 @@ function Calendar() {
       </S.Weekend>
 
       <S.DayArea>
-        {currentCalendar.map(({ did, date, image }) => {
+        {currentCalendar.map(({ date, image, did }) => {
           return (
             <S.Day
               key={date.toString()}
@@ -76,13 +79,7 @@ function Calendar() {
               {image ? (
                 // <S.Image src={image} />
                 <S.ImageWrapper>
-                  <Image
-                    src={image}
-                    width='100'
-                    height='100'
-                    layout='fixed'
-                    alt='thumbnail'
-                  />
+                  <Image src={image} width='120%' height='100%' layout='fixed' alt='thumbnail' />
                 </S.ImageWrapper>
               ) : (
                 <S.Date today={dayjs(today).format('YYYY-MM-DD') === date}>

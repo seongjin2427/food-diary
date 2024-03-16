@@ -98,6 +98,10 @@ export const ImageWrapper = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+
+  img {
+    transform: scale(1.1);
+  }
 `;
 
 export const Image = styled.img`
