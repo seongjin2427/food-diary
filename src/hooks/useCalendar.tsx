@@ -5,18 +5,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { getDiaryByMonth } from '@/api/diary';
 import { useAppSelector } from '@/store/index';
 
-interface CalendarDate {
+interface CalendarType {
   did: number | null | undefined;
   date: string;
   image: string | undefined;
 }
 
-const useCalendar = (): [CalendarDate[], number] => {
+const useCalendar = (): [CalendarType[], number] => {
   const { currentMonth } = useAppSelector(({ global }) => global);
 
   const [day, setDay] = useState<number>(1);
-  const [calendar, setCalendar] = useState<CalendarDate[]>([]);
-  const [fetchedDiary, setFetchedDiary] = useState<CalendarDate[]>([]);
+  const [calendar, setCalendar] = useState<CalendarType[]>([]);
+  const [fetchedDiary, setFetchedDiary] = useState<CalendarType[]>([]);
 
   useQuery(
     ['useCalendar', currentMonth],
@@ -31,17 +31,15 @@ const useCalendar = (): [CalendarDate[], number] => {
 
   useEffect(() => {
     const madeCalendar = makeCalendar();
-    const startDay = dayjs(currentMonth).set('date', 1).toDate().getDay();
-
     setCalendar(madeCalendar);
-    setDay(startDay);
   }, [fetchedDiary]);
 
   const makeCalendar = useCallback(() => {
     const firstDay = dayjs(currentMonth).startOf('month').toDate();
     const lastDay = dayjs(currentMonth).endOf('month').toDate().getDate();
+    setDay(firstDay.getDay());
 
-    const returnCalendar: CalendarDate[] = [];
+    const returnCalendar: CalendarType[] = [];
     for (let i = 0; i < lastDay; i++) {
       returnCalendar.push({
         did: null,
