@@ -1,6 +1,6 @@
 import { keyframes } from '@emotion/react';
 
-export const PopUp = keyframes`
+export const FadeIn = keyframes`
   0% {
     opacity: 0;
   }

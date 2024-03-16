@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { PopUp } from '../../../styles/keyframes';
+import { FadeIn } from '../../../styles/keyframes';
 
 export const BlackBackground = styled.div<{ modal: boolean }>`
   display: none;
@@ -27,7 +27,7 @@ export const Container = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 2rem;
-  animation: ${PopUp} 0.5s ease-in-out;
+  animation: ${FadeIn} 0.5s ease-in-out;
 `;
 
 export const Title = styled.h1`

@@ -1,4 +1,4 @@
-import { PopUp } from '@/styles/keyframes';
+import { FadeIn } from '@/styles/keyframes';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
@@ -31,7 +31,7 @@ export const PlaceTag = styled.div`
   padding: 0.5rem 1rem;
   background: ${({ theme }) => theme.color.third};
   border-radius: 9999px;
-  animation: ${PopUp} 0.5s ease-in-out;
+  animation: ${FadeIn} 0.5s ease-in-out;
 
   color: ${({ theme }) => theme.color.black};
 
@@ -72,7 +72,7 @@ export const WriteDiarySearchPlaceInput = styled.input`
 
 export const PlaceContainer = styled.div`
   * {
-    animation: ${PopUp} 0.5s ease-in-out;
+    animation: ${FadeIn} 0.5s ease-in-out;
   }
 `;
 

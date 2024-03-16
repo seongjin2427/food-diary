@@ -14,8 +14,8 @@ interface CalendarType {
 const useCalendar = (): [CalendarType[], number] => {
   const { currentMonth } = useAppSelector(({ global }) => global);
 
-  const [day, setDay] = useState<number>(1);
   const [calendar, setCalendar] = useState<CalendarType[]>([]);
+  const [gridStartDay, setGridStartDay] = useState<number>(1);
   const [fetchedDiary, setFetchedDiary] = useState<CalendarType[]>([]);
 
   useQuery(
@@ -35,18 +35,17 @@ const useCalendar = (): [CalendarType[], number] => {
   }, [fetchedDiary]);
 
   const makeCalendar = useCallback(() => {
-    const firstDay = dayjs(currentMonth).startOf('month').toDate();
+    const startDate = dayjs(currentMonth).startOf('month').toDate();
+    const startDay = startDate.getDay();
     const lastDay = dayjs(currentMonth).endOf('month').toDate().getDate();
-    setDay(firstDay.getDay());
+
+    setGridStartDay(startDay);
 
     const returnCalendar: CalendarType[] = [];
-    for (let i = 0; i < lastDay; i++) {
+    for (let i = 1; i <= lastDay; i++) {
       returnCalendar.push({
         did: null,
-        date: dayjs(firstDay)
-          .set('date', i + 1)
-          .format('YYYY-MM-DD')
-          .toString(),
+        date: dayjs(startDate).set('date', i).format('YYYY-MM-DD'),
         image: '',
       });
     }
@@ -63,7 +62,7 @@ const useCalendar = (): [CalendarType[], number] => {
     return returnCalendar;
   }, [calendar, currentMonth, fetchedDiary]);
 
-  return [calendar, day];
+  return [calendar, gridStartDay];
 };
 
 export default useCalendar;

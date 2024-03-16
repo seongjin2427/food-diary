@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-import { PopUp } from '@/styles/keyframes';
+import { FadeIn } from '@/styles/keyframes';
 
 export const Container = styled.div`
   width: 100%;
-  animation: ${PopUp} 0.5s ease-in-out;
+  animation: ${FadeIn} 0.5s ease-in-out;
 `;
 
 export const MonthArea = styled.div`
@@ -102,14 +102,6 @@ export const ImageWrapper = styled.div`
   img {
     transform: scale(1.1);
   }
-`;
-
-export const Image = styled.img`
-  /* position: absolute; */
-  /* top: 0;
-  left: 0; */
-  /* width: 100%; */
-  /* height: 100%; */
 `;
 
 interface DateProps {
