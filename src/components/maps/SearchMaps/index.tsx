@@ -25,15 +25,16 @@ const SearchMaps = () => {
       <S.SearchInputArea>
         <SearchInput searchMap />
         <S.SearchResultDisplayFilter>
-          {showList ? (
-            <SVGIcon onClick={convertShowList} icon='MapIcon' width='2rem' height='2rem' />
-          ) : (
-            <SVGIcon onClick={convertShowList} icon='FileListIcon' width='2rem' height='2rem' />
-          )}
+          <SVGIcon
+            onClick={convertShowList}
+            icon={showList ? 'MapIcon' : 'FileListIcon'}
+            width='2rem'
+            height='2rem'
+          />
         </S.SearchResultDisplayFilter>
       </S.SearchInputArea>
       <S.SearchResultArea>
-        {states.isFetching ? (
+        {states.isFetching || states.isFetchingSearchPlaceInFolder ? (
           <Spinner color='lightcoral' size='2rem' speed='1' />
         ) : (
           <>
