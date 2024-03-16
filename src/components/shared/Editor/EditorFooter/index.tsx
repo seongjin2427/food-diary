@@ -12,7 +12,7 @@ interface EditorFooterProps {
   editor: Editor;
 }
 
-const PERMITTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const PERMITTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/avif', 'image/webp'];
 const LIMIT_SIZE = 5 * 1024 * 1024;
 
 const EditorFooter = ({ editor }: EditorFooterProps) => {
@@ -30,7 +30,9 @@ const EditorFooter = ({ editor }: EditorFooterProps) => {
 
         try {
           if (!PERMITTED_IMAGE_TYPES.includes(targetImage.type)) {
-            throw new Error('형식에 맞지 않는 이미지입니다. 다시 시도해주세요.');
+            throw new Error(
+              '형식에 맞지 않는 이미지입니다. 다시 시도해주세요.\n(jpg, jpeg, png, gif, avif, webp만 가능)',
+            );
           }
 
           if (LIMIT_SIZE < targetImage.size) {
