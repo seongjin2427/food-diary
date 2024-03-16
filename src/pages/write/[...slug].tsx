@@ -3,7 +3,7 @@ import { GetServerSideProps, NextPage } from 'next';
 
 import MainLayout from '@/layouts/MainLayout';
 import Header from '@/layouts/Header';
-import WriteDiaryBody from '@/components/shared/SearchPlaces';
+import SearchPlaces from '@/components/write/SearchPlaces';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import CommonHeader from '@/layouts/CommonHeader';
 import { onDiaryModifyMode } from '@/store/global';
@@ -39,7 +39,7 @@ const WriteDiary: NextPage<WriteDiaryProps> = ({ slug }) => {
         />
       </Header>
       <MainLayout>
-        <WriteDiaryBody slug={slug} />
+        <SearchPlaces slug={slug} />
       </MainLayout>
     </>
   );

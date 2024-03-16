@@ -5,18 +5,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { getDiaryByMonth } from '@/api/diary';
 import { useAppSelector } from '@/store/index';
 
-interface CalendarDate {
+interface CalendarType {
   did: number | null | undefined;
   date: string;
   image: string | undefined;
 }
 
-const useCalendar = (): [CalendarDate[], number] => {
+const useCalendar = (): [CalendarType[], number] => {
   const { currentMonth } = useAppSelector(({ global }) => global);
 
-  const [day, setDay] = useState<number>(1);
-  const [calendar, setCalendar] = useState<CalendarDate[]>([]);
-  const [fetchedDiary, setFetchedDiary] = useState<CalendarDate[]>([]);
+  const [calendar, setCalendar] = useState<CalendarType[]>([]);
+  const [gridStartDay, setGridStartDay] = useState<number>(1);
+  const [fetchedDiary, setFetchedDiary] = useState<CalendarType[]>([]);
 
   useQuery(
     ['useCalendar', currentMonth],
@@ -31,24 +31,21 @@ const useCalendar = (): [CalendarDate[], number] => {
 
   useEffect(() => {
     const madeCalendar = makeCalendar();
-    const startDay = dayjs(currentMonth).set('date', 1).toDate().getDay();
-
     setCalendar(madeCalendar);
-    setDay(startDay);
   }, [fetchedDiary]);
 
   const makeCalendar = useCallback(() => {
-    const firstDay = dayjs(currentMonth).startOf('month').toDate();
+    const startDate = dayjs(currentMonth).startOf('month').toDate();
+    const startDay = startDate.getDay();
     const lastDay = dayjs(currentMonth).endOf('month').toDate().getDate();
 
-    const returnCalendar: CalendarDate[] = [];
-    for (let i = 0; i < lastDay; i++) {
+    setGridStartDay(startDay);
+
+    const returnCalendar: CalendarType[] = [];
+    for (let i = 1; i <= lastDay; i++) {
       returnCalendar.push({
         did: null,
-        date: dayjs(firstDay)
-          .set('date', i + 1)
-          .format('YYYY-MM-DD')
-          .toString(),
+        date: dayjs(startDate).set('date', i).format('YYYY-MM-DD'),
         image: '',
       });
     }
@@ -65,7 +62,7 @@ const useCalendar = (): [CalendarDate[], number] => {
     return returnCalendar;
   }, [calendar, currentMonth, fetchedDiary]);
 
-  return [calendar, day];
+  return [calendar, gridStartDay];
 };
 
 export default useCalendar;

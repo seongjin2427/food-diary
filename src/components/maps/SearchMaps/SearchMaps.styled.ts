@@ -1,8 +1,8 @@
-import { PopUp } from '@/styles/keyframes';
+import { FadeIn } from '@/styles/keyframes';
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-  animation: ${PopUp} 0.5s ease-in-out;
+  animation: ${FadeIn} 0.5s ease-in-out;
 `;
 
 export const SearchInputArea = styled.div`

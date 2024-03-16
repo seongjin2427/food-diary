@@ -9,7 +9,7 @@ import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';
 import CommonHeader from '@/layouts/CommonHeader';
 import Spinner from '@/components/shared/Spinner';
-import FolderDiary from '@/components/shared/FolderDiary';
+import FolderDiary from '@/components/write/FolderDiary';
 
 const FolderPage: NextPage = () => {
   const router = useRouter();

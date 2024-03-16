@@ -1,4 +1,4 @@
-import SearchDiary from '@/components/shared/SearchDiary';
+import SearchDiary from '@/components/search/SearchDiary';
 import CommonHeader from '@/layouts/CommonHeader';
 import Header from '@/layouts/Header';
 import MainLayout from '@/layouts/MainLayout';

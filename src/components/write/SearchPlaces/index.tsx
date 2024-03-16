@@ -1,10 +1,11 @@
-import React, { FormEvent, useCallback, useRef } from 'react';
+import React, { FormEvent, useRef } from 'react';
 
+import Spinner from '@/components/shared/Spinner';
+import SVGIcon from '@/components/shared/SVGIcon';
+import { removePlaceInFolder } from '@/store/diary/folderSlice';
 import { useAppDispatch, useAppSelector } from '@/store/index';
 import { addPlace, removePlace, setDiaryByName } from '@/store/diary/diarySlice';
-import { removePlaceInFolder } from '@/store/diary/folderSlice';
 import useSearchPlace, { SearchResultType } from '@/hooks/useSearchPlace';
-import SVGIcon from '@/components/shared/SVGIcon';
 import * as S from './SearchPlaces.styled';
 
 interface SearchPlacesProps {
@@ -16,10 +17,10 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
   const dispatch = useAppDispatch();
   const pickedPlaces = useAppSelector(({ diary }) => diary.places);
 
-  const [searchedPlaces, { search }] = useSearchPlace();
+  const [isFetching, searchedPlaces, { search }] = useSearchPlace();
   const searchWordRef = useRef<HTMLInputElement>(null);
 
-  const searchPlaces = useCallback((e: FormEvent) => {
+  const submitHandleForSearchPlaces = (e: FormEvent) => {
     e.preventDefault();
     if (searchWordRef.current && searchWordRef.current.value !== '') {
       const searchWord = searchWordRef.current.value;
@@ -27,19 +28,19 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
       search(searchWord);
       searchWordRef.current.value = '';
     }
-  }, []);
+  };
 
-  const pickPlace = useCallback((place: SearchResultType) => {
+  const handleClickPickPlace = (place: SearchResultType) => {
     const value = `${year}-${month}-${day}`;
     dispatch(addPlace(place));
     dispatch(setDiaryByName({ name: 'date', value }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  };
 
-  const deletePlace = useCallback((place: SearchResultType) => {
+  const handleClickRemovePlace = (place: SearchResultType) => {
     dispatch(removePlace(place));
     dispatch(removePlaceInFolder(place.id));
-  }, []);
+  };
 
   return (
     <S.Container>
@@ -55,32 +56,37 @@ const SearchPlaces = ({ slug }: SearchPlacesProps) => {
         {pickedPlaces.length > 0 &&
           pickedPlaces.map((place) => (
             <S.PlaceTag key={place.address_name}>
-              <SVGIcon icon='XMark' width='1rem' onClick={() => deletePlace(place)} />
+              <SVGIcon icon='XMark' width='1rem' onClick={() => handleClickRemovePlace(place)} />
               <S.Tag>{place.place_name}</S.Tag>
             </S.PlaceTag>
           ))}
       </S.PlaceTags>
 
-      <S.WriteDiarySearchPlaceForm onSubmit={searchPlaces}>
+      <S.WriteDiarySearchPlaceForm onSubmit={submitHandleForSearchPlaces}>
         <S.WriteDiarySearchPlaceInput ref={searchWordRef} />
-        <SVGIcon icon='SearchIcon' width='2rem' onClick={searchPlaces} />
+        <SVGIcon icon='SearchIcon' width='2rem' onClick={submitHandleForSearchPlaces} />
       </S.WriteDiarySearchPlaceForm>
 
-      <S.PlaceContainer>
-        {searchedPlaces &&
-          searchedPlaces.map((val) => (
-            <S.PlaceBox key={val.id} onClick={() => pickPlace(val)}>
+      {isFetching ? (
+        <S.PlaceContainer>
+          <Spinner color='lightcoral' size='2rem' speed='1' />
+        </S.PlaceContainer>
+      ) : (
+        <S.PlaceContainer>
+          {searchedPlaces?.map((val) => (
+            <S.PlaceBox key={val.id} onClick={() => handleClickPickPlace(val)}>
               <S.PlaceName>{val.place_name}</S.PlaceName>
               <S.PlaceAddress>{val.address_name}</S.PlaceAddress>
             </S.PlaceBox>
           ))}
-        {searchedPlaces && searchedPlaces.length <= 0 && (
-          <S.PlaceBox>
-            <S.NoPlaces>검색 결과가 없습니다.</S.NoPlaces>
-          </S.PlaceBox>
-        )}
-      </S.PlaceContainer>
-      <S.MorePlacesButton id='place_next_button'>더 보기</S.MorePlacesButton>
+          {searchedPlaces && searchedPlaces?.length === 0 && (
+            <S.PlaceBox>
+              <S.NoPlaces>검색 결과가 없습니다.</S.NoPlaces>
+            </S.PlaceBox>
+          )}
+        </S.PlaceContainer>
+      )}
+      <S.MorePlacesButton id='place_more_button'>더 보기</S.MorePlacesButton>
     </S.Container>
   );
 };

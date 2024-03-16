@@ -5,10 +5,10 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getPlaceById } from '@/api/place';
 import { useAppSelector } from '@/store/index';
-import PlaceMap from '@/components/shared/PlaceMap';
+import PlaceMap from '@/components/place/PlaceMap';
 import Spinner from '@/components/shared/Spinner';
 import SVGIcon from '@/components/shared/SVGIcon';
-import PlaceFolderSelect from '@/components/shared/PlaceFolderSelect';
+import PlaceFolderSelect from '@/components/place/PlaceFolderSelect';
 import * as S from './PlaceDetail.styled';
 
 const PlaceDetail = () => {

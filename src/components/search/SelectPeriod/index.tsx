@@ -2,7 +2,7 @@ import React from 'react';
 
 import { SearchDiaryActionType, SearchDiaryType } from '@/hooks/useSearchDiary';
 import SVGIcon from '@/components/shared/SVGIcon';
-import SelectCalendar from '@/components/shared/SelectCalendar';
+import SelectCalendar from '@/components/search/SelectCalendar';
 import * as S from './SelectPeriod.styled';
 
 import 'react-calendar/dist/Calendar.css';

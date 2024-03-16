@@ -4,7 +4,7 @@ import { SearchMapsActionType, SearchMapsType } from '@/hooks/useSearchMaps';
 import useMakeFolder from '@/hooks/useMakeFolder';
 import SVGIcon from '@/components/shared/SVGIcon';
 import MakeFolder from '@/components/shared/MakeFolder';
-import RemoveWindow from '@/components/shared/RemoveWindow';
+import RemoveWindow from '@/components/maps/RemoveWindow';
 import * as S from './SearchFolderList.styled';
 
 interface SearchResultMapProps {

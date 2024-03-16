@@ -1,4 +1,4 @@
-import { PopUp } from '@/styles/keyframes';
+import { FadeIn } from '@/styles/keyframes';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -7,7 +7,7 @@ export const InfoInputsArea = styled.div`
   display: flex;
   gap: 0.5rem;
   font-size: 0.875rem;
-  animation: ${PopUp} 0.5s ease-in-out;
+  animation: ${FadeIn} 0.5s ease-in-out;
 `;
 
 export const InfoDescriptionArea = styled.div`

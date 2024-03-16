@@ -10,11 +10,13 @@ interface SpinnerProps {
 }
 
 export const Container = styled.div`
-  width: 100vw;
-  height: 80vh;
+  width: 100%;
+  height: 100%;
+  min-height: 25rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 `;
 
 export const SpinnerBody = styled.div<SpinnerProps>`
@@ -22,10 +24,6 @@ export const SpinnerBody = styled.div<SpinnerProps>`
     width: ${size};
     height: ${size};
     border-radius: 50%;
-    margin: 3em;
-    display: inline-block;
-    position: relative;
-    vertical-align: middle;
     background: ${color};
     animation: ${Spinner} ${speed}s infinite linear;
   `}

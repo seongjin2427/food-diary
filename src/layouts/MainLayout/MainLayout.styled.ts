@@ -1,7 +1,9 @@
-import { PopUp } from '@/styles/keyframes';
+import { FadeIn } from '@/styles/keyframes';
 import styled from '@emotion/styled';
 
 export const Container = styled.main`
+  max-width: 768px;
   padding: 0.75rem;
-  animation: ${PopUp} 0.5s ease-in-out;
+  margin: 0 auto;
+  animation: ${FadeIn} 0.5s ease-in-out;
 `;

@@ -7,6 +7,8 @@ import { getFolderApi, getSearchPlacesBySearchWord } from '@/api/diary';
 import useSearchPlace, { SearchResultType } from '@/hooks/useSearchPlace';
 
 export interface SearchMapsType {
+  isFetching: boolean;
+  isFetchingSearchPlaceInFolder: boolean;
   currentPlace: number;
   currentFolder: number | undefined;
   searchPlaceResults: SearchResultType[] | undefined;
@@ -30,18 +32,21 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
   const [currentFolder, setCurrentFolder] = useState<number>();
   const [folderResults, setFolderResults] = useState<FolderSliceFolderType[] | undefined>([]);
 
-  const [searchedPlaces, { search }] = useSearchPlace();
+  const [isFetching, searchedPlaces, { search }] = useSearchPlace();
 
-  useQuery(['searchPlaceResult', searchWord], () => getSearchPlacesBySearchWord(searchWord), {
-    refetchOnWindowFocus: false,
-    onSuccess: (searchedData) => {
-      if (searchOption === 'folder') {
-        console.log('searchedData', searchedData);
-        setSearchPlaceResults(searchedData?.places);
-        setCurrentFolder(undefined);
-      }
+  const { isFetching: isFetchingSearchPlaceInFolder } = useQuery(
+    ['searchPlaceResult', searchWord],
+    () => getSearchPlacesBySearchWord(searchWord),
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (searchedData) => {
+        if (searchOption === 'folder') {
+          setSearchPlaceResults(searchedData?.places);
+          setCurrentFolder(undefined);
+        }
+      },
     },
-  });
+  );
 
   useQuery(['folders'], getFolderApi, {
     refetchOnWindowFocus: false,
@@ -96,6 +101,8 @@ const useSearchMaps = (): [SearchMapsType, SearchMapsActionType] => {
 
   return [
     {
+      isFetching,
+      isFetchingSearchPlaceInFolder,
       currentPlace,
       currentFolder,
       searchPlaceResults,

@@ -12,6 +12,9 @@ interface EditorFooterProps {
   editor: Editor;
 }
 
+const PERMITTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/avif', 'image/webp'];
+const LIMIT_SIZE = 5 * 1024 * 1024;
+
 const EditorFooter = ({ editor }: EditorFooterProps) => {
   const dispatch = useAppDispatch();
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -23,18 +26,36 @@ const EditorFooter = ({ editor }: EditorFooterProps) => {
   const onChangeImageUpload = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
-        const imageFile = await uploadImageFile(e.target.files[0]);
-        imageInputRef.current!.value = '';
-        if (imageFile) {
-          const { img_id, src, fileName } = imageFile;
-          editor
-            ?.chain()
-            .focus()
-            .insertContent(`<custom-image id=${img_id} src=${src} />`)
-            .createParagraphNear()
-            .run();
+        const targetImage = e.target.files[0];
 
-          dispatch(addImage({ img_id, src }));
+        try {
+          if (!PERMITTED_IMAGE_TYPES.includes(targetImage.type)) {
+            throw new Error(
+              '형식에 맞지 않는 이미지입니다. 다시 시도해주세요.\n(jpg, jpeg, png, gif, avif, webp만 가능)',
+            );
+          }
+
+          if (LIMIT_SIZE < targetImage.size) {
+            throw new Error('5MB 이하의 이미지만 업로드가 가능합니다.\n다시 시도해주세요.');
+          }
+
+          const imageFile = await uploadImageFile(targetImage);
+          imageInputRef.current!.value = '';
+
+          if (imageFile) {
+            const { img_id, src } = imageFile;
+            editor
+              ?.chain()
+              .focus()
+              .insertContent(`<custom-image id=${img_id} src=${src} />`)
+              .createParagraphNear()
+              .run();
+
+            dispatch(addImage({ img_id, src }));
+          }
+        } catch (e) {
+          const error = e as Error;
+          alert(error.message);
         }
       }
     },

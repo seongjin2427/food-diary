@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useQuery } from '@tanstack/react-query';
 import React, { useCallback, useEffect } from 'react';
@@ -9,7 +10,6 @@ import useCalendar from '@/hooks/useCalendar';
 import SVGIcon from '@/components/shared/SVGIcon';
 import Spinner from '@/components/shared/Spinner';
 import * as S from './Calendar.styled';
-import Image from 'next/image';
 
 function Calendar() {
   const router = useRouter();
@@ -17,7 +17,9 @@ function Calendar() {
   const { today, currentMonth } = useAppSelector(({ global }) => global);
   const [currentCalendar, startDay] = useCalendar();
 
-  const { isFetching, refetch } = useQuery(['useCalendar', currentMonth]);
+  const { isFetching, refetch } = useQuery(['useCalendar', currentMonth], {
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     refetch();
@@ -36,12 +38,9 @@ function Calendar() {
   );
 
   const moveMonth = (n: number) => {
-    dispatch(changeCurrentMonth(dayjs(currentMonth).add(n, 'month').toString()));
+    const nextMonth = dayjs(currentMonth).add(n, 'month').toString();
+    dispatch(changeCurrentMonth(nextMonth));
   };
-
-  if (isFetching) {
-    return <Spinner color='lightcoral' size='2rem' speed='1' />;
-  }
 
   return (
     <S.Container>
@@ -65,34 +64,31 @@ function Calendar() {
         <S.WeekDay blue>Sat</S.WeekDay>
       </S.Weekend>
 
-      <S.DayArea>
-        {currentCalendar.map(({ did, date, image }) => {
-          return (
-            <S.Day
-              key={date.toString()}
-              onClick={() => clickDay(date, image, did)}
-              startDay={startDay}
-            >
-              {image ? (
-                // <S.Image src={image} />
-                <S.ImageWrapper>
-                  <Image
-                    src={image}
-                    width='100'
-                    height='100'
-                    layout='fixed'
-                    alt='thumbnail'
-                  />
-                </S.ImageWrapper>
-              ) : (
-                <S.Date today={dayjs(today).format('YYYY-MM-DD') === date}>
-                  {date.split('-')[2]}
-                </S.Date>
-              )}
-            </S.Day>
-          );
-        })}
-      </S.DayArea>
+      {isFetching ? (
+        <Spinner color='lightcoral' size='2rem' speed='1' />
+      ) : (
+        <S.DayArea>
+          {currentCalendar.map(({ date, image, did }) => {
+            return (
+              <S.Day
+                key={date.toString()}
+                onClick={() => clickDay(date, image, did)}
+                startDay={startDay}
+              >
+                {image ? (
+                  <S.ImageWrapper>
+                    <Image src={image} width='120%' height='100%' layout='fixed' alt='thumbnail' />
+                  </S.ImageWrapper>
+                ) : (
+                  <S.Date today={dayjs(today).format('YYYY-MM-DD') === date}>
+                    {date.split('-')[2]}
+                  </S.Date>
+                )}
+              </S.Day>
+            );
+          })}
+        </S.DayArea>
+      )}
     </S.Container>
   );
 }
