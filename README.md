@@ -15,7 +15,7 @@ SWYG 홈페이지에 정식으로 배포되어 누구든지 이용할 수 있습
 # 🛣️ How to Execute 
 
 - DB 정보를 포함한 .env 파일이 없어 정상 작동이 어렵습니다.
-- 정상 작동되는 서비스는 링크를 통해 확인 해주세요. ([링크](https://foodiary.swygbro.com))
+- 정상 작동되는 서비스는 링크를 통해 확인 해주세요. ([링크](https://food-diary-eta.vercel.app/))
 
 ```
 // 프로젝트 복제
